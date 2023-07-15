@@ -1,16 +1,10 @@
-import dao.QuestionDao;
-import domain.AnswerOption;
-import domain.Question;
+import dao.QuestionDaoCSV;
+import domain.Test;
 import domain.User;
-
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("1");
+
         /*Question question = new Question();
 
         question.setText("Question?");
@@ -26,9 +20,17 @@ public class Main {
         System.out.println(question);
         */
 
+        User user = new User();
+        user.setName("");
+        user.setSurname("");
 
         //InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("questions.csv");
-        QuestionDao d = new QuestionDao("/questions.csv");
-        d.getQuestions();
+        QuestionDaoCSV d = new QuestionDaoCSV("/questions.csv");
+
+        Test test = new Test();
+        test.setQuestionList(d.getQuestions());
+        //user.setTest(test);
+
+
     }
 }
