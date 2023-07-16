@@ -1,6 +1,7 @@
 package domain;
 
 import lombok.Data;
+
 import java.util.List;
 
 @Data
@@ -9,7 +10,7 @@ public class Question {
     private List<AnswerOption> answerOptions;
 
     @Override
-    public String toString(){
+    public String toString() {
         String res = "";
         for (AnswerOption answerOption : answerOptions) {
             res = res.concat("\n");

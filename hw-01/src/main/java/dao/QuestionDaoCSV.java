@@ -31,7 +31,7 @@ public class QuestionDaoCSV implements QuestionDao {
                     new InputStreamReader(inputStream);
             parser = new CSVParser(inputStreamReader, CSVFormat.Builder.create().setDelimiter(';').build());
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
         for (CSVRecord r : parser.getRecords()) {
@@ -52,10 +52,9 @@ public class QuestionDaoCSV implements QuestionDao {
             questionList.add(question);
         }
 
-        for (Question question : questionList) {
+        /*for (Question question : questionList) {
             System.out.println(question.toString());
-        }
-
+        }*/
 
         return questionList;
     }
