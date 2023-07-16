@@ -10,6 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AnswerOption {
+
     private String answerText;
+
     private boolean isCorrect;
 }

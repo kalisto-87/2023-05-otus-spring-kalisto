@@ -1,5 +1,4 @@
-Main.class
 domain\Question.class
+Main.class
 domain\User.class
-domain\QuestionRoot.class
 domain\AnswerOption.class

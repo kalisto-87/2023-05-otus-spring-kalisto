@@ -22,27 +22,34 @@ public class QuestionDaoCSV implements QuestionDao {
     @Override
     public List<Question> getQuestions() {
 
-        List<Question> questionList = new ArrayList<>();
-        InputStream inputStream =
-                this.getClass().getResourceAsStream(this.path);
-        CSVParser parser = null;
+        InputStream inputStream = this.getClass().getResourceAsStream(this.path);
+        if (inputStream == null) {
+            throw new RuntimeException(String.format("File %s has not been found", this.path));
+        }
+        CSVParser parser;
         try {
-            InputStreamReader inputStreamReader =
-                    new InputStreamReader(inputStream);
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             parser = new CSVParser(inputStreamReader, CSVFormat.Builder.create().setDelimiter(';').build());
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException("Parsing exception");
         }
 
-        for (CSVRecord r : parser.getRecords()) {
+        return parseRecords(parser.getRecords());
+    }
+
+    private List<Question> parseRecords(List<CSVRecord> records) {
+
+        List<Question> questionList = new ArrayList<>();
+
+        for (CSVRecord r : records) {
 
             Question question = new Question();
             question.setText(r.get(0));
             List<AnswerOption> answerOptions = new ArrayList<>();
             for (int i = 1; i < r.size(); i++) {
                 AnswerOption answerOption = new AnswerOption();
-                answerOption.setAnswerText(
-                        r.get(i).substring(0, r.get(i).indexOf("<")));
+                answerOption.setAnswerText(r.get(i).substring(0, r.get(i).indexOf("<")));
                 if (r.get(i).contains("<true>")) {
                     answerOption.setCorrect(true);
                 }
@@ -51,11 +58,6 @@ public class QuestionDaoCSV implements QuestionDao {
             question.setAnswerOptions(answerOptions);
             questionList.add(question);
         }
-
-        /*for (Question question : questionList) {
-            System.out.println(question.toString());
-        }*/
-
         return questionList;
     }
 

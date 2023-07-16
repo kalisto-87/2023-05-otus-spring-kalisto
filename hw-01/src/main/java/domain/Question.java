@@ -6,7 +6,9 @@ import java.util.List;
 
 @Data
 public class Question {
+
     private String text = "";
+
     private List<AnswerOption> answerOptions;
 
     @Override
