@@ -1,7 +1,6 @@
 import dao.QuestionDao;
 import dao.QuestionDaoCSV;
 import org.junit.jupiter.api.*;
-import org.springframework.util.Assert;
 import service.ConsoleOutput;
 import service.OutputService;
 import service.TestServiceImpl;
