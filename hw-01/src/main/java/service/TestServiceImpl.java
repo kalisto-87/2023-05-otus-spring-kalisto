@@ -3,7 +3,9 @@ package service;
 import dao.QuestionDao;
 import domain.Test;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
 @AllArgsConstructor
 public class TestServiceImpl implements TestService {
 
