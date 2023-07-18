@@ -44,18 +44,13 @@ public class QuestionDaoCSV implements QuestionDao {
 
         for (CSVRecord r : records) {
 
-            Question question = new Question();
-            question.setText(r.get(0));
             List<AnswerOption> answerOptions = new ArrayList<>();
             for (int i = 1; i < r.size(); i++) {
-                AnswerOption answerOption = new AnswerOption();
-                answerOption.setAnswerText(r.get(i).substring(0, r.get(i).indexOf("<")));
-                if (r.get(i).contains("<true>")) {
-                    answerOption.setCorrect(true);
-                }
+                AnswerOption answerOption = new AnswerOption(r.get(i).substring(0, r.get(i).indexOf("<")),
+                        (r.get(i).contains("<true>")));
                 answerOptions.add(answerOption);
             }
-            question.setAnswerOptions(answerOptions);
+            Question question = new Question(r.get(0), answerOptions);
             questionList.add(question);
         }
         return questionList;

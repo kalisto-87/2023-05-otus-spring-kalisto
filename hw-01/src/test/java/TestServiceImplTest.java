@@ -7,9 +7,9 @@ import service.TestServiceImpl;
 
 public class TestServiceImplTest {
 
-    private String correctFileName = "/questions.csv";
+    private final String correctFileName = "/questions.csv";
 
-    private String inCorrectFileName = "/none.csv";
+    private final String inCorrectFileName = "/none.csv";
 
     private TestServiceImpl testService;
 
@@ -23,7 +23,7 @@ public class TestServiceImplTest {
     }
 
     @Test
-    @DisplayName("Тесст c указанным в настройках файлом запросов")
+    @DisplayName("Тест c указанным в настройках файлом запросов")
     void checkUsualTest() {
         questionDao = new QuestionDaoCSV(correctFileName);
         testService = new TestServiceImpl("MyFirstTest", questionDao, outputService);

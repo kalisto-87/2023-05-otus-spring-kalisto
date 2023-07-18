@@ -17,9 +17,7 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public void startTest() {
-        Test test = new Test();
-        test.setTestName(this.testName);
-        test.setQuestionList(dao.getQuestions());
+        Test test = new Test(this.testName, dao.getQuestions());
         outputService.showTest(test);
     }
 }
