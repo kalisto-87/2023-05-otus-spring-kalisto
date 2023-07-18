@@ -12,6 +12,7 @@
 
     <bean id="QuestionDao" class="dao.QuestionDaoCSV">
         <constructor-arg index="0" value="/questions.csv"></constructor-arg>
+        <constructor-arg index="1" value=";"></constructor-arg>
     </bean>
 
     <bean id="OutputService" class="service.ConsoleOutput"/>

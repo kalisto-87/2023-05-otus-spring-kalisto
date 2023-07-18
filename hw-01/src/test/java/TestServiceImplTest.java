@@ -11,6 +11,8 @@ public class TestServiceImplTest {
 
     private final String inCorrectFileName = "/none.csv";
 
+    private final char delimiter = ';';
+
     private TestServiceImpl testService;
 
     private QuestionDao questionDao;
@@ -25,7 +27,7 @@ public class TestServiceImplTest {
     @Test
     @DisplayName("Тест c указанным в настройках файлом запросов")
     void checkUsualTest() {
-        questionDao = new QuestionDaoCSV(correctFileName);
+        questionDao = new QuestionDaoCSV(correctFileName, delimiter);
         testService = new TestServiceImpl("MyFirstTest", questionDao, outputService);
         testService.startTest();
         Assertions.assertEquals(5, testService.getDao().getQuestions().size());
@@ -33,8 +35,8 @@ public class TestServiceImplTest {
 
     @Test
     @DisplayName("Тест с несуществующим файлом")
-     void checkNonExistableFile() {
-        questionDao = new QuestionDaoCSV(inCorrectFileName);
+     void checkNonExistingFile() {
+        questionDao = new QuestionDaoCSV(inCorrectFileName, delimiter);
         testService = new TestServiceImpl("MyFirstTest", questionDao, outputService);
         RuntimeException re = Assertions.assertThrows(RuntimeException.class, () -> {
             testService.startTest();
