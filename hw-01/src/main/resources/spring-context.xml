@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="TestService" class="service.TestServiceImpl">
+        <constructor-arg index="0" value="TheFirstTest"/>
+        <constructor-arg index="1" ref="QuestionDao"></constructor-arg>
+        <constructor-arg index="2" ref="OutputService"/>
+    </bean>
+
+    <bean id="QuestionDao" class="dao.QuestionDaoCSV">
+        <constructor-arg index="0" value="/questions.csv"></constructor-arg>
+        <constructor-arg index="1" value=";"></constructor-arg>
+    </bean>
+
+    <bean id="OutputService" class="service.ConsoleOutput"/>
+
+</beans>
