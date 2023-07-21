@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import ru.otus.domain.Question;
 import ru.otus.domain.Test;
 
+import java.util.HashMap;
 import java.util.InputMismatchException;
+import java.util.Map;
 
 @AllArgsConstructor
 public class ConsoleOutput implements OutputService {
@@ -12,8 +14,9 @@ public class ConsoleOutput implements OutputService {
     private InputService inputService;
 
     @Override
-    public void showTest(Test test) {
+    public Map<Question, Integer> showTest(Test test) {
 
+        Map<Question, Integer> map = new HashMap<>();
         for (Question question : test.getQuestionList()) {
             boolean isCorrectInputValue = false;
             while (!isCorrectInputValue) {
@@ -22,11 +25,11 @@ public class ConsoleOutput implements OutputService {
                     Integer answer = inputService.inputInt();
                     Integer size = question.getAnswerOptions().size();
                     if (answer < 1 || answer > size) {
-                        String s = "Inputted number should have value between 1 and ";
-                        s = s.concat(Integer.toString(size));
+                        String s = "Inputted number should have value between 1 and ".concat(size.toString());
                         throw new RuntimeException(s);
                     }
                     isCorrectInputValue = true;
+                    map.put(question, answer);
                 } catch (InputMismatchException e) {
                     System.out.println("You must inputService only integer values");
                 } catch (Exception e) {
@@ -34,5 +37,15 @@ public class ConsoleOutput implements OutputService {
                 }
             }
         }
+        return map;
+    }
+
+    @Override
+    public void showResults(TestResultService result) {
+        System.out.println("Dear user(abuser), here you can the information about your test:");
+        System.out.println(String.format("Surname: %s", result.getUser().getSurname()));
+        System.out.println(String.format("Name: %s", result.getUser().getName()));
+        System.out.println(String.format("Name of test: %s", result.getTest().getTestName()));
+        System.out.println(String.format("Number of correct answers: %s", result.countCorrectAnswers().toString()));
     }
 }

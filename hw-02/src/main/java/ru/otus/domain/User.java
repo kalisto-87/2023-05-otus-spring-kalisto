@@ -1,13 +1,13 @@
 package ru.otus.domain;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-@Data
+@AllArgsConstructor
+@Getter
 public class User {
 
     private String name;
 
     private String surname;
-
-    private Test test;
 }
