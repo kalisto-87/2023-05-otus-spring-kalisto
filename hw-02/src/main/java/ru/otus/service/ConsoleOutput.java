@@ -1,35 +1,36 @@
 package ru.otus.service;
 
+import lombok.AllArgsConstructor;
 import ru.otus.domain.Question;
 import ru.otus.domain.Test;
 
 import java.util.InputMismatchException;
-import java.util.Scanner;
 
+@AllArgsConstructor
 public class ConsoleOutput implements OutputService {
+
+    private InputService inputService;
+
     @Override
     public void showTest(Test test) {
 
-        ConsoleInput input = new ConsoleInput();
-            
         for (Question question : test.getQuestionList()) {
-
-            boolean isCorreсtInputValue = false;
-            while (!isCorreсtInputValue) {
+            boolean isCorrectInputValue = false;
+            while (!isCorrectInputValue) {
                 try {
                     System.out.println(question);
-                    Scanner scanner = new Scanner(System.in);
-                    Integer answer = scanner.nextInt();
-                    if (answer < 1 || answer > question.getAnswerOptions().size()) {
-                        throw new RuntimeException("Answer should be between 1 and ".concat(
-                                Integer.toString(question.getAnswerOptions().size())
-                        ));
+                    Integer answer = inputService.inputInt();
+                    Integer size = question.getAnswerOptions().size();
+                    if (answer < 1 || answer > size) {
+                        String s = "Inputted number should have value between 1 and ";
+                        s = s.concat(Integer.toString(size));
+                        throw new RuntimeException(s);
                     }
-                    isCorreсtInputValue = true;
+                    isCorrectInputValue = true;
                 } catch (InputMismatchException e) {
-                    System.out.println("You must input only digits");
+                    System.out.println("You must inputService only integer values");
                 } catch (Exception e) {
-                    System.out.println(e.toString());
+                    System.out.println(e);
                 }
             }
         }
