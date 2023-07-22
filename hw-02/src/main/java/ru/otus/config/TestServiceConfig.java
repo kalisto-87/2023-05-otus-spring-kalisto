@@ -16,6 +16,7 @@ public class TestServiceConfig {
 
     @Value("${test.name}")
     private String testName;
+
     @Bean
     public TestService testService(QuestionDao questionDao, OutputService outputService,
                                    UserInitService userInitService) {
