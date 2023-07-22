@@ -27,7 +27,6 @@ public class TestServiceImpl implements TestService {
         Test test = new Test(this.testName, dao.getQuestions());
         Map<Question, Integer> results = outputService.showTest(test);
         TestResultService result = new TestResultService(currentUser, test, results);
-        result.countCorrectAnswers();
         outputService.showResults(result);
     }
 }
