@@ -5,6 +5,7 @@ import ru.otus.domain.Question;
 import ru.otus.domain.Test;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import ru.otus.domain.TestResult;
 import ru.otus.domain.User;
 
 import java.util.Map;
@@ -26,7 +27,8 @@ public class TestServiceImpl implements TestService {
         User currentUser = userInitService.init();
         Test test = new Test(this.testName, dao.getQuestions());
         Map<Question, Integer> results = outputService.showTest(test);
-        TestResultService result = new TestResultService(currentUser, test, results);
-        outputService.showResults(result);
+        TestResult result = new TestResult(test, currentUser, results);
+        TestResultService resultService = new TestResultService(result);
+        outputService.showResults(resultService);
     }
 }

@@ -43,9 +43,9 @@ public class ConsoleOutput implements OutputService {
     @Override
     public void showResults(TestResultService result) {
         System.out.println("Dear user(abuser), here you can the information about your test:");
-        System.out.println(String.format("Surname: %s", result.getUser().getSurname()));
-        System.out.println(String.format("Name: %s", result.getUser().getName()));
-        System.out.println(String.format("Name of test: %s", result.getTest().getTestName()));
+        System.out.println(String.format("Surname: %s", result.getTestResult().getUser().getSurname()));
+        System.out.println(String.format("Name: %s", result.getTestResult().getUser().getName()));
+        System.out.println(String.format("Name of test: %s", result.getTestResult().getTest().getTestName()));
         System.out.println(String.format("Number of correct answers: %s", result.countCorrectAnswers().toString()));
     }
 }
