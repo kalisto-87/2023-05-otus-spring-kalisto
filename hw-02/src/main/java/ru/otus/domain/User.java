@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class User {
 
-    private String name;
+    private final String name;
 
-    private String surname;
+    private final String surname;
 }
