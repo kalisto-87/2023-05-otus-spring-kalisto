@@ -3,6 +3,7 @@ package ru.otus.service;
 import org.springframework.stereotype.Service;
 import ru.otus.domain.Question;
 import ru.otus.domain.Test;
+import ru.otus.domain.TestResult;
 import ru.otus.exception.AnswerOutOfBoundException;
 
 import java.util.HashMap;
@@ -52,11 +53,13 @@ public class ConsoleOutput implements OutputService {
     }
 
     @Override
-    public void showResults(TestResultService result) {
+    public void showResults(TestResult result, TestResultService resultService) {
         System.out.println("Dear user(abuser), here you can the information about your test:");
-        System.out.println(String.format("Surname: %s", result.getTestResult().getUser().getSurname()));
-        System.out.println(String.format("Name: %s", result.getTestResult().getUser().getName()));
-        System.out.println(String.format("Name of test: %s", result.getTestResult().getTest().getTestName()));
-        System.out.println(String.format("Number of correct answers: %s", result.countCorrectAnswers().toString()));
+        System.out.println(String.format("Surname: %s", result.getUser().getSurname()));
+        System.out.println(String.format("Name: %s", result.getUser().getName()));
+        System.out.println(String.format("Name of test: %s", result.getTest().getTestName()));
+        System.out.println(String.format("Number of correct answers: %s",
+                resultService.countCorrectAnswers(result).toString()));
+        System.out.println(String.format("Test has been %s", resultService.isTestPassed(result) ? "passed" : "failed"));
     }
 }

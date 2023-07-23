@@ -28,13 +28,14 @@ public class TestServiceImpl implements TestService {
 
     private final UserInitService userInitService;
 
+    private final TestResultService resultService;
+
     @Override
     public void startTest() {
         User currentUser = userInitService.init();
         Test test = new Test(this.testName, dao.getQuestions());
         Map<Question, Integer> results = outputService.showTest(test);
         TestResult result = new TestResult(test, currentUser, results);
-        TestResultService resultService = new TestResultService(result);
-        outputService.showResults(resultService);
+        outputService.showResults(result, resultService);
     }
 }
