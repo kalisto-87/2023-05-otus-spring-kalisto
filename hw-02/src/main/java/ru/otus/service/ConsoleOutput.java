@@ -29,6 +29,17 @@ public class ConsoleOutput implements OutputService {
         return map;
     }
 
+    @Override
+    public void showResults(TestResult result, TestResultService resultService) {
+        System.out.println("Dear user(abuser), here you can the information about your test:");
+        System.out.println(String.format("Surname: %s", result.getUser().getSurname()));
+        System.out.println(String.format("Name: %s", result.getUser().getName()));
+        System.out.println(String.format("Name of test: %s", result.getTest().getTestName()));
+        System.out.println(String.format("Number of correct answers: %s",
+                resultService.countCorrectAnswers(result).toString()));
+        System.out.println(String.format("Test has been %s", resultService.isTestPassed(result) ? "passed" : "failed"));
+    }
+
     private Integer getAnswerFromConsole(Question question) {
         while (true) {
             try {
@@ -50,16 +61,5 @@ public class ConsoleOutput implements OutputService {
             throw new AnswerOutOfBoundException(
                     "Inputted number should have value between 1 and ".concat(size.toString()));
         }
-    }
-
-    @Override
-    public void showResults(TestResult result, TestResultService resultService) {
-        System.out.println("Dear user(abuser), here you can the information about your test:");
-        System.out.println(String.format("Surname: %s", result.getUser().getSurname()));
-        System.out.println(String.format("Name: %s", result.getUser().getName()));
-        System.out.println(String.format("Name of test: %s", result.getTest().getTestName()));
-        System.out.println(String.format("Number of correct answers: %s",
-                resultService.countCorrectAnswers(result).toString()));
-        System.out.println(String.format("Test has been %s", resultService.isTestPassed(result) ? "passed" : "failed"));
     }
 }
