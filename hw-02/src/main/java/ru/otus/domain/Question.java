@@ -9,9 +9,9 @@ import java.util.List;
 @AllArgsConstructor
 public class Question {
 
-    private String text = "";
+    private final String text;
 
-    private List<AnswerOption> answerOptions;
+    private final List<AnswerOption> answerOptions;
 
     @Override
     public String toString() {

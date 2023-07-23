@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class AnswerOption {
 
-    private String answerText;
+    private final String answerText;
 
-    private boolean isCorrect;
+    private final boolean isCorrect;
 }
