@@ -22,12 +22,6 @@ public class QuestionDaoCSV implements QuestionDao {
     @Value("${test.delimiter}")
     private String delimiter;
 
-    /*@Autowired
-    public QuestionDaoCSV(String path, char delimiter) {
-        this.path = path;
-        this.delimiter = delimiter;
-    }*/
-
     @Override
     public List<Question> getQuestions() {
 
