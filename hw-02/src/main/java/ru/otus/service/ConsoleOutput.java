@@ -35,7 +35,7 @@ public class ConsoleOutput implements OutputService {
                     isCorrectInputValue = true;
                     map.put(question, answer);
                 } catch (InputMismatchException e) {
-                    System.out.println("You must inputService only integer values");
+                    System.out.println("You must input only integer values");
                 } catch (Exception e) {
                     System.out.println(e);
                 }
