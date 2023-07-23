@@ -3,6 +3,7 @@ package ru.otus.service;
 import org.springframework.stereotype.Service;
 import ru.otus.domain.Question;
 import ru.otus.domain.Test;
+import ru.otus.exception.AnswerOutOfBoundException;
 
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -33,16 +34,20 @@ public class ConsoleOutput implements OutputService {
                 System.out.println(question);
                 Integer answer = inputService.inputInt();
                 Integer size = question.getAnswerOptions().size();
-                if (answer < 1 || answer > size) {
-                    String s = "Inputted number should have value between 1 and ".concat(size.toString());
-                    throw new RuntimeException(s);
-                }
+                checkAnswerNumber(answer, size);
                 return answer;
             } catch (InputMismatchException e) {
                 System.out.println("You must input only integer values");
             } catch (Exception e) {
                 System.out.println(e);
             }
+        }
+    }
+
+    private void checkAnswerNumber(Integer answerNumber, Integer size) {
+        if (answerNumber < 1 || answerNumber > size) {
+            throw new AnswerOutOfBoundException(
+                    "Inputted number should have value between 1 and ".concat(size.toString()));
         }
     }
 
