@@ -1,8 +1,11 @@
 package ru.otus.service;
 
+import org.springframework.stereotype.Service;
+
 import java.io.InputStream;
 import java.util.Scanner;
 
+@Service
 public class ConsoleInput implements InputService {
 
     private final InputStream inputStream = System.in;

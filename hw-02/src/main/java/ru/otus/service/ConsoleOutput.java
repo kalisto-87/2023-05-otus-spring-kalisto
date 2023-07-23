@@ -1,6 +1,6 @@
 package ru.otus.service;
 
-import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.otus.domain.Question;
 import ru.otus.domain.Test;
 
@@ -8,10 +8,14 @@ import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Map;
 
-@AllArgsConstructor
+@Service
 public class ConsoleOutput implements OutputService {
 
     private InputService inputService;
+
+    public ConsoleOutput(InputService inputService) {
+        this.inputService = inputService;
+    }
 
     @Override
     public Map<Question, Integer> showTest(Test test) {

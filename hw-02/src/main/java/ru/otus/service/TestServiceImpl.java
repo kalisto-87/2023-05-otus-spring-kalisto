@@ -1,9 +1,12 @@
 package ru.otus.service;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Service;
 import ru.otus.dao.QuestionDao;
 import ru.otus.domain.Question;
 import ru.otus.domain.Test;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import ru.otus.domain.TestResult;
 import ru.otus.domain.User;
@@ -11,10 +14,13 @@ import ru.otus.domain.User;
 import java.util.Map;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Service
+@PropertySource("classpath:application.properties")
 public class TestServiceImpl implements TestService {
 
-    private final String testName;
+    @Value("${test.name}")
+    private String testName;
 
     private final QuestionDao dao;
 

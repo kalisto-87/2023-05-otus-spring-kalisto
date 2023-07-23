@@ -1,12 +1,16 @@
 package ru.otus.service;
 
-import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.otus.domain.User;
 
-@AllArgsConstructor
+@Service
 public class UserInitServiceImpl implements UserInitService {
 
     private InputService inputService;
+
+    public UserInitServiceImpl(InputService inputService) {
+        this.inputService = inputService;
+    }
 
     public User init() {
         System.out.println("Hello, Dear user");

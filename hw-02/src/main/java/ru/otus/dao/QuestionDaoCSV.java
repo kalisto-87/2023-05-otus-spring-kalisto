@@ -1,5 +1,8 @@
 package ru.otus.dao;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Repository;
 import ru.otus.domain.Question;
 
 import java.io.InputStream;
@@ -10,15 +13,20 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import ru.otus.service.CSVConverterToQuestion;
 
+@Repository
+@PropertySource("classpath:application.properties")
 public class QuestionDaoCSV implements QuestionDao {
-    private final String path;
+    @Value("${test.filepath}")
+    private String path;
 
-    private final char delimiter;
+    @Value("${test.delimiter}")
+    private String delimiter;
 
+    /*@Autowired
     public QuestionDaoCSV(String path, char delimiter) {
         this.path = path;
         this.delimiter = delimiter;
-    }
+    }*/
 
     @Override
     public List<Question> getQuestions() {
