@@ -22,26 +22,28 @@ public class ConsoleOutput implements OutputService {
 
         Map<Question, Integer> map = new HashMap<>();
         for (Question question : test.getQuestionList()) {
-            boolean isCorrectInputValue = false;
-            while (!isCorrectInputValue) {
-                try {
-                    System.out.println(question);
-                    Integer answer = inputService.inputInt();
-                    Integer size = question.getAnswerOptions().size();
-                    if (answer < 1 || answer > size) {
-                        String s = "Inputted number should have value between 1 and ".concat(size.toString());
-                        throw new RuntimeException(s);
-                    }
-                    isCorrectInputValue = true;
-                    map.put(question, answer);
-                } catch (InputMismatchException e) {
-                    System.out.println("You must input only integer values");
-                } catch (Exception e) {
-                    System.out.println(e);
-                }
-            }
+            map.put(question, getAnswerFromConsole(question));
         }
         return map;
+    }
+
+    private Integer getAnswerFromConsole(Question question) {
+        while (true) {
+            try {
+                System.out.println(question);
+                Integer answer = inputService.inputInt();
+                Integer size = question.getAnswerOptions().size();
+                if (answer < 1 || answer > size) {
+                    String s = "Inputted number should have value between 1 and ".concat(size.toString());
+                    throw new RuntimeException(s);
+                }
+                return answer;
+            } catch (InputMismatchException e) {
+                System.out.println("You must input only integer values");
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
     }
 
     @Override
