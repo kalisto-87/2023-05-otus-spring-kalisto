@@ -19,6 +19,8 @@ public class QuestionDaoCSV implements QuestionDao {
 
     private final TestProps testProps;
 
+    private final CSVConverterToQuestion converterToQuestion;
+
     @Override
     public List<Question> getQuestions() {
 
@@ -35,6 +37,6 @@ public class QuestionDaoCSV implements QuestionDao {
             e.printStackTrace();
             throw new RuntimeException("Parsing exception");
         }
-        return CSVConverterToQuestion.parseRecords(parser.getRecords());
+        return converterToQuestion.parseRecords(parser.getRecords());
     }
 }
