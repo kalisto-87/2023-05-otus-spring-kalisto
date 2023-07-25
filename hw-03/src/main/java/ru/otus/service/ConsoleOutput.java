@@ -60,6 +60,7 @@ public class ConsoleOutput implements OutputService {
         while (true) {
             try {
                 System.out.println(question);
+                showMessages("question.enter", null);
                 Integer answer = inputService.inputInt();
                 Integer size = question.getAnswerOptions().size();
                 checkAnswerNumber(answer, size);
