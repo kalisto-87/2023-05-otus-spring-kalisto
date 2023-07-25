@@ -1,6 +1,8 @@
 package ru.otus.service;
 
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
+import ru.otus.config.AppProps;
 import ru.otus.domain.Question;
 import ru.otus.domain.Test;
 import ru.otus.domain.TestResult;
@@ -13,10 +15,16 @@ import java.util.Map;
 @Service
 public class ConsoleOutput implements OutputService {
 
-    private InputService inputService;
+    private final InputService inputService;
 
-    public ConsoleOutput(InputService inputService) {
+    private final AppProps appProps;
+
+    private final MessageSource messageSource;
+
+    public ConsoleOutput(InputService inputService, AppProps appProps, MessageSource messageSource) {
         this.inputService = inputService;
+        this.appProps = appProps;
+        this.messageSource = messageSource;
     }
 
     @Override
@@ -31,13 +39,21 @@ public class ConsoleOutput implements OutputService {
 
     @Override
     public void showResults(TestResult result, TestResultService resultService) {
-        System.out.println("Dear user(abuser), here you can the information about your test:");
-        System.out.println(String.format("Surname: %s", result.getUser().getSurname()));
-        System.out.println(String.format("Name: %s", result.getUser().getName()));
-        System.out.println(String.format("Name of test: %s", result.getTest().getTestName()));
-        System.out.println(String.format("Number of correct answers: %s",
-                resultService.countCorrectAnswers(result).toString()));
-        System.out.println(String.format("Test has been %s", resultService.isTestPassed(result) ? "passed" : "failed"));
+        showMessages("result.info", null);
+        showMessages("result.surname", new String[]{result.getUser().getSurname()});
+        showMessages("result.name", new String[]{result.getUser().getName()});
+        showMessages("result.testname", new String[]{result.getTest().getTestName()});
+        showMessages("result.correctanswers", new String[]{resultService.countCorrectAnswers(result).toString()});
+        if (resultService.isTestPassed(result)) {
+            showMessages("result.passed", null);
+        } else {
+            showMessages("result.failed", null);
+        }
+    }
+
+    @Override
+    public void showMessages(String message, String[] args) {
+        System.out.println(messageSource.getMessage(message, args, appProps.getLocale()));
     }
 
     private Integer getAnswerFromConsole(Question question) {
@@ -49,17 +65,19 @@ public class ConsoleOutput implements OutputService {
                 checkAnswerNumber(answer, size);
                 return answer;
             } catch (InputMismatchException e) {
-                System.out.println("You must input only integer values");
+                showMessages("warning.onlydigits", null);
             } catch (Exception e) {
-                System.out.println(e);
+                System.out.println(e.getMessage());
             }
         }
     }
 
     private void checkAnswerNumber(Integer answerNumber, Integer size) {
         if (answerNumber < 1 || answerNumber > size) {
+            String[] args = new String[]{size.toString()};
             throw new AnswerOutOfBoundException(
-                    "Inputted number should have value between 1 and ".concat(size.toString()));
+                    messageSource.getMessage("warning.outofrange", args, appProps.getLocale())
+            );
         }
     }
 }

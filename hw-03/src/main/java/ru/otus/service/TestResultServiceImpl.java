@@ -3,7 +3,7 @@ package ru.otus.service;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
-import ru.otus.config.AppProps;
+import ru.otus.config.TestProps;
 import ru.otus.domain.AnswerOption;
 import ru.otus.domain.Question;
 import ru.otus.domain.TestResult;
@@ -13,7 +13,7 @@ import ru.otus.domain.TestResult;
 @AllArgsConstructor
 public class TestResultServiceImpl implements TestResultService {
 
-    private AppProps appProps;
+    private TestProps testProps;
 
     @Override
     public Integer countCorrectAnswers(TestResult testResult) {
@@ -37,6 +37,6 @@ public class TestResultServiceImpl implements TestResultService {
 
     @Override
     public boolean isTestPassed(TestResult testResult) {
-        return (countCorrectAnswers(testResult) >= appProps.getCntAnswersForSuccess());
+        return (countCorrectAnswers(testResult) >= testProps.getCntAnswersForSuccess());
     }
 }

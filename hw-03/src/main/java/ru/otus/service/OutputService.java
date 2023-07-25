@@ -10,4 +10,6 @@ public interface OutputService {
     public Map<Question, Integer> showTest(Test test);
 
     public void showResults(TestResult result, TestResultService resultService);
+
+    public void showMessages(String message, String[] args);
 }

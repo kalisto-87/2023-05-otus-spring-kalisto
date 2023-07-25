@@ -2,7 +2,7 @@ package ru.otus.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.otus.config.AppProps;
+import ru.otus.config.TestProps;
 import ru.otus.dao.QuestionDao;
 import ru.otus.domain.Question;
 import ru.otus.domain.Test;
@@ -17,7 +17,7 @@ import java.util.Map;
 @Service
 public class TestServiceImpl implements TestService {
 
-    private final AppProps appProps;
+    private final TestProps testProps;
 
     private final QuestionDao dao;
 
@@ -30,7 +30,7 @@ public class TestServiceImpl implements TestService {
     @Override
     public void startTest() {
         User currentUser = userInitService.init();
-        Test test = new Test(appProps.getTestName(), dao.getQuestions());
+        Test test = new Test(testProps.getTestName(), dao.getQuestions());
         Map<Question, Integer> results = outputService.showTest(test);
         TestResult result = new TestResult(test, currentUser, results);
         outputService.showResults(result, resultService);

@@ -8,15 +8,18 @@ public class UserInitServiceImpl implements UserInitService {
 
     private InputService inputService;
 
-    public UserInitServiceImpl(InputService inputService) {
+    private OutputService outputService;
+
+    public UserInitServiceImpl(InputService inputService, OutputService outputService) {
         this.inputService = inputService;
+        this.outputService = outputService;
     }
 
     public User init() {
-        System.out.println("Hello, Dear user");
-        System.out.println("Please, Input your surname:");
+        outputService.showMessages("greeting", null);
+        outputService.showMessages("user.surname", null);
         String surname = inputService.inputString();
-        System.out.println("Please, Input your name:");
+        outputService.showMessages("user.name", null);
         String name = inputService.inputString();
         User user = new User(name, surname);
         return user;
