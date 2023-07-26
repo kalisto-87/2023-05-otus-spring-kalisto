@@ -7,7 +7,6 @@ import ru.otus.config.AppProps;
 import ru.otus.config.TestProps;
 import ru.otus.dao.QuestionDaoCSV;
 import ru.otus.domain.Question;
-import ru.otus.domain.User;
 import ru.otus.service.*;
 
 import java.util.List;
