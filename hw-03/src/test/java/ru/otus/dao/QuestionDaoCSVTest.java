@@ -27,7 +27,7 @@ public class QuestionDaoCSVTest {
 
     @Test
     public void checkGettingQuestionsEn() {
-        TestProps testProps = getMockTestProps("/questions_en.csv");
+        TestProps testProps = makeMockTestProps("/questions_en.csv");
         questionDaoCSV = new QuestionDaoCSV(testProps, csvConverterToQuestion);
         questionList = questionDaoCSV.getQuestions();
         assertEquals(5, questionList.size());
@@ -35,13 +35,13 @@ public class QuestionDaoCSVTest {
 
     @Test
     public void checkGettingQuestionsDe() {
-        TestProps testProps = getMockTestProps("/questions_de_DE.csv");
+        TestProps testProps = makeMockTestProps("/questions_de_DE.csv");
         questionDaoCSV = new QuestionDaoCSV(testProps, csvConverterToQuestion);
         questionList = questionDaoCSV.getQuestions();
         assertEquals(5, questionList.size());
     }
 
-    private TestProps getMockTestProps(String fileName) {
+    private TestProps makeMockTestProps(String fileName) {
         TestProps testProps = mock(TestProps.class);
         when(testProps.getTestName()).thenReturn("SimpleTest");
         when(testProps.getFilePath()).thenReturn(fileName);
