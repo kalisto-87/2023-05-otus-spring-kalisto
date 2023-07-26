@@ -2,7 +2,7 @@ package ru.otus;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.MessageSource;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import ru.otus.config.AppProps;
 import ru.otus.config.TestProps;
 import ru.otus.dao.QuestionDaoCSV;
@@ -37,7 +37,7 @@ public class TestServiceImplTest {
 
     private TestResultServiceImpl testResultService;
 
-    private MessageSource messageSource;
+    private ReloadableResourceBundleMessageSource messageSource;
 
     @BeforeEach
     private void init() {
@@ -51,13 +51,13 @@ public class TestServiceImplTest {
 
         appProps = mock(AppProps.class);
 
-        userInitService = mock(UserInitServiceImpl.class);
-
         testResultService = new TestResultServiceImpl(testProps);
 
-        messageSource = mock(MessageSource.class);
+        messageSource = new ReloadableResourceBundleMessageSource();
 
         consoleOutput = new ConsoleOutput(consoleInput, appProps, messageSource);
+
+        userInitService = new UserInitServiceImpl(consoleInput, consoleOutput);
     }
 
     @Test
@@ -76,7 +76,11 @@ public class TestServiceImplTest {
 
         when(appProps.getLocale()).thenReturn(new Locale("en"));
 
-        when(userInitService.init()).thenReturn(new User("Ivan","Ivan"));
+        messageSource.setCacheSeconds(5);
+        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setFallbackToSystemLocale(true);
+        messageSource.setUseCodeAsDefaultMessage(true);
+        messageSource.setBasenames("/i18n/appmessages");
 
         testService = new TestServiceImpl(testProps, dao, consoleOutput, userInitService, testResultService);
         testService.startTest();
