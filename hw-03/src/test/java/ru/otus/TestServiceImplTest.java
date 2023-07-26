@@ -60,11 +60,9 @@ public class TestServiceImplTest {
         userInitService = new UserInitServiceImpl(consoleInput, consoleOutput);
     }
 
-    @Test
-    public void startTesting() {
-
+    private void prepareValues(String locale) {
         when(testProps.getTestName()).thenReturn("SimpleTest");
-        when(testProps.getFilePath()).thenReturn("/questions_en.csv");
+        when(testProps.getFilePath()).thenReturn(String.format("/questions_%s.csv", locale));
         when(testProps.getDelimiter()).thenReturn(';');
 
         questionList = dao.getQuestions();
@@ -74,14 +72,25 @@ public class TestServiceImplTest {
         when(consoleInput.inputString()).thenReturn("Noname");
         when(consoleInput.inputInt()).thenReturn(2);
 
-        when(appProps.getLocale()).thenReturn(new Locale("en"));
+        when(appProps.getLocale()).thenReturn(new Locale(locale));
 
         messageSource.setCacheSeconds(5);
         messageSource.setDefaultEncoding("UTF-8");
         messageSource.setFallbackToSystemLocale(true);
         messageSource.setUseCodeAsDefaultMessage(true);
         messageSource.setBasenames("/i18n/appmessages");
+    }
 
+    @Test
+    public void startTestingEn() {
+        prepareValues("en");
+        testService = new TestServiceImpl(testProps, dao, consoleOutput, userInitService, testResultService);
+        testService.startTest();
+    }
+
+    @Test
+    public void startTestingDe() {
+        prepareValues("de_De");
         testService = new TestServiceImpl(testProps, dao, consoleOutput, userInitService, testResultService);
         testService.startTest();
     }
