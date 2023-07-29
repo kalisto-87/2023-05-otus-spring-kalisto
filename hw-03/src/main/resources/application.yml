@@ -1,0 +1,11 @@
+spring:
+  messages:
+    basename: i18n/appmessages
+    encoding: "UTF-8"
+application:
+  locale: en
+test:
+  name: My first test
+  filepath: /questions_${application.locale}.csv
+  delimiter: ;
+  cntforsuccess: 3
