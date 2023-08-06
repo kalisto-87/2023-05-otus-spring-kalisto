@@ -29,6 +29,10 @@ public class ShellRunner {
     @ShellMethod(value = "log in", key = {"l", "login"})
     public void login() {
         currentUser = userInitService.init();
+        if (currentUser != null) {
+            String[] args = {currentUser.getName()};
+            outputService.showMessages("warning.info", args);
+        }
     }
 
     @ShellMethod(value = "start test", key = {"s", "start"})
