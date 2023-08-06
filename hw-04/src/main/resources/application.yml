@@ -9,3 +9,4 @@ test:
   filepath: /questions_${application.locale}.csv
   delimiter: ;
   cntforsuccess: 3
+  testing: 0
