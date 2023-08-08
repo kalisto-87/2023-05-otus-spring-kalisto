@@ -13,6 +13,7 @@ import ru.otus.domain.Test;
 import ru.otus.domain.TestResult;
 import ru.otus.domain.User;
 import ru.otus.exception.AnswerOutOfBoundException;
+import ru.otus.exception.QuestionExecutingException;
 
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -55,7 +56,7 @@ public class TestServiceImpl implements TestService {
         return map;
     }
 
-    private Integer getAnswerFromConsole(Question question) {
+    private Integer getAnswerFromConsole(Question question) throws QuestionExecutingException {
         while (true) {
             try {
                 outputService.showMessages("question." + question.getText(), null);
@@ -71,8 +72,11 @@ public class TestServiceImpl implements TestService {
                 return answer;
             } catch (InputMismatchException e) {
                 outputService.showMessages("warning.onlydigits", null);
+            } catch (AnswerOutOfBoundException e) {
+                System.out.println(e.getMessage());
             } catch (Exception e) {
                 System.out.println(e.getMessage());
+                throw new QuestionExecutingException(e.getMessage());
             }
         }
     }
