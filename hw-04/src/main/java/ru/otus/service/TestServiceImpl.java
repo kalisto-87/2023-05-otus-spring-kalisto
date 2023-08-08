@@ -40,11 +40,13 @@ public class TestServiceImpl implements TestService {
 
     private final MessageSource messageSource;
 
+    private TestResult result;
+
     @Override
     public void startTest(User user) {
         Test test = new Test(testProps.getTestName(), dao.getQuestions());
         Map<Question, Integer> results = showTest(test);
-        TestResult result = new TestResult(test, user, results);
+        result = new TestResult(test, user, results);
         outputService.showResults(result, resultService);
     }
 
