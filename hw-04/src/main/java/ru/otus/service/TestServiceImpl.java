@@ -6,9 +6,10 @@ import org.springframework.stereotype.Service;
 import ru.otus.config.AppProps;
 import ru.otus.config.TestProps;
 import ru.otus.dao.QuestionDao;
+import lombok.Getter;
+import ru.otus.domain.AnswerOption;
 import ru.otus.domain.Question;
 import ru.otus.domain.Test;
-import lombok.Getter;
 import ru.otus.domain.TestResult;
 import ru.otus.domain.User;
 import ru.otus.exception.AnswerOutOfBoundException;
@@ -40,7 +41,6 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public void startTest(User user) {
-        //User currentUser = userInitService.init();
         Test test = new Test(testProps.getTestName(), dao.getQuestions());
         Map<Question, Integer> results = showTest(test);
         TestResult result = new TestResult(test, user, results);
@@ -58,7 +58,12 @@ public class TestServiceImpl implements TestService {
     private Integer getAnswerFromConsole(Question question) {
         while (true) {
             try {
-                System.out.println(question);
+                outputService.showMessages("question." + question.getText(), null);
+                for (AnswerOption answerOption : question.getAnswerOptions()) {
+                    outputService.showMessages("question." +
+                            question.getText() + "." +
+                            answerOption.getAnswerText(), null);
+                }
                 outputService.showMessages("question.enter", null);
                 Integer answer = inputService.inputInt();
                 Integer size = question.getAnswerOptions().size();

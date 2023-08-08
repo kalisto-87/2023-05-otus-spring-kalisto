@@ -11,6 +11,6 @@ application:
   locale: en
 test:
   name: My first test
-  filepath: /questions_${application.locale}.csv
+  filepath: /questions.csv
   delimiter: ;
   cntforsuccess: 3
