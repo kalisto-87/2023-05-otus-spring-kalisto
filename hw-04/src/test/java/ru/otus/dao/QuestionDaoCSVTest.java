@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @DisplayName("Получение")
-@SpringBootTest(properties = "spring.shell.interactive.enabled=false")
+@SpringBootTest(properties = "spring.=")
 public class QuestionDaoCSVTest {
 
     @MockBean
