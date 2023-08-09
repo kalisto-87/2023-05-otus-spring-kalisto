@@ -1,6 +1,5 @@
 package ru.otus.shell;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import ru.otus.domain.User;
@@ -19,7 +18,6 @@ public class ShellRunner {
 
     private User currentUser;
 
-    @Autowired
     public ShellRunner(TestService testService, UserInitService userInitService, OutputService outputService) {
         this.testService = testService;
         this.userInitService = userInitService;
