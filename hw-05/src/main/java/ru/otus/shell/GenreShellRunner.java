@@ -6,8 +6,9 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.converter.GenreConverter;
-import ru.otus.domain.Genre;
 import ru.otus.service.GenreService;
+
+import java.util.stream.Collectors;
 
 @ShellComponent
 @RequiredArgsConstructor
@@ -19,16 +20,19 @@ public class GenreShellRunner extends AbstractShellComponent {
 
     @ShellMethod(value = "find genre by name", key = {"ge-f", "genre-find"})
     public String findByName(@ShellOption String genreName) {
-        return Integer.toString(genreService.findByName(genreName).size());
+        String genres = String.format("All genres containing '%s':\n", genreName);
+        genres = genres.concat(genreService.findByName(genreName).stream().
+                map(genre -> genreConverter.convert(genre)).
+                collect(Collectors.joining("\n")));
+        return genres;
     }
 
     @ShellMethod(value = "find all genre in the library", key = {"ge-all", "genre-all"})
     public String findAll() {
-        String genres = "All genres:";
-        for (Genre genre: genreService.getAll()) {
-            genres = genres.concat("\n");
-            genres = genres.concat(genreConverter.convert(genre));
-        }
+        String genres = "All genres:\n";
+        genres = genres.concat(genreService.getAll().stream().
+                map(genre -> genreConverter.convert(genre)).
+                collect(Collectors.joining("\n")));
         return genres;
     }
 

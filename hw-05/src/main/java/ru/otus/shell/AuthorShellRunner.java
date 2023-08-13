@@ -6,8 +6,9 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.converter.AuthorConverter;
-import ru.otus.domain.Author;
 import ru.otus.service.AuthorService;
+
+import java.util.stream.Collectors;
 
 @ShellComponent
 @RequiredArgsConstructor
@@ -25,21 +26,19 @@ public class AuthorShellRunner extends AbstractShellComponent {
 
     @ShellMethod(value = "find author by name", key = {"au-f", "author-find"})
     public String findByName(@ShellOption String authorName) {
-        String authors = String.format("List of authors that contain %s", authorName);
-        for (Author author: authorService.findByName(authorName)) {
-            authors = authors.concat("\n");
-            authors = authors.concat(authorConverter.convert(author));
-        }
+        String authors = String.format("List of authors that contain '%s'\n", authorName);
+        authors = authors.concat(authorService.getAll().stream().
+                map(author -> authorConverter.convert(author)).
+                collect(Collectors.joining("\n")));
         return authors;
     }
 
     @ShellMethod(value = "find all authors in the library", key = {"au-all", "author-all"})
     public String findAll() {
-        String authors = "List of authors:";
-        for (Author author: authorService.getAll()) {
-            authors = authors.concat("\n");
-            authors = authors.concat(authorConverter.convert(author));
-        }
+        String authors = "List of authors:\n";
+        authors = authors.concat(authorService.getAll().stream().
+                map(author -> authorConverter.convert(author)).
+                collect(Collectors.joining("\n")));
         return authors;
     }
 

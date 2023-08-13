@@ -33,7 +33,7 @@ public class GenreDaoJdbcImpl implements GenreDao {
 
     @Override
     public Genre findById(Long genreId) {
-        return jdbc.queryForObject("select id, name from AUTHORS where id = :id",
+        return jdbc.queryForObject("select id, name from GENRE where id = :id",
                 Map.of("id", genreId), new GenreRowMapper());
     }
 

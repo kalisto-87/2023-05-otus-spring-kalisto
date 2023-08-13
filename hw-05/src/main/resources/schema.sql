@@ -12,6 +12,7 @@ create table if not exists genre (
 
 create table if not exists books (
     id bigint auto_increment,
+    name varchar2(255),
     author_id bigint,
     genre_id bigint,
     primary key(id),
