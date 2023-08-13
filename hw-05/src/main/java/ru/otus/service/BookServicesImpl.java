@@ -1,7 +1,13 @@
 package ru.otus.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.otus.dao.BookDao;
 
 @Service
-public class BookServicesImpl implements BookService{
+@RequiredArgsConstructor
+public class BookServicesImpl implements BookService {
+
+    private final BookDao dao;
+
 }

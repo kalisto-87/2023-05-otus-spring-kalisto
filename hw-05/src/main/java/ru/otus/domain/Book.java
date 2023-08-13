@@ -11,7 +11,9 @@ public class Book {
 
     private Long id;
 
+    private String name;
+
     private Author author;
 
-    private  Genre genre;
+    private Genre genre;
 }
