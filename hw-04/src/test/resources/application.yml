@@ -1,0 +1,16 @@
+spring:
+  messages:
+    basename: i18n/appmessages
+    encoding: "UTF-8"
+  main:
+    allow-bean-definition-overriding: true
+  shell:
+    interactive:
+      enabled: false
+application:
+  locale: en
+test:
+  name: My first test
+  filepath: /questions.csv
+  delimiter: ;
+  cntforsuccess: 3
