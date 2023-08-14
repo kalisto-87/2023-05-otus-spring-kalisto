@@ -3,7 +3,9 @@ package ru.otus.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.dao.BookDao;
+import ru.otus.domain.Author;
 import ru.otus.domain.Book;
+import ru.otus.domain.Genre;
 
 import java.util.List;
 
@@ -21,6 +23,16 @@ public class BookServicesImpl implements BookService {
     @Override
     public List<Book> findByName(String bookName) {
         return dao.findByName(bookName);
+    }
+
+    @Override
+    public List<Book> findByAuthor(Author author) {
+        return dao.findByAuthor(author);
+    }
+
+    @Override
+    public List<Book> findByGenre(Genre genre) {
+        return dao.findByGenre(genre);
     }
 
     @Override
