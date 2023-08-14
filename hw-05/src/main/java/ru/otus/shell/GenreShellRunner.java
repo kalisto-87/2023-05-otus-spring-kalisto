@@ -14,6 +14,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GenreShellRunner extends AbstractShellComponent {
 
+    private static final String GENRE_NOT_FOUND = "Genre with id = %s not found";
+
+    private static final String CHANGES_SUCCESS = "Successfully changed";
+
+    private static final String RECORD_NOT_CHANGED = "The record hasn't been changed";
+
     private final GenreService genreService;
 
     private final GenreConverter genreConverter;
@@ -40,5 +46,26 @@ public class GenreShellRunner extends AbstractShellComponent {
     public String createGenre(@ShellOption String genreName) {
         return String.format("New record has been added into db %s",
                 genreConverter.convert(genreService.insert(genreName)));
+    }
+
+    @ShellMethod(value = "update a genre by ID", key = {"ge-u", "genre-update"})
+    public String updateGenre(@ShellOption Long id, @ShellOption String genreName) {
+        if (genreService.findById(id) == null) {
+            return String.format(GENRE_NOT_FOUND, id);
+        } else {
+            if (genreService.update(id, genreName)) {
+                return CHANGES_SUCCESS;
+            } else {
+                return RECORD_NOT_CHANGED;
+            }
+        }
+    }
+
+    @ShellMethod(value = "delete a genre by ID", key = {"ge-d", "genre-delete"})
+    public String deleteGenre(@ShellOption Long id) {
+        if (!genreService.delete(id)) {
+            return String.format(GENRE_NOT_FOUND, id);
+        }
+        return CHANGES_SUCCESS;
     }
 }

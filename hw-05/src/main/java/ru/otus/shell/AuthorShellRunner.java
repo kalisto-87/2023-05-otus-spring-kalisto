@@ -51,7 +51,7 @@ public class AuthorShellRunner extends AbstractShellComponent {
     @ShellMethod(value = "update an author by ID", key = {"au-u", "author-update"})
     public String updateAuthor(@ShellOption Long id, @ShellOption String authorName) {
         if (authorService.findById(id) == null) {
-            return String.format(AUTHOR_NOT_FOUND, Long.toString(id));
+            return String.format(AUTHOR_NOT_FOUND, id);
         } else {
             if (authorService.update(id, authorName)) {
                 return CHANGES_SUCCESS;
@@ -64,7 +64,7 @@ public class AuthorShellRunner extends AbstractShellComponent {
     @ShellMethod(value = "delete an author by ID", key = {"au-d", "author-delete"})
     public String deleteAuthor(@ShellOption Long id) {
         if (!authorService.delete(id)) {
-            return String.format(AUTHOR_NOT_FOUND, Long.toString(id));
+            return String.format(AUTHOR_NOT_FOUND, id);
         }
         return CHANGES_SUCCESS;
     }
