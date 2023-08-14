@@ -3,6 +3,7 @@ package ru.otus.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.dao.GenreDao;
+import ru.otus.dao.exception.DataNotFoundException;
 import ru.otus.domain.Genre;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public Genre findById(Long genreId) {
-        return dao.findById(genreId).orElseThrow(() -> new RuntimeException("Genre not found"));
+        return dao.findById(genreId).orElseThrow(() -> new DataNotFoundException("Genre not found"));
     }
 
     @Override

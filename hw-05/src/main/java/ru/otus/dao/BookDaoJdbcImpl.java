@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import ru.otus.dao.exception.DataNotFoundException;
 import ru.otus.domain.Author;
 import ru.otus.domain.Book;
 import ru.otus.domain.Genre;
@@ -77,9 +78,9 @@ public class BookDaoJdbcImpl implements BookDao {
         params.addValue("genre_id", genreId);
         KeyHolder kh = new GeneratedKeyHolder();
         Author author = authorDao.findById(authorId).
-                orElseThrow(() -> new RuntimeException(String.format("Author with id =%s not found!", authorId)));
+                orElseThrow(() -> new DataNotFoundException(String.format("Author with id =%s not found!", authorId)));
         Genre genre = genreDao.findById(genreId).
-                orElseThrow(() -> new RuntimeException(String.format("Genre with id = %s not found!", genreId)));
+                orElseThrow(() -> new DataNotFoundException(String.format("Genre with id = %s not found!", genreId)));
         jdbc.update("insert into books (name, author_id, genre_id) " +
                 "values(:name, :author_id, :genre_id)", params, kh, new String[]{"id"});
         return new Book(kh.getKey().longValue(), bookName, author, genre);

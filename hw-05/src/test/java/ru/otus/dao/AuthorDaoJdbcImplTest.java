@@ -30,6 +30,13 @@ public class AuthorDaoJdbcImplTest {
     }
 
     @Test
+    public void checkFindById() {
+        long authorId = 1L;
+        Author author = new Author(authorId, "Jack London");
+        assertEquals(author, dao.findById(authorId).orElseThrow());
+    }
+
+    @Test
     public void checkInsertAuthor() {
         Author newAuthor = dao.insertAuthor("Adorable author");
         assertEquals(5, dao.getAll().size());

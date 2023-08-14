@@ -30,6 +30,13 @@ public class GenreDaoJdbcImplTest {
     }
 
     @Test
+    public void checkFindById() {
+        long genreId = 1L;
+        Genre genre = new Genre(genreId, "novel");
+        assertEquals(genre, dao.findById(genreId).orElseThrow());
+    }
+
+    @Test
     public void checkInsertGenre() {
         Genre newGenre = dao.insertGenre("New unknown genre");
         assertEquals(4, dao.getAll().size());

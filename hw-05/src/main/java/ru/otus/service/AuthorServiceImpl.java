@@ -3,6 +3,7 @@ package ru.otus.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.dao.AuthorDao;
+import ru.otus.dao.exception.DataNotFoundException;
 import ru.otus.domain.Author;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author findById(Long authorId) {
-        return dao.findById(authorId).orElseThrow(() -> new RuntimeException("Author not found!"));
+        return dao.findById(authorId).orElseThrow(() -> new DataNotFoundException("Author not found!"));
     }
 
     @Override
