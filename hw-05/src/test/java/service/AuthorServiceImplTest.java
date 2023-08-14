@@ -19,6 +19,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(classes = AuthorServiceImpl.class)
 @DisplayName("Проверка работы методов сервиса Author")
 public class AuthorServiceImplTest {
+
     @MockBean
     private AuthorDao dao;
 
@@ -53,13 +54,13 @@ public class AuthorServiceImplTest {
         long authorId = 1L;
         Author expectedAuthor = new Author(authorId, "Jack London");
         when(dao.updateAuthor(expectedAuthor.getId(), expectedAuthor.getName())).thenReturn(true);
-        Assertions.assertEquals(true, authorService.update(expectedAuthor.getId(), expectedAuthor.getName()));
+        Assertions.assertTrue(authorService.update(expectedAuthor.getId(), expectedAuthor.getName()));
     }
 
     @Test
     public void deleteUpdateAuthor() {
         long authorId = 1L;
         when(dao.deleteAuthor(authorId)).thenReturn(true);
-        Assertions.assertEquals(true, authorService.delete(authorId));
+        Assertions.assertTrue(authorService.delete(authorId));
     }
 }
