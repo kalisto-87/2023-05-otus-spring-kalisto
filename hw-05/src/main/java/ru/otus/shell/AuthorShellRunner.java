@@ -27,7 +27,7 @@ public class AuthorShellRunner extends AbstractShellComponent {
     @ShellMethod(value = "find author by name", key = {"au-f", "author-find"})
     public String findByName(@ShellOption String authorName) {
         String authors = String.format("List of authors that contain '%s'\n", authorName);
-        authors = authors.concat(authorService.getAll().stream().
+        authors = authors.concat(authorService.findByName(authorName).stream().
                 map(author -> authorConverter.convert(author)).
                 collect(Collectors.joining("\n")));
         return authors;
