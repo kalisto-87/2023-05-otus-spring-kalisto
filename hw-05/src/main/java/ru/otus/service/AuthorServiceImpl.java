@@ -25,7 +25,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author findById(Long authorId) {
-        return dao.findById(authorId);
+        return dao.findById(authorId).orElseThrow(() -> new RuntimeException("Author not found!"));
     }
 
     @Override

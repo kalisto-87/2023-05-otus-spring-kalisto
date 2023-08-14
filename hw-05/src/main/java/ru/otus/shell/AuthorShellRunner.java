@@ -42,13 +42,13 @@ public class AuthorShellRunner extends AbstractShellComponent {
         return authors;
     }
 
-    @ShellMethod(value = "add new author to the library", key = "au-new")
+    @ShellMethod(value = "add new author to the library", key = {"au-n", "author-new"})
     public String createAuthor(@ShellOption String authorName) {
         return String.format("New record has been added into db %s",
                 authorConverter.convert(authorService.insert(authorName)));
     }
 
-    @ShellMethod(value = "update an author by ID", key = "au-update")
+    @ShellMethod(value = "update an author by ID", key = {"au-u", "author-update"})
     public String updateAuthor(@ShellOption Long id, @ShellOption String authorName) {
         if (authorService.findById(id) == null) {
             return String.format(AUTHOR_NOT_FOUND, Long.toString(id));
@@ -61,7 +61,7 @@ public class AuthorShellRunner extends AbstractShellComponent {
         }
     }
 
-    @ShellMethod(value = "delete an author by ID", key = "au-delete")
+    @ShellMethod(value = "delete an author by ID", key = {"au-d", "author-delete"})
     public String deleteAuthor(@ShellOption Long id) {
         if (!authorService.delete(id)) {
             return String.format(AUTHOR_NOT_FOUND, Long.toString(id));

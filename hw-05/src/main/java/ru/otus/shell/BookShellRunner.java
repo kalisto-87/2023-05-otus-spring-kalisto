@@ -18,8 +18,6 @@ public class BookShellRunner extends AbstractShellComponent {
 
     private static final String CHANGES_SUCCESS = "Successfully changed";
 
-    private static final String RECORD_NOT_CHANGED = "The record hasn't been changed";
-
     private final BookService bookService;
 
     private final BookConverter bookConverter;

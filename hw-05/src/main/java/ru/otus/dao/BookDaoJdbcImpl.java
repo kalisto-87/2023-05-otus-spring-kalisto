@@ -65,7 +65,7 @@ public class BookDaoJdbcImpl implements BookDao {
                         "join GENRE g " +
                         "on b.genre_id = g.id " +
                         "where b.id = :id",
-                Map.of("name", bookId),
+                Map.of("id", bookId),
                 new BookRowMapper());
     }
 
@@ -76,11 +76,13 @@ public class BookDaoJdbcImpl implements BookDao {
         params.addValue("author_id", authorId);
         params.addValue("genre_id", genreId);
         KeyHolder kh = new GeneratedKeyHolder();
+        Author author = authorDao.findById(authorId).
+                orElseThrow(() -> new RuntimeException(String.format("Author with id =%s not found!", authorId)));
+        Genre genre = genreDao.findById(genreId).
+                orElseThrow(() -> new RuntimeException(String.format("Genre with id = %s not found!", genreId)));
         jdbc.update("insert into books (name, author_id, genre_id) " +
                 "values(:name, :author_id, :genre_id)", params, kh, new String[]{"id"});
-        return new Book(kh.getKey().longValue(), bookName,
-                authorDao.findById(authorId),
-                genreDao.findById(genreId));
+        return new Book(kh.getKey().longValue(), bookName, author, genre);
     }
 
     @Override

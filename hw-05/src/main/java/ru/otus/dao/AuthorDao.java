@@ -3,6 +3,7 @@ package ru.otus.dao;
 import ru.otus.domain.Author;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AuthorDao {
 
@@ -10,7 +11,7 @@ public interface AuthorDao {
 
     List<Author> findByName(String authorName);
 
-    Author findById(Long authorId);
+    Optional<Author> findById(Long authorId);
 
     Author insertAuthor(String authorName);
 

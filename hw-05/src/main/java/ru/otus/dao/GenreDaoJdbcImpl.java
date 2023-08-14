@@ -1,6 +1,7 @@
 package ru.otus.dao;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -13,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -32,9 +34,13 @@ public class GenreDaoJdbcImpl implements GenreDao {
     }
 
     @Override
-    public Genre findById(Long genreId) {
-        return jdbc.queryForObject("select id, name from GENRE where id = :id",
-                Map.of("id", genreId), new GenreRowMapper());
+    public Optional<Genre> findById(Long genreId) {
+        try {
+            return Optional.ofNullable(jdbc.queryForObject("select id, name from GENRE where id = :id",
+                    Map.of("id", genreId), new GenreRowMapper()));
+        } catch (DataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override

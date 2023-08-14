@@ -3,6 +3,7 @@ package ru.otus.dao;
 import ru.otus.domain.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GenreDao {
 
@@ -10,7 +11,7 @@ public interface GenreDao {
 
     List<Genre> findByName(String genreName);
 
-    Genre findById(Long genreId);
+    Optional<Genre> findById(Long genreId);
 
     Genre insertGenre(String genreName);
 

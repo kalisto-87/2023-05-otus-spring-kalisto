@@ -1,6 +1,7 @@
 package ru.otus.dao;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -13,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -32,9 +34,13 @@ public class AuthorDaoJdbcImpl implements AuthorDao {
     }
 
     @Override
-    public Author findById(Long authorId) {
-        return jdbc.queryForObject("select id, name from AUTHORS where id = :id",
-                Map.of("id", authorId), new AuthorRowMapper());
+    public Optional<Author> findById(Long authorId) {
+        try {
+            return Optional.ofNullable(jdbc.queryForObject("select id, name from AUTHORS where id = :id",
+                    Map.of("id", authorId), new AuthorRowMapper()));
+        } catch (DataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
