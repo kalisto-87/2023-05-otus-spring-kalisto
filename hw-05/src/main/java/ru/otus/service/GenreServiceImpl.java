@@ -26,7 +26,8 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public Genre findById(Long genreId) {
-        return dao.findById(genreId).orElseThrow(() -> new DataNotFoundException(String.format("Genre with id=%s not found", genreId)));
+        return dao.findById(genreId).orElseThrow(() -> new DataNotFoundException(String.
+                format("Genre with id=%s not found", genreId)));
     }
 
     @Override
