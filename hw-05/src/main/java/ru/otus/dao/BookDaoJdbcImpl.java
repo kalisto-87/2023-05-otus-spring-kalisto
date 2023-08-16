@@ -29,73 +29,73 @@ public class BookDaoJdbcImpl implements BookDao {
 
     @Override
     public List<Book> getAll() {
-        return jdbc.query("select b.id, b.name, " +
-                        "a.id as author_id, a.name as author_name, " +
-                        "g.id as genre_id, g.name as genre_name " +
-                        "from BOOKS b " +
-                        "join AUTHORS a " +
-                        "on b.author_id = a.id " +
-                        "join GENRE g " +
-                        "on b.genre_id = g.id",
+        return jdbc.query("""
+                        select b.id, b.name, 
+                        a.id as author_id, a.name as author_name, 
+                        g.id as genre_id, g.name as genre_name 
+                        from BOOKS b 
+                        join AUTHORS a on b.author_id = a.id
+                        join GENRE g on b.genre_id = g.id
+                        """,
                 new BookRowMapper());
     }
 
     @Override
     public List<Book> findByName(String name) {
-        return jdbc.query("select b.id, b.name, " +
-                        "a.id as author_id, a.name as author_name, " +
-                        "g.id as genre_id, g.name as genre_name " +
-                        "from BOOKS b " +
-                        "join AUTHORS a " +
-                        "on b.author_id = a.id " +
-                        "join GENRE g " +
-                        "on b.genre_id = g.id " +
-                        "where lower(b.name) like '%' || :name || '%'",
+        return jdbc.query("""
+                        select b.id, b.name, 
+                        a.id as author_id, a.name as author_name, 
+                        g.id as genre_id, g.name as genre_name 
+                        from BOOKS b 
+                        join AUTHORS a on b.author_id = a.id 
+                        join GENRE g on b.genre_id = g.id 
+                        where lower(b.name) like '%' || :name || '%'
+                        """,
                 Map.of("name", name),
                 new BookRowMapper());
     }
 
     @Override
     public List<Book> findByAuthor(Author author) {
-        return jdbc.query("select b.id, b.name, " +
-                        "a.id as author_id, a.name as author_name, " +
-                        "g.id as genre_id, g.name as genre_name " +
-                        "from BOOKS b " +
-                        "join AUTHORS a " +
-                        "on b.author_id = a.id " +
-                        "join GENRE g " +
-                        "on b.genre_id = g.id " +
-                        "where b.author_id = :author_id",
+        return jdbc.query("""
+                        select b.id, b.name, 
+                        a.id as author_id, a.name as author_name, 
+                        g.id as genre_id, g.name as genre_name 
+                        from BOOKS b 
+                        join AUTHORS a on b.author_id = a.id 
+                        join GENRE g on b.genre_id = g.id 
+                        where b.author_id = :author_id
+                        """,
                 Map.of("author_id", author.getId().longValue()),
                 new BookRowMapper());
     }
 
     @Override
     public List<Book> findByGenre(Genre genre) {
-        return jdbc.query("select b.id, b.name, " +
-                        "a.id as author_id, a.name as author_name, " +
-                        "g.id as genre_id, g.name as genre_name " +
-                        "from BOOKS b " +
-                        "join AUTHORS a " +
-                        "on b.author_id = a.id " +
-                        "join GENRE g " +
-                        "on b.genre_id = g.id " +
-                        "where b.genre_id = :genre_id",
+        return jdbc.query("""
+                        select b.id, b.name, 
+                        a.id as author_id, a.name as author_name, 
+                        g.id as genre_id, g.name as genre_name 
+                        from BOOKS b 
+                        join AUTHORS a on b.author_id = a.id 
+                        join GENRE g on b.genre_id = g.id 
+                        where b.genre_id = :genre_id
+                        """,
                 Map.of("genre_id", genre.getId().longValue()),
                 new BookRowMapper());
     }
 
     @Override
     public Book findById(Long bookId) {
-        return jdbc.queryForObject("select b.id, b.name, " +
-                        "a.id as author_id, a.name as author_name, " +
-                        "g.id as genre_id, g.name as genre_name " +
-                        "from BOOKS b " +
-                        "join AUTHORS a " +
-                        "on b.author_id = a.id " +
-                        "join GENRE g " +
-                        "on b.genre_id = g.id " +
-                        "where b.id = :id",
+        return jdbc.queryForObject("""
+                        select b.id, b.name, 
+                        a.id as author_id, a.name as author_name, 
+                        g.id as genre_id, g.name as genre_name 
+                        from BOOKS b 
+                        join AUTHORS a on b.author_id = a.id 
+                        join GENRE g on b.genre_id = g.id 
+                        where b.id = :id
+                        """,
                 Map.of("id", bookId),
                 new BookRowMapper());
     }
