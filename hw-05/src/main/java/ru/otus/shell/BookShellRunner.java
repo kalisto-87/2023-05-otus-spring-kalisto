@@ -40,7 +40,7 @@ public class BookShellRunner extends AbstractShellComponent {
     }
 
     @ShellMethod(value = "find all books in the library by name", key = {"b-f", "book-find"})
-    public String findByName(String name) {
+    public String findByName(@ShellOption  String name) {
         String books = String.format("List of books containing %s", name);
         books = books.concat(bookService.findByName(name).stream().
                 map(book -> bookConverter.convert(book)).
@@ -49,7 +49,7 @@ public class BookShellRunner extends AbstractShellComponent {
     }
 
     @ShellMethod(value = "find all books in the library by author", key = {"b-f-a", "book-find-by-author"})
-    public String findByAuthor(long AuthorId) {
+    public String findByAuthor(@ShellOption long AuthorId) {
         Author author = authorService.findById(AuthorId);
         String books = String.format("List of books written by %s:\n", author.getName());
         books = books.concat(bookService.findByAuthor(author).stream().
@@ -59,7 +59,7 @@ public class BookShellRunner extends AbstractShellComponent {
     }
 
     @ShellMethod(value = "find all books in the library by genre", key = {"b-f-g", "book-find-by-genre"})
-    public String findByGenre(long genreId) {
+    public String findByGenre(@ShellOption long genreId) {
         Genre genre = genreService.findById(genreId);
         String books = String.format("List of books genre of %s:\n", genre.getName());
         books = books.concat(bookService.findByGenre(genre).stream().
