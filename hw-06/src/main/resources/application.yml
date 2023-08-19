@@ -3,3 +3,8 @@ spring:
     url: jdbc:h2:mem:testdb
     username: phantom
     password:
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
