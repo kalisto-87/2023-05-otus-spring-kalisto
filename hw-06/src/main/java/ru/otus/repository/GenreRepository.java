@@ -17,4 +17,6 @@ public interface GenreRepository {
     boolean update(Genre genre);
 
     boolean delete(long genreId);
+
+    List<Genre> findByBook(long bookId);
 }

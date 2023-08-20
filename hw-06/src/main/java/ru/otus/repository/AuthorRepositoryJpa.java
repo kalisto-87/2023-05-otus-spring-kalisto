@@ -33,9 +33,11 @@ public class AuthorRepositoryJpa implements AuthorRepository {
     @Override
     @Transactional(readOnly = true)
     public List<Author> findByName(String authorName) {
-        TypedQuery<Author> query = em.createQuery("select a " +
-                "from Author a " +
-                "where lower(a.name) like lower(concat('%', :name, '%'))", Author.class);
+        TypedQuery<Author> query = em.createQuery("""
+                select a 
+                from Author a
+                where lower(a.name) like lower(concat('%', :name, '%'))
+                """, Author.class);
         query.setParameter("name", authorName);
         return query.getResultList();
     }
@@ -71,5 +73,19 @@ public class AuthorRepositoryJpa implements AuthorRepository {
         } else {
             throw new DataNotFoundException(String.format("Author with id = %s not found", authorId));
         }
+    }
+
+    @Override
+    public List<Author> findByBook(long bookId) {
+        TypedQuery<Author> query = em.createQuery(
+                """
+                select a from Book b
+                join b.authors a
+                where b.id in (:bookId)
+                """,
+                Author.class
+        );
+        query.setParameter("bookId", bookId);
+        return query.getResultList();
     }
 }

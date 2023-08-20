@@ -18,4 +18,6 @@ public interface AuthorRepository {
     boolean update(Author author);
 
     boolean delete(long authorId);
+
+    List<Author> findByBook(long bookId);
 }

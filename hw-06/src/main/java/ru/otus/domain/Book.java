@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
@@ -41,15 +42,17 @@ public class Book {
     @Column(name = "name", nullable = false)
     private String title;
 
-    @Fetch(FetchMode.JOIN)
-    @ManyToMany(fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SUBSELECT)
+    @BatchSize(size = 2)
+    @ManyToMany(targetEntity = Author.class, fetch = FetchType.LAZY, cascade = jakarta.persistence.CascadeType.PERSIST)
     @JoinTable(name = "author_books",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> authors;
 
-    @Fetch(FetchMode.JOIN)
-    @ManyToMany(fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SUBSELECT)
+    @BatchSize(size = 2)
+    @ManyToMany(targetEntity = Genre.class, fetch = FetchType.LAZY, cascade = jakarta.persistence.CascadeType.PERSIST)
     @JoinTable(name = "genre_books",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))

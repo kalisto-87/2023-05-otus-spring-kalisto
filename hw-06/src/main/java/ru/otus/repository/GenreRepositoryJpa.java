@@ -33,9 +33,11 @@ public class GenreRepositoryJpa implements GenreRepository {
     @Override
     @Transactional(readOnly = true)
     public List<Genre> findByName(String genreName) {
-        TypedQuery<Genre> query = em.createQuery("select a " +
-                "from Genre a " +
-                "where lower(a.name) like lower(concat('%', :name, '%'))", Genre.class);
+        TypedQuery<Genre> query = em.createQuery("""
+                select a
+                from Genre a
+                where lower(a.name) like lower(concat('%', :name, '%'))
+                """, Genre.class);
         query.setParameter("name", genreName);
         return query.getResultList();
     }
@@ -71,5 +73,19 @@ public class GenreRepositoryJpa implements GenreRepository {
         } else {
             throw new DataNotFoundException(String.format("Genre with id = %s not found", genreId));
         }
+    }
+
+    @Override
+    public List<Genre> findByBook(long bookId) {
+        TypedQuery<Genre> query = em.createQuery(
+                """
+                select g from Book b
+                join b.genres g
+                where b.id = :bookId
+                """,
+                Genre.class
+        );
+        query.setParameter("bookId", bookId);
+        return query.getResultList();
     }
 }
