@@ -2,8 +2,8 @@ package ru.otus.repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import ru.otus.domain.Book;
 
@@ -19,8 +19,12 @@ public class BookRepositoryJpa implements BookRepository {
 
     @Override
     public List<Book> findAll() {
-        TypedQuery<Book> query = em.createQuery("select a from Book a", Book.class);
-        return query.getResultList();
+        List<Book> books = em.createQuery("select a from Book a", Book.class).getResultList();
+        books.forEach(book -> {
+            Hibernate.initialize(book.getAuthors());
+            Hibernate.initialize(book.getGenres());
+        });
+        return books;
     }
 
     @Override

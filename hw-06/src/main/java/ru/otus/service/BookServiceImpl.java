@@ -20,7 +20,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public String findAll() {
         return LIST_OF_ALL_BOOKS +
-                bookRepository.findAll().stream().map(author -> bookConverter.convert(author)).
+                bookRepository.findAll().stream().map(book -> bookConverter.convert(book)).
                         collect(Collectors.joining("\n"));
     }
 }
