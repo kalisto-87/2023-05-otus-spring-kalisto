@@ -11,6 +11,8 @@ public interface AuthorRepository {
 
     Optional<Author> findById(long authorId);
 
+    List<Author> findByIds(List<Long> ids);
+
     List<Author> findByName(String authorName);
 
     Author insert(Author author);

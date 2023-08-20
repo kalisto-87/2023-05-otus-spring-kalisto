@@ -32,6 +32,14 @@ public class GenreRepositoryJpa implements GenreRepository {
 
     @Override
     @Transactional(readOnly = true)
+    public List<Genre> findByIds(List<Long> ids) {
+        TypedQuery<Genre> query = em.createQuery("select g from Genre g where g.id in (:ids)", Genre.class);
+        query.setParameter("ids", ids);
+        return query.getResultList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<Genre> findByName(String genreName) {
         TypedQuery<Genre> query = em.createQuery("""
                 select a

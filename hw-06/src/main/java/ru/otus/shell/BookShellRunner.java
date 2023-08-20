@@ -6,6 +6,8 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.service.BookService;
 
+import java.util.List;
+
 @ShellComponent
 @RequiredArgsConstructor
 public class BookShellRunner {
@@ -22,4 +24,8 @@ public class BookShellRunner {
         return bookService.findByName(name);
     }
 
+    @ShellMethod(value = "insert new book", key = {"b-n", "book-new"})
+    public String insertAuthor(@ShellOption String name, @ShellOption long authorId, @ShellOption long genreId) {
+        return bookService.insert(name, List.of(authorId), List.of(genreId));
+    }
 }

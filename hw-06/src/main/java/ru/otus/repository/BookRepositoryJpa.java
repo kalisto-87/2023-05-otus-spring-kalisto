@@ -6,6 +6,7 @@ import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.domain.Book;
 
 import java.util.List;
@@ -19,17 +20,20 @@ public class BookRepositoryJpa implements BookRepository {
     private final EntityManager em;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Book> findAll() {
         List<Book> books = em.createQuery("select a from Book a", Book.class).getResultList();
         return books;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Book> findById(long bookId) {
         return Optional.ofNullable(em.find(Book.class, bookId));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Book> findByName(String bookName) {
         TypedQuery<Book> query = em.createQuery("""
                 select a 
@@ -41,8 +45,14 @@ public class BookRepositoryJpa implements BookRepository {
     }
 
     @Override
+    @Transactional
     public Book insert(Book book) {
-        return null;
+        if (book.getId() == 0) {
+            em.persist(book);
+            return book;
+        } else {
+            return em.merge(book);
+        }
     }
 
     @Override

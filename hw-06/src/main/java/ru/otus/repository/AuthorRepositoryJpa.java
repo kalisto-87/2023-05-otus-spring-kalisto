@@ -32,6 +32,14 @@ public class AuthorRepositoryJpa implements AuthorRepository {
 
     @Override
     @Transactional(readOnly = true)
+    public List<Author> findByIds(List<Long> ids) {
+        TypedQuery<Author> query = em.createQuery("select a from Author a where a.id in (:ids)", Author.class);
+        query.setParameter("ids", ids);
+        return query.getResultList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<Author> findByName(String authorName) {
         TypedQuery<Author> query = em.createQuery("""
                 select a 

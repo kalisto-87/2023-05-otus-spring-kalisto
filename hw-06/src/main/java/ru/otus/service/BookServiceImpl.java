@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
 
+    private static final String INSERT_RECORD = "New record has been created in the library %s";
+
     private static final String LIST_OF_ALL_BOOKS = "Список всех книг:\n";
 
     private static final String LIST_OF_ALL_BOOKS_FOUND = "Список книг, содержащих в наименовании '%s':\n %s";
@@ -53,5 +55,12 @@ public class BookServiceImpl implements BookService {
         }
         return String.format(LIST_OF_ALL_BOOKS_FOUND, bookName, books.stream().map(book -> bookConverter.convert(book)).
                 collect(Collectors.joining("\n")));
+    }
+
+    public String insert(String bookName, List<Long> authorsId, List<Long> genreIds) {
+        Book book = new Book(0, bookName, authorRepository.findByIds(authorsId),
+                genreRepository.findByIds(genreIds));
+        book = bookRepository.insert(book);
+        return String.format(INSERT_RECORD, bookConverter.convert(book));
     }
 }

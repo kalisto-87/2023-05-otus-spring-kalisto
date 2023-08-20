@@ -44,7 +44,7 @@ public class Book {
 
     @Fetch(FetchMode.SUBSELECT)
     @BatchSize(size = 2)
-    @ManyToMany(targetEntity = Author.class, fetch = FetchType.LAZY, cascade = jakarta.persistence.CascadeType.PERSIST)
+    @ManyToMany(targetEntity = Author.class, fetch = FetchType.LAZY)
     @JoinTable(name = "author_books",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
@@ -52,7 +52,7 @@ public class Book {
 
     @Fetch(FetchMode.SUBSELECT)
     @BatchSize(size = 2)
-    @ManyToMany(targetEntity = Genre.class, fetch = FetchType.LAZY, cascade = jakarta.persistence.CascadeType.PERSIST)
+    @ManyToMany(targetEntity = Genre.class, fetch = FetchType.LAZY)
     @JoinTable(name = "genre_books",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
