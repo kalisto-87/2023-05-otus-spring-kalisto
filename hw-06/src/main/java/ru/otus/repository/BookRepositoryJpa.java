@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.domain.Book;
+import ru.otus.exception.DataNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -56,12 +57,24 @@ public class BookRepositoryJpa implements BookRepository {
     }
 
     @Override
+    @Transactional
     public boolean update(Book book) {
-        return false;
+        if (em.find(Book.class, book.getId()) != null) {
+            return em.merge(book) != null;
+        } else {
+            throw new DataNotFoundException(String.format("Book with id = %s not found", book.getId()));
+        }
     }
 
     @Override
+    @Transactional
     public boolean delete(long bookId) {
-        return false;
+        Book book = em.find(Book.class, bookId);
+        if (book != null) {
+            em.remove(book);
+            return true;
+        } else {
+            throw new DataNotFoundException(String.format("Author with id = %s not found", bookId));
+        }
     }
 }

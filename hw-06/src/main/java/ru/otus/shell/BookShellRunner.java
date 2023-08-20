@@ -25,7 +25,17 @@ public class BookShellRunner {
     }
 
     @ShellMethod(value = "insert new book", key = {"b-n", "book-new"})
-    public String insertAuthor(@ShellOption String name, @ShellOption long authorId, @ShellOption long genreId) {
+    public String insertBook(@ShellOption String name, @ShellOption long authorId, @ShellOption long genreId) {
         return bookService.insert(name, List.of(authorId), List.of(genreId));
+    }
+
+    @ShellMethod(value = "update book", key = {"b-u", "book-update"})
+    public String updateBook(@ShellOption long id, @ShellOption String name) {
+        return bookService.update(id, name);
+    }
+
+    @ShellMethod(value = "delete book by id", key = {"b-d", "book-delete"})
+    public String deleteBook(@ShellOption long id) {
+        return bookService.delete(id);
     }
 }
