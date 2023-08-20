@@ -21,7 +21,19 @@ insert into books(id, name)
 values(nextval('book_seq'), 'Madame Bovary');
 
 insert into author_books(author_id, book_id)
+values(3, 1);
+insert into author_books(author_id, book_id)
 values(1, 2);
+insert into author_books(author_id, book_id)
+values(1, 3);
+insert into author_books(author_id, book_id)
+values(2, 4);
 
 insert into genre_books(genre_id, book_id)
+values(1, 1);
+insert into genre_books(genre_id, book_id)
 values(2, 2);
+insert into genre_books(genre_id, book_id)
+values(1, 3);
+insert into genre_books(genre_id, book_id)
+values(1, 4);

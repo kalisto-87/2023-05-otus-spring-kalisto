@@ -4,5 +4,5 @@ public interface BookService {
 
     String findAll();
 
-
+    String findByName(String bookName);
 }
