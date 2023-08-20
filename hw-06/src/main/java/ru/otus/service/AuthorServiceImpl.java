@@ -53,7 +53,7 @@ public class AuthorServiceImpl implements AuthorService {
     public String update(long authorId, String authorName) {
         Author author = new Author(authorId, authorName);
         if (authorRepository.update(author)) {
-            return String.format(UPDATE_RECORD, author);
+            return String.format(UPDATE_RECORD, authorId);
         }
         return UNSUCCESSFUL_CHANGES;
     }

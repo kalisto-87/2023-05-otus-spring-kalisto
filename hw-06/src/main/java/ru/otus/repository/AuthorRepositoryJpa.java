@@ -54,8 +54,7 @@ public class AuthorRepositoryJpa implements AuthorRepository {
     @Override
     @Transactional
     public boolean update(Author author) {
-        Author foundAuthor = em.find(Author.class, author.getId());
-        if (foundAuthor != null) {
+        if (em.find(Author.class, author.getId()) != null) {
             return em.merge(author) != null;
         } else {
             throw new DataNotFoundException(String.format("Author with id = %s not found", author.getId()));
