@@ -15,7 +15,7 @@ public interface AuthorRepository {
 
     Author insert(Author author);
 
-    boolean update(long authorId, String authorName);
+    boolean update(Author author);
 
     boolean delete(long authorId);
 }
