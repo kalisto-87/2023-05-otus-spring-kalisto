@@ -19,9 +19,9 @@ public class GenreServiceImpl implements GenreService {
 
     private static final String UNSUCCESSFUL_CHANGES = "The record hasn't been changed";
 
-    private static final String LIST_OF_ALL_GENRE = "Список всех жанров:\n";
+    private static final String LIST_OF_ALL_GENRE = "List of all genres:\n";
 
-    private static final String LIST_OF_ALL_GENRE_FOUND = "Список жанров, содержащих в наименовании '%s':\n %s";
+    private static final String LIST_OF_ALL_GENRE_FOUND = "List of the genres containing '%s':\n %s";
 
     private final GenreRepository genreRepository;
 

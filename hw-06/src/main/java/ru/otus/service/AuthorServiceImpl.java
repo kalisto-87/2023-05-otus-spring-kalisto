@@ -20,9 +20,9 @@ public class AuthorServiceImpl implements AuthorService {
 
     private static final String UNSUCCESSFUL_CHANGES = "The record hasn't been changed";
 
-    private static final String LIST_OF_ALL_AUTHORS = "Список всех авторов:\n";
+    private static final String LIST_OF_ALL_AUTHORS = "List of all authors:\n";
 
-    private static final String LIST_OF_ALL_AUTHORS_FOUND = "Список авторов, содержащих в фамилии '%s':\n %s";
+    private static final String LIST_OF_ALL_AUTHORS_FOUND = "List of the authors containing '%s':\n %s";
 
     private final AuthorRepository authorRepository;
 
