@@ -30,6 +30,7 @@ public class AuthorServiceImplTest {
     private AuthorRepositoryJpa authorRepositoryJpa;
 
     @Test
+    @DisplayName("Вставка новой записи")
     public void checkInsertAuthor() {
         long authorId = 1L;
         Author author = new Author(0, "New Author");
@@ -43,6 +44,7 @@ public class AuthorServiceImplTest {
     }
 
     @Test
+    @DisplayName("Обновить фамилию автора по идентификатору")
     public void checkUpdateAuthor() {
         long authorId = 1L;
         Author author = new Author(authorId, "New Author");
@@ -52,6 +54,17 @@ public class AuthorServiceImplTest {
     }
 
     @Test
+    @DisplayName("Обновить фамилию автора по идентификатору, которого нет в БД")
+    public void checkUpdateNonExistentAuthor() {
+        long authorId = 1L;
+        Author author = new Author(authorId, "New Author");
+        when(authorRepositoryJpa.update(any())).thenReturn(false);
+        String expectedValue = String.format("The record hasn't been changed");
+        assertEquals(expectedValue, authorService.update(author.getId(), author.getName()));
+    }
+
+    @Test
+    @DisplayName("Удалить автора по идентификатору")
     public void checkDeleteAuthor() {
         long authorId = 1L;
         when(authorRepositoryJpa.delete(authorId)).thenReturn(true);
@@ -61,6 +74,16 @@ public class AuthorServiceImplTest {
     }
 
     @Test
+    @DisplayName("Удалить автора по идентификатору, которого нет в БД")
+    public void checkDeleteNonExistentAuthor() {
+        long authorId = 1L;
+        when(authorRepositoryJpa.delete(authorId)).thenReturn(false);
+        String expectedValue = String.format("The record hasn't been changed");
+        assertEquals(expectedValue, authorService.delete(authorId));
+    }
+
+    @Test
+    @DisplayName("Получить список авторов по имени")
     public void checkFindByName() {
         String authorName = "Jack London";
         List<Author> authors = List.of(new Author(1, authorName));

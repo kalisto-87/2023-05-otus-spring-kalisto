@@ -31,7 +31,8 @@ public class GenreServiceImplTest {
     private GenreRepositoryJpa genreRepositoryJpa;
 
     @Test
-    public void checkInsertAuthor() {
+    @DisplayName("Вставка новой записи")
+    public void checkInsertGenre() {
         long genreId = 1L;
         Genre genre = new Genre(0, "New Genre");
         Genre exprectedGenre = new Genre(genreId, "New Genre");
@@ -44,7 +45,8 @@ public class GenreServiceImplTest {
     }
 
     @Test
-    public void checkUpdateAuthor() {
+    @DisplayName("Обновить название жанра по идентификатору")
+    public void checkUpdateGenre() {
         long genreId = 1L;
         Genre genre = new Genre(genreId, "New Genre");
         when(genreRepositoryJpa.update(any())).thenReturn(true);
@@ -53,7 +55,18 @@ public class GenreServiceImplTest {
     }
 
     @Test
-    public void checkDeleteAuthor() {
+    @DisplayName("Обновить название жанра по идентификатору, которого нет в БД")
+    public void checkUpdateNonExistentGenre() {
+        long genreId = 1L;
+        Genre genre = new Genre(genreId, "New Genre");
+        when(genreRepositoryJpa.update(any())).thenReturn(false);
+        String expectedValue = String.format("The record hasn't been changed");
+        assertEquals(expectedValue, genreService.update(genre.getId(), genre.getName()));
+    }
+
+    @Test
+    @DisplayName("Удалить автора по идентификатору")
+    public void checkDeleteGenre() {
         long genreId = 1L;
         when(genreRepositoryJpa.delete(genreId)).thenReturn(true);
         String expectedValue = String.format("The record with id=%s has been deleted from the library",
@@ -62,6 +75,16 @@ public class GenreServiceImplTest {
     }
 
     @Test
+    @DisplayName("Удалить автора по идентификатору, которого нет в БД")
+    public void checkDeleteNonExistentGenre() {
+        long genreId = 1L;
+        when(genreRepositoryJpa.delete(genreId)).thenReturn(false);
+        String expectedValue = String.format("The record hasn't been changed");
+        assertEquals(expectedValue, genreService.delete(genreId));
+    }
+
+    @Test
+    @DisplayName("Поиск жанров по названию")
     public void checkFindByName() {
         String genreName = "Jack London";
         List<Genre> genres = List.of(new Genre(1, genreName));
