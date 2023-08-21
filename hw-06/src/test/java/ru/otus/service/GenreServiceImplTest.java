@@ -86,7 +86,7 @@ public class GenreServiceImplTest {
     @Test
     @DisplayName("Поиск жанров по названию")
     public void checkFindByName() {
-        String genreName = "Jack London";
+        String genreName = "Science";
         List<Genre> genres = List.of(new Genre(1, genreName));
         when(genreRepositoryJpa.findByName(genreName)).thenReturn(genres);
         String expectedValue =
