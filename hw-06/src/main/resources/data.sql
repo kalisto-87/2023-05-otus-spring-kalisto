@@ -37,3 +37,10 @@ insert into genre_books(genre_id, book_id)
 values(1, 3);
 insert into genre_books(genre_id, book_id)
 values(1, 4);
+
+insert into book_comments(book_id, text)
+values(1, 'Comment_1');
+insert into book_comments(book_id, text)
+values(2, 'Comment_2');
+insert into book_comments(book_id, text)
+values(2, 'Comment_3');

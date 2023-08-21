@@ -1,6 +1,5 @@
 package ru.otus.domain;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,7 +12,9 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,7 +29,7 @@ public class Comment {
     @Column(name = "text")
     private String text;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 }

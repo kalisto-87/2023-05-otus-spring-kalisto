@@ -74,7 +74,7 @@ public class BookRepositoryJpa implements BookRepository {
             em.remove(book);
             return true;
         } else {
-            throw new DataNotFoundException(String.format("Author with id = %s not found", bookId));
+            throw new DataNotFoundException(String.format("Book with id = %s not found", bookId));
         }
     }
 }

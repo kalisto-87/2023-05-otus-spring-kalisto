@@ -43,7 +43,7 @@ public class Book {
     private String title;
 
     @Fetch(FetchMode.SUBSELECT)
-    @BatchSize(size = 2)
+    @BatchSize(size = 5)
     @ManyToMany(targetEntity = Author.class, fetch = FetchType.LAZY)
     @JoinTable(name = "author_books",
             joinColumns = @JoinColumn(name = "book_id"),
@@ -51,7 +51,7 @@ public class Book {
     private List<Author> authors;
 
     @Fetch(FetchMode.SUBSELECT)
-    @BatchSize(size = 2)
+    @BatchSize(size = 5)
     @ManyToMany(targetEntity = Genre.class, fetch = FetchType.LAZY)
     @JoinTable(name = "genre_books",
             joinColumns = @JoinColumn(name = "book_id"),
