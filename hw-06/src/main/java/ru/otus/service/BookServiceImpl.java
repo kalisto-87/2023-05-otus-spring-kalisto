@@ -41,10 +41,6 @@ public class BookServiceImpl implements BookService {
     @Override
     public String findAll() {
         List<Book> books = bookRepository.findAll();
-        for (Book b: books) {
-            List<Genre> genres = genreRepository.findByBook(b.getId());
-            b.setGenres(genres);
-        }
         return LIST_OF_ALL_BOOKS + books.stream().map(book -> bookConverter.convert(book)).
                 collect(Collectors.joining("\n"));
     }
@@ -52,10 +48,6 @@ public class BookServiceImpl implements BookService {
     @Override
     public String findByName(String bookName) {
         List<Book> books = bookRepository.findByName(bookName);
-        for (Book b: books) {
-            List<Genre> genres = genreRepository.findByBook(b.getId());
-            b.setGenres(genres);
-        }
         return String.format(LIST_OF_ALL_BOOKS_FOUND, bookName, books.stream().map(book -> bookConverter.convert(book)).
                 collect(Collectors.joining("\n")));
     }
