@@ -12,7 +12,7 @@ public class CommentShellRunner {
 
     private final CommentService commentService;
 
-    @ShellMethod(value = "get comments book", key = {"com-b-a", "comment-book-all"})
+    @ShellMethod(value = "get comments by book", key = {"com-b-a", "comment-book-all"})
     public String getBookComments(@ShellOption long bookId) {
         return commentService.findCommentsByBook(bookId);
     }
@@ -29,7 +29,7 @@ public class CommentShellRunner {
         return "";
     }
 
-    @ShellMethod(value = "add comment by id", key = {"com-d", "comment-delete"})
+    @ShellMethod(value = "delete comment by id", key = {"com-d", "comment-delete"})
     public String deleteComment(@ShellOption long commentId) {
         commentService.delete(commentId);
         return "";
