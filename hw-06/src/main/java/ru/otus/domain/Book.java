@@ -42,7 +42,7 @@ public class Book {
     @Column(name = "name", nullable = false)
     private String title;
 
-    @Fetch(FetchMode.SUBSELECT)
+    @Fetch(FetchMode.JOIN)
     @BatchSize(size = 5)
     @ManyToMany(targetEntity = Author.class, fetch = FetchType.LAZY)
     @JoinTable(name = "author_books",

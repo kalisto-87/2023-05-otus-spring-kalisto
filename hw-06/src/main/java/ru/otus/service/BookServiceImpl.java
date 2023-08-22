@@ -43,9 +43,7 @@ public class BookServiceImpl implements BookService {
         List<Book> books = bookRepository.findAll();
         for (Book b: books) {
             List<Genre> genres = genreRepository.findByBook(b.getId());
-            List<Author> authors = authorRepository.findByBook(b.getId());
             b.setGenres(genres);
-            b.setAuthors(authors);
         }
         return LIST_OF_ALL_BOOKS + books.stream().map(book -> bookConverter.convert(book)).
                 collect(Collectors.joining("\n"));
@@ -56,9 +54,7 @@ public class BookServiceImpl implements BookService {
         List<Book> books = bookRepository.findByName(bookName);
         for (Book b: books) {
             List<Genre> genres = genreRepository.findByBook(b.getId());
-            List<Author> authors = authorRepository.findByBook(b.getId());
             b.setGenres(genres);
-            b.setAuthors(authors);
         }
         return String.format(LIST_OF_ALL_BOOKS_FOUND, bookName, books.stream().map(book -> bookConverter.convert(book)).
                 collect(Collectors.joining("\n")));

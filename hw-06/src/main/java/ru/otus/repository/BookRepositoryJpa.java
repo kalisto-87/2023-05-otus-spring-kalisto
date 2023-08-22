@@ -23,7 +23,10 @@ public class BookRepositoryJpa implements BookRepository {
     @Override
     @Transactional(readOnly = true)
     public List<Book> findAll() {
-        List<Book> books = em.createQuery("select a from Book a", Book.class).getResultList();
+        List<Book> books = em.createQuery("""
+                select a from Book a
+                left join fetch a.authors
+                """, Book.class).getResultList();
         return books;
     }
 
@@ -39,6 +42,7 @@ public class BookRepositoryJpa implements BookRepository {
         TypedQuery<Book> query = em.createQuery("""
                 select a 
                 from Book a
+                left join fetch a.authors
                 where lower(a.title) like lower(concat('%', :name, '%'))
                 """, Book.class);
         query.setParameter("name", bookName);
