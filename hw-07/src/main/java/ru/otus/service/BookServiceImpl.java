@@ -72,10 +72,10 @@ public class BookServiceImpl implements BookService {
         List<Author> authors = authorRepository.findAllById(authorsId);
         List<Genre> genres = genreRepository.findAllById(genresId);
         if (authors.size() == 0) {
-            new DataNotFoundException("Author not found");
+            throw new DataNotFoundException("Author not found");
         }
         if (genres.size() == 0) {
-            new DataNotFoundException("Genre not found");
+            throw new DataNotFoundException("Genre not found");
         }
         Book book = new Book(0, bookName, authors, genres);
         return bookRepository.save(book);
