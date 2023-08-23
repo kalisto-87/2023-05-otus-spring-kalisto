@@ -26,6 +26,10 @@ public class BookServiceImpl implements BookService {
 
     private static final String LIST_OF_BOOKS_BY_GENRE = "List of the books belong to genre '%s':\n%s";
 
+    private static final String CREATED_BOOK = "Book has been created with id=%s";
+
+    private static final String CHANGE_SUCCESSFUL = "Сhanges have been successfully implemented";
+
     private final BookRepository bookRepository;
 
     private final BookConverter bookConverter;
@@ -68,7 +72,7 @@ public class BookServiceImpl implements BookService {
                 collect(Collectors.joining("\n")));
     }
 
-    public Book insert(String bookName, List<Long> authorsId, List<Long> genresId) {
+    public String insert(String bookName, List<Long> authorsId, List<Long> genresId) {
         List<Author> authors = authorRepository.findAllById(authorsId);
         List<Genre> genres = genreRepository.findAllById(genresId);
         if (authors.size() == 0) {
@@ -78,20 +82,22 @@ public class BookServiceImpl implements BookService {
             throw new DataNotFoundException("Genre not found");
         }
         Book book = new Book(0, bookName, authors, genres);
-        return bookRepository.save(book);
+        return String.format(CREATED_BOOK, bookRepository.save(book).getId());
     }
 
-    public Book update(long bookId, String bookName) {
+    public String update(long bookId, String bookName) {
         Book book = bookRepository.findById(bookId).
                 orElseThrow(() -> new DataNotFoundException(String.format("Book with id=%s not found!", bookId)));
         book.setTitle(bookName);
-        return bookRepository.save(book);
+        bookRepository.save(book);
+        return CHANGE_SUCCESSFUL;
     }
 
     @Override
-    public void delete(long bookId) {
+    public String delete(long bookId) {
         Book book = bookRepository.findById(bookId).
                 orElseThrow(() -> new DataNotFoundException(String.format("Book with id=%s not found!")));
         bookRepository.deleteById(bookId);
+        return CHANGE_SUCCESSFUL;
     }
 }

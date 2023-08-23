@@ -1,7 +1,5 @@
 package ru.otus.service;
 
-import ru.otus.domain.Book;
-
 import java.util.List;
 
 public interface BookService {
@@ -14,9 +12,9 @@ public interface BookService {
 
     String findByGenreId(long genreId);
 
-    Book insert(String bookName, List<Long> authorsId, List<Long> genresId);
+    String insert(String bookName, List<Long> authorsId, List<Long> genresId);
 
-    Book update(long bookId, String bookName);
+    String update(long bookId, String bookName);
 
-    void delete(long authorId);
+    String delete(long authorId);
 }

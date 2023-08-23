@@ -1,16 +1,14 @@
 package ru.otus.service;
 
-import ru.otus.domain.Comment;
-
 public interface CommentService {
 
     String findCommentsByBook(long bookId);
 
-    Comment insert(long bookId, String Text);
+    String insert(long bookId, String Text);
 
-    Comment update(long commentId, String Text);
+    String update(long commentId, String Text);
 
-    void delete(long authorId);
+    String delete(long authorId);
 
-    void deleteByBook(long bookId);
+    String deleteByBook(long bookId);
 }

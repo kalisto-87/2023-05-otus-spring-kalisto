@@ -24,19 +24,16 @@ public class GenreShellRunner {
 
     @ShellMethod(value = "insert new genre", key = {"ge-n", "genre-new"})
     public String insertGenre(String name) {
-        genreService.insert(name);
-        return "";
+        return genreService.insert(name);
     }
 
     @ShellMethod(value = "update genre", key = {"ge-u", "genre-update"})
     public String updateGenre(@ShellOption long id, @ShellOption String name) {
-        genreService.update(id, name);
-        return "";
+        return genreService.update(id, name);
     }
 
     @ShellMethod(value = "delete genre by id", key = {"ge-d", "genre-delete"})
     public String deleteGenre(@ShellOption long id) {
-        genreService.delete(id);
-        return "";
+        return genreService.delete(id);
     }
 }

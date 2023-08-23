@@ -17,6 +17,10 @@ public class AuthorServiceImpl implements AuthorService {
 
     private static final String LIST_OF_ALL_AUTHORS_FOUND = "List of the authors containing '%s':\n%s";
 
+    private static final String CHANGE_SUCCESSFUL = "Сhanges have been successfully implemented";
+
+    private static final String CREATED_AUTHOR = "Author has been created with id=%s";
+
     private final AuthorRepository authorRepository;
 
     private final AuthorConverter authorConverter;
@@ -37,23 +41,26 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Author insert(String authorName) {
+    public String insert(String authorName) {
         Author author = new Author(0, authorName);
-        return authorRepository.save(author);
+        author = authorRepository.save(author);
+        return String.format(CREATED_AUTHOR, author.getId());
     }
 
     @Override
-    public Author update(long authorId, String authorName) {
+    public String update(long authorId, String authorName) {
         Author author = authorRepository.findById(authorId).
                 orElseThrow(() -> new DataNotFoundException(String.format("Author with id=%s not found!", authorId)));
         author.setName(authorName);
-        return authorRepository.save(author);
+        authorRepository.save(author);
+        return CHANGE_SUCCESSFUL;
     }
 
     @Override
-    public void delete(long authorId) {
+    public String delete(long authorId) {
         Author author = authorRepository.findById(authorId).
                 orElseThrow(() -> new DataNotFoundException(String.format("Author with id=%s not found!", authorId)));
         authorRepository.deleteById(authorId);
+        return CHANGE_SUCCESSFUL;
     }
 }

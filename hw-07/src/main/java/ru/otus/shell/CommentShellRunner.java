@@ -19,25 +19,21 @@ public class CommentShellRunner {
 
     @ShellMethod(value = "add comment to the book", key = {"com-b-add", "comment-book-add"})
     public String addComment(@ShellOption long bookId, @ShellOption String text) {
-        commentService.insert(bookId, text);
-        return "";
+        return commentService.insert(bookId, text);
     }
 
     @ShellMethod(value = "update comment by id", key = {"com-u", "comment-update"})
     public String changeComment(@ShellOption long commentId, @ShellOption String text) {
-        commentService.update(commentId, text);
-        return "";
+        return commentService.update(commentId, text);
     }
 
     @ShellMethod(value = "delete comment by id", key = {"com-d", "comment-delete"})
     public String deleteComment(@ShellOption long commentId) {
-        commentService.delete(commentId);
-        return "";
+        return commentService.delete(commentId);
     }
 
     @ShellMethod(value = "delete comment by book", key = {"com-d-b", "comment-delete-book"})
     public String deleteCommentByBook(@ShellOption long bookId) {
-        commentService.deleteByBook(bookId);
-        return "";
+        return commentService.deleteByBook(bookId);
     }
 }

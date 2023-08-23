@@ -1,15 +1,13 @@
 package ru.otus.service;
 
-import ru.otus.domain.Author;
-
 public interface AuthorService {
     String findAll();
 
     String findByName(String authorName);
 
-    Author insert(String authorName);
+    String insert(String authorName);
 
-    Author update(long authorId, String authorName);
+    String update(long authorId, String authorName);
 
-    void delete(long authorId);
+    String delete(long authorId);
 }

@@ -16,6 +16,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
+    private static final String CREATED_COMMENT = "Comment has been created with id=%s";
+
+    private static final String CHANGE_SUCCESSFUL = "Сhanges have been successfully implemented";
+
     private final CommentRepository commentRepository;
 
     private final BookRepository bookRepository;
@@ -33,32 +37,36 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment insert(long bookId, String Text) {
+    public String insert(long bookId, String Text) {
         Book book = bookRepository.findById(bookId).
                 orElseThrow(() -> new DataNotFoundException(
                         String.format("Book with id =%s not found", bookId)));
         Comment comment = new Comment(0, Text, book);
-        return commentRepository.save(comment);
+        comment = commentRepository.save(comment);
+        return String.format(CREATED_COMMENT, comment.getId());
     }
 
     @Override
-    public Comment update(long commentId, String Text) {
+    public String update(long commentId, String Text) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() ->
                 new DataNotFoundException(String.format("Comment with id=%s not found", commentId)));
         comment.setText(Text);
-        return commentRepository.save(comment);
+        commentRepository.save(comment);
+        return CHANGE_SUCCESSFUL;
     }
 
     @Override
-    public void delete(long authorId) {
+    public String delete(long authorId) {
         commentRepository.deleteById(authorId);
+        return CHANGE_SUCCESSFUL;
     }
 
     @Override
-    public void deleteByBook(long bookId) {
+    public String deleteByBook(long bookId) {
         Book book = bookRepository.findById(bookId).
                 orElseThrow(() -> new DataNotFoundException(
                         String.format("Book with id =%s not found", bookId)));
         commentRepository.deleteByBook(book);
+        return CHANGE_SUCCESSFUL;
     }
 }

@@ -17,6 +17,10 @@ public class GenreServiceImpl implements GenreService {
 
     private static final String LIST_OF_ALL_GENRE_FOUND = "List of the genres containing '%s':\n%s";
 
+    private static final String CREATED_GENRE = "Genre has been created with id=%s";
+
+    private static final String CHANGE_SUCCESSFUL = "Сhanges have been successfully implemented";
+
     private final GenreRepository genreRepository;
 
     private final GenreConverter genreConverter;
@@ -37,23 +41,25 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public Genre insert(String genreName) {
+    public String insert(String genreName) {
         Genre genre = new Genre(0, genreName);
-        return genreRepository.save(genre);
-   }
-
-    @Override
-    public Genre update(long genreId, String genreName) {
-        Genre genre = genreRepository.findById(genreId).
-                orElseThrow(() -> new DataNotFoundException(String.format("Genre with id=%s not found!", genreId)));
-        genre.setName(genreName);
-        return genreRepository.save(genre);
+        genre = genreRepository.save(genre);
+        return String.format(CREATED_GENRE, genre.getId());
     }
 
     @Override
-    public void delete(long genreId) {
+    public String update(long genreId, String genreName) {
+        Genre genre = genreRepository.findById(genreId).
+                orElseThrow(() -> new DataNotFoundException(String.format("Genre with id=%s not found!", genreId)));
+        genre.setName(genreName);
+        return CHANGE_SUCCESSFUL;
+    }
+
+    @Override
+    public String delete(long genreId) {
         Genre genre = genreRepository.findById(genreId).
                 orElseThrow(() -> new DataNotFoundException(String.format("Genre with id=%s not found!", genreId)));
         genreRepository.deleteById(genreId);
+        return CHANGE_SUCCESSFUL;
     }
 }

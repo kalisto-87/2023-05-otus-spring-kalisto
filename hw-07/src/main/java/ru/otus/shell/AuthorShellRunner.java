@@ -24,19 +24,16 @@ public class AuthorShellRunner {
 
     @ShellMethod(value = "insert new author", key = {"au-n", "author-new"})
     public String insertAuthor(String name) {
-        authorService.insert(name);
-        return "";
+        return authorService.insert(name);
     }
 
     @ShellMethod(value = "update author", key = {"au-u", "author-update"})
     public String updateAuthor(@ShellOption long id, @ShellOption String name) {
-        authorService.update(id, name).toString();
-        return "";
+        return authorService.update(id, name);
     }
 
     @ShellMethod(value = "delete author by id", key = {"au-d", "author-delete"})
     public String deleteAuthor(@ShellOption long id) {
-        authorService.delete(id);
-        return "";
+        return authorService.delete(id);
     }
 }
