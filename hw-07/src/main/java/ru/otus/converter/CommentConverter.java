@@ -13,6 +13,7 @@ public class CommentConverter implements Converter<Comment, String> {
 
     @Override
     public String convert(Comment source) {
-        return String.format("ID=%s; TEXT=%s", source.getId(), source.getText());
+        return String.format("ID=%s; TEXT=%s for BOOK=%s", source.getId(), source.getText(),
+                source.getBook().getTitle());
     }
 }
