@@ -27,8 +27,9 @@ public class CommentServiceImpl implements CommentService {
                 orElseThrow(() -> new DataNotFoundException(
                         String.format("Book with id =%s not found", bookId)));
         List<Comment> comments = commentRepository.findByBook(book);
-        return commentRepository.findByBook(book).stream().map(com -> commentConverter.convert(com)).
-                collect(Collectors.joining("\n"));
+        return String.format("Comments for book %s\n%s", book.getTitle(),
+                commentRepository.findByBook(book).stream().map(com -> commentConverter.convert(com)).
+                collect(Collectors.joining("\n")));
     }
 
     @Override
@@ -51,5 +52,13 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void delete(long authorId) {
         commentRepository.deleteById(authorId);
+    }
+
+    @Override
+    public void deleteByBook(long bookId) {
+        Book book = bookRepository.findById(bookId).
+                orElseThrow(() -> new DataNotFoundException(
+                        String.format("Book with id =%s not found", bookId)));
+        commentRepository.deleteByBook(book);
     }
 }

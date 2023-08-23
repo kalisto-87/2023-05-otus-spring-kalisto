@@ -34,4 +34,10 @@ public class CommentShellRunner {
         commentService.delete(commentId);
         return "";
     }
+
+    @ShellMethod(value = "delete comment by book", key = {"com-d-b", "comment-delete-book"})
+    public String deleteCommentByBook(@ShellOption long bookId) {
+        commentService.deleteByBook(bookId);
+        return "";
+    }
 }
