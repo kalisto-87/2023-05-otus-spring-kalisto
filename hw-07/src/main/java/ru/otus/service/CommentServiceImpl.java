@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
+    private static final String LIST_OF_COMMENTS = "Comments for book %s\n%s";
+
     private static final String CREATED_COMMENT = "Comment has been created with id=%s";
 
     private static final String CHANGE_SUCCESSFUL = "Сhanges have been successfully implemented";
@@ -31,8 +33,8 @@ public class CommentServiceImpl implements CommentService {
                 orElseThrow(() -> new DataNotFoundException(
                         String.format("Book with id =%s not found", bookId)));
         List<Comment> comments = commentRepository.findByBook(book);
-        return String.format("Comments for book %s\n%s", book.getTitle(),
-                commentRepository.findByBook(book).stream().map(com -> commentConverter.convert(com)).
+        return String.format(LIST_OF_COMMENTS, book.getTitle(),
+                comments.stream().map(com -> commentConverter.convert(com)).
                 collect(Collectors.joining("\n")));
     }
 
