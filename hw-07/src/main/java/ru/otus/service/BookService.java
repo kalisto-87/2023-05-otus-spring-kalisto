@@ -16,5 +16,5 @@ public interface BookService {
 
     String update(long bookId, String bookName);
 
-    String delete(long authorId);
+    String delete(long bookId);
 }
