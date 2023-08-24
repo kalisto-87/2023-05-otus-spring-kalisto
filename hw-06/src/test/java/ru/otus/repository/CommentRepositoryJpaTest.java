@@ -1,5 +1,6 @@
 package ru.otus.repository;
 
+import org.hibernate.Hibernate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,9 @@ public class CommentRepositoryJpaTest {
     @Test
     public void checkGetCommentsByBook() {
         long bookId = 2L;
-        List<Comment> comments = commentRepositoryJpa.getCommentsByBook(bookId);
+        Book book = bookRepositoryJpa.findById(bookId).orElse(null);
+        Hibernate.initialize(book.getComments());
+        List<Comment> comments = book.getComments();
         assertEquals(2, comments.size());
     }
 

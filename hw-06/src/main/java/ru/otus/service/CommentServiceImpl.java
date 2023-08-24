@@ -1,6 +1,7 @@
 package ru.otus.service;
 
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.domain.Book;
@@ -20,8 +21,13 @@ public class CommentServiceImpl implements CommentService {
     private final BookRepository bookRepository;
 
     @Override
+    @Transactional
     public List<Comment> findCommentsByBook(long bookId) {
-        return commentRepository.getCommentsByBook(bookId);
+
+        Book book = bookRepository.findById(bookId).orElseThrow(() ->
+                new DataNotFoundException(String.format("Book with id =%s not found", bookId)));
+        Hibernate.initialize(book.getComments());
+        return book.getComments();
     }
 
     @Override
