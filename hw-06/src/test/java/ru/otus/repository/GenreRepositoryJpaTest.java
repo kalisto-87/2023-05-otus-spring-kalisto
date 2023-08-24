@@ -46,7 +46,7 @@ public class GenreRepositoryJpaTest {
         long genreId = 3L;
         Genre expectedGenre = jpa.findById(genreId).orElse(null);
         assertNotNull(expectedGenre);
-        jpa.delete(genreId);
+        jpa.delete(expectedGenre);
         expectedGenre = jpa.findById(genreId).orElse(null);
         assertNull(expectedGenre);
     }

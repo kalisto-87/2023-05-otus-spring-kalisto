@@ -47,7 +47,7 @@ public class AuthorRepositoryJpaTest {
         long authorId = 4L;
         Author expectedAuthor = jpa.findById(authorId).orElse(null);
         assertNotNull(expectedAuthor);
-        jpa.delete(authorId);
+        jpa.delete(expectedAuthor);
         expectedAuthor = jpa.findById(authorId).orElse(null);
         assertNull(expectedAuthor);
     }

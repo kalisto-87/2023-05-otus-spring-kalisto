@@ -76,7 +76,7 @@ public class BookRepositoryJpaTest {
         long bookId = 1L;
         Book book = bookRepositoryJpa.findById(bookId).orElse(null);
         assertNotNull(book);
-        bookRepositoryJpa.delete(bookId);
+        bookRepositoryJpa.delete(book);
         book = bookRepositoryJpa.findById(bookId).orElse(null);
         assertNull(book);
     }

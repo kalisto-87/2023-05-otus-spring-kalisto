@@ -2,64 +2,52 @@ package ru.otus.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.otus.converter.CommentConverter;
 import ru.otus.domain.Book;
 import ru.otus.domain.Comment;
 import ru.otus.exception.DataNotFoundException;
 import ru.otus.repository.BookRepository;
 import ru.otus.repository.CommentRepository;
 
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
-    private static final String INSERT_RECORD = "New record has been created in the library %s";
-
-    private static final String UPDATE_RECORD = "The record with id=%s has been updated";
-
-    private static final String DELETE_RECORD = "The record with id=%s has been deleted from the library";
-
-    private static final String UNSUCCESSFUL_CHANGES = "The record hasn't been changed";
-
     private final CommentRepository commentRepository;
 
     private final BookRepository bookRepository;
 
-    private final CommentConverter commentConverter;
-
-    public String findCommentsByBook(long bookId) {
-        return commentRepository.getCommentsByBook(bookId).stream().map(com -> commentConverter.convert(com)).
-                collect(Collectors.joining("\n"));
+    public List<Comment> findCommentsByBook(long bookId) {
+        return commentRepository.getCommentsByBook(bookId);
     }
 
     @Override
-    public String insert(long bookId, String Text) {
-        Book book = bookRepository.findById(bookId).
+    public Comment findById(long commentId) {
+        return commentRepository.findById(commentId).orElseThrow(() -> new DataNotFoundException(
+                String.format("Comment with id =%s not found", commentId)));
+    }
+
+    @Override
+    public Comment insert(Comment comment) {
+        Book book = bookRepository.findById(comment.getBook().getId()).
                 orElseThrow(() -> new DataNotFoundException(
-                        String.format("Book with id =%s not found", bookId)));
-        Comment comment = new Comment(0, Text, book);
-        comment = commentRepository.insert(comment);
-        return String.format(INSERT_RECORD, commentConverter.convert(comment));
+                        String.format("Book with id =%s not found", comment.getBook().getId())));
+        return commentRepository.insert(comment);
     }
 
     @Override
-    public String update(long commentId, String Text) {
+    public Comment update(long commentId, String Text) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() ->
                 new DataNotFoundException(String.format("Comment with id=%s not found", commentId)));
         comment.setText(Text);
-        if (commentRepository.update(comment)) {
-            return String.format(UPDATE_RECORD, commentId);
-        }
-        return UNSUCCESSFUL_CHANGES;
+        return commentRepository.update(comment);
     }
 
     @Override
-    public String delete(long authorId) {
-        if (commentRepository.delete(authorId)) {
-            return String.format(DELETE_RECORD, authorId);
-        }
-        return UNSUCCESSFUL_CHANGES;
+    public void delete(long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() ->
+                new DataNotFoundException(String.format("Comment with id=%s not found", commentId)));
+        commentRepository.delete(comment);
     }
 }

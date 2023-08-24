@@ -15,7 +15,7 @@ public interface BookRepository {
 
     Book insert(Book book);
 
-    boolean update(Book book);
+    Book update(Book book);
 
-    boolean delete(long bookId);
+    void delete(Book book);
 }

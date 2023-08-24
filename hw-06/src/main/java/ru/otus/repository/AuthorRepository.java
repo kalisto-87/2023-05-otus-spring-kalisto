@@ -17,9 +17,9 @@ public interface AuthorRepository {
 
     Author insert(Author author);
 
-    boolean update(Author author);
+    Author update(Author author);
 
-    boolean delete(long authorId);
+    void delete(Author author);
 
     List<Author> findByBook(long bookId);
 }

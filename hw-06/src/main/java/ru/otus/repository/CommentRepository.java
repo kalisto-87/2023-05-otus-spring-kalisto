@@ -12,7 +12,7 @@ public interface CommentRepository {
 
     Comment insert(Comment comment);
 
-    boolean update(Comment comment);
+    Comment update(Comment comment);
 
-    boolean delete(long commentId);
+    void delete(Comment comment);
 }

@@ -14,9 +14,9 @@ public interface GenreRepository {
 
     Genre insert(Genre genre);
 
-    boolean update(Genre genre);
+    Genre update(Genre genre);
 
-    boolean delete(long genreId);
+    void delete(Genre genre);
 
     List<Genre> findByBook(long bookId);
 

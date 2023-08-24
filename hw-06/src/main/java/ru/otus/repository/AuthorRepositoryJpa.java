@@ -6,7 +6,6 @@ import jakarta.persistence.TypedQuery;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Repository;
 import ru.otus.domain.Author;
-import ru.otus.exception.DataNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,20 +17,17 @@ public class AuthorRepositoryJpa implements AuthorRepository {
     private EntityManager em;
 
     @Override
-    @Transactional(readOnly = true)
     public List<Author> findAll() {
         TypedQuery<Author> query = em.createQuery("select a from Author a", Author.class);
         return query.getResultList();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<Author> findById(long authorId) {
         return Optional.ofNullable(em.find(Author.class, authorId));
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Author> findByIds(List<Long> ids) {
         TypedQuery<Author> query = em.createQuery("select a from Author a where a.id in (:ids)", Author.class);
         query.setParameter("ids", ids);
@@ -39,7 +35,6 @@ public class AuthorRepositoryJpa implements AuthorRepository {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Author> findByName(String authorName) {
         TypedQuery<Author> query = em.createQuery("""
                 select a 
@@ -63,24 +58,14 @@ public class AuthorRepositoryJpa implements AuthorRepository {
 
     @Override
     @Transactional
-    public boolean update(Author author) {
-        if (em.find(Author.class, author.getId()) != null) {
-            return em.merge(author) != null;
-        } else {
-            throw new DataNotFoundException(String.format("Author with id = %s not found", author.getId()));
-        }
+    public Author update(Author author) {
+        return em.merge(author);
     }
 
     @Override
     @Transactional
-    public boolean delete(long authorId) {
-        Author author = em.find(Author.class, authorId);
-        if (author != null) {
-            em.remove(author);
-            return true;
-        } else {
-            throw new DataNotFoundException(String.format("Author with id = %s not found", authorId));
-        }
+    public void delete(Author author) {
+        em.remove(em.contains(author) ? author : em.merge(author));
     }
 
     @Override
