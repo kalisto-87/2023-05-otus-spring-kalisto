@@ -21,7 +21,7 @@ public class CommentServiceImpl implements CommentService {
     private final BookRepository bookRepository;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Comment> findCommentsByBook(long bookId) {
 
         Book book = bookRepository.findById(bookId).orElseThrow(() ->
