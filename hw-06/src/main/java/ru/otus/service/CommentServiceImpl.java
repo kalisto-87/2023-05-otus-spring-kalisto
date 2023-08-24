@@ -2,6 +2,7 @@ package ru.otus.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.domain.Book;
 import ru.otus.domain.Comment;
 import ru.otus.exception.DataNotFoundException;
@@ -18,6 +19,7 @@ public class CommentServiceImpl implements CommentService {
 
     private final BookRepository bookRepository;
 
+    @Override
     public List<Comment> findCommentsByBook(long bookId) {
         return commentRepository.getCommentsByBook(bookId);
     }
@@ -29,6 +31,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public Comment insert(Comment comment) {
         Book book = bookRepository.findById(comment.getBook().getId()).
                 orElseThrow(() -> new DataNotFoundException(
@@ -37,6 +40,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public Comment update(long commentId, String Text) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() ->
                 new DataNotFoundException(String.format("Comment with id=%s not found", commentId)));
@@ -45,6 +49,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public void delete(long commentId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() ->
                 new DataNotFoundException(String.format("Comment with id=%s not found", commentId)));

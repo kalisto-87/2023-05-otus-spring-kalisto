@@ -2,6 +2,7 @@ package ru.otus.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.domain.Genre;
 import ru.otus.exception.DataNotFoundException;
 import ru.otus.repository.GenreRepository;
@@ -30,6 +31,7 @@ public class GenreServiceImpl implements GenreService {
                 () -> new DataNotFoundException(String.format("Genre with id=%s not found", genreId)));
     }
 
+    @Override
     public List<Genre> findByIds(List<Long> genresId) {
         List<Genre> genres = genresId.stream().map(m -> genreRepository.findById(m).orElseThrow(
                 () -> new DataNotFoundException(String.format("Genre with id=%s not found", m))
@@ -38,11 +40,13 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
+    @Transactional
     public Genre insert(Genre genre) {
         return genreRepository.insert(genre);
     }
 
     @Override
+    @Transactional
     public Genre update(long genreId, String genreName) {
         Genre genre = genreRepository.findById(genreId).orElseThrow(
                 () -> new DataNotFoundException(String.format("Genre with id=%s not found", genreId)));
@@ -51,6 +55,7 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
+    @Transactional
     public void delete(long genreId) {
         Genre genre = genreRepository.findById(genreId).orElseThrow(
                 () -> new DataNotFoundException(String.format("Genre with id=%s not found", genreId)));

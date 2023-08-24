@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CommentConvertToUIImpl implements CommentConvertToUI {
+
     private static final String INSERT_RECORD = "New record has been created in the library %s";
 
     private static final String UPDATE_RECORD = "The record with id=%s has been updated";

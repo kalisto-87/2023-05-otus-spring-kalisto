@@ -2,6 +2,7 @@ package ru.otus.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.domain.Book;
 import ru.otus.exception.DataNotFoundException;
 import ru.otus.repository.BookRepository;
@@ -24,17 +25,20 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findByName(bookName);
     }
 
+    @Override
     public Book findById(long bookId) {
         return bookRepository.findById(bookId).orElseThrow(
                 () -> new DataNotFoundException(String.format("Book with id=%s not found", bookId)));
     }
 
     @Override
+    @Transactional
     public Book insert(Book book) {
         return bookRepository.insert(book);
     }
 
     @Override
+    @Transactional
     public Book update(long bookId, String bookName) {
         Book book = bookRepository.findById(bookId).orElseThrow(
                 () -> new DataNotFoundException(String.format("Book with id=%s not found", bookId)));
@@ -43,6 +47,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public void delete(long bookId) {
         Book book = bookRepository.findById(bookId).orElseThrow(
                 () -> new DataNotFoundException(String.format("Book with id=%s not found", bookId)));

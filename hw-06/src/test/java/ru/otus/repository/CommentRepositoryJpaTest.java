@@ -59,7 +59,7 @@ public class CommentRepositoryJpaTest {
         long commentId = 1L;
         Comment expectedComment = commentRepositoryJpa.findById(commentId).orElse(null);
         assertNotNull(expectedComment);
-        commentRepositoryJpa.delete(commentId);
+        commentRepositoryJpa.delete(expectedComment);
         expectedComment = commentRepositoryJpa.findById(commentId).orElse(null);
         assertNull(expectedComment);
     }
