@@ -72,6 +72,7 @@ public class BookServiceImpl implements BookService {
                 collect(Collectors.joining("\n")));
     }
 
+    @Override
     public String insert(String bookName, List<Long> authorsId, List<Long> genresId) {
         List<Author> authors = authorRepository.findAllById(authorsId);
         List<Genre> genres = genreRepository.findAllById(genresId);
@@ -85,6 +86,7 @@ public class BookServiceImpl implements BookService {
         return String.format(CREATED_BOOK, bookRepository.save(book).getId());
     }
 
+    @Override
     public String update(long bookId, String bookName) {
         Book book = bookRepository.findById(bookId).
                 orElseThrow(() -> new DataNotFoundException(String.format("Book with id=%s not found!", bookId)));

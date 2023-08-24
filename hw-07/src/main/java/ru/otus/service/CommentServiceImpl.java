@@ -28,6 +28,7 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentConverter commentConverter;
 
+    @Override
     public String findCommentsByBook(long bookId) {
         Book book = bookRepository.findById(bookId).
                 orElseThrow(() -> new DataNotFoundException(

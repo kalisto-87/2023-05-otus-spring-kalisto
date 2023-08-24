@@ -46,7 +46,7 @@ public class Book {
 
     @Fetch(FetchMode.JOIN)
     @BatchSize(size = 5)
-    @ManyToMany(targetEntity = Author.class, fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity = Author.class, fetch = FetchType.EAGER)
     @JoinTable(name = "author_books",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
@@ -54,7 +54,7 @@ public class Book {
 
     @Fetch(FetchMode.JOIN)
     @BatchSize(size = 5)
-    @ManyToMany(targetEntity = Genre.class, fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity = Genre.class, fetch = FetchType.EAGER)
     @JoinTable(name = "genre_books",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
