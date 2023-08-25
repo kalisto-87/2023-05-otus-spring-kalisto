@@ -1,14 +1,19 @@
 package ru.otus.service;
 
+import ru.otus.domain.Book;
+import ru.otus.domain.Comment;
+
+import java.util.List;
+
 public interface CommentService {
 
-    String findCommentsByBook(long bookId);
+    List<Comment> findCommentsByBook(Book book);
 
-    String insert(long bookId, String Text);
+    Comment insert(Comment comment);
 
-    String update(long commentId, String Text);
+    Comment update(long commentId, String Text);
 
-    String delete(long authorId);
+    void delete(long commentId);
 
-    String deleteByBook(long bookId);
+    void deleteByBook(Book book);
 }

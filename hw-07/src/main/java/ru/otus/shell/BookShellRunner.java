@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.otus.service.BookService;
+import ru.otus.service.transform.BookConvertToUI;
 
 import java.util.List;
 
@@ -12,40 +12,40 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookShellRunner {
 
-    private final BookService bookService;
+    private final BookConvertToUI bookConvertToUI;
 
     @ShellMethod(value = "get all books in the library", key = {"b-a", "book-all"})
     public String getAll() {
-        return bookService.findAll();
+        return bookConvertToUI.findAll();
     }
 
     @ShellMethod(value = "get all books in the library", key = {"b-f", "book-find"})
     public String getBooksByName(@ShellOption String name) {
-        return bookService.findByName(name);
+        return bookConvertToUI.findByName(name);
     }
 
     @ShellMethod(value = "get all books in the library by author", key = {"b-f-a", "book-find-author"})
     public String getBooksByAuthor(@ShellOption long id) {
-        return bookService.findByAuthorId(id);
+        return bookConvertToUI.findByAuthorId(id);
     }
 
     @ShellMethod(value = "get all books in the library by genre", key = {"b-f-g", "book-find-genre"})
     public String getBooksByGenre(@ShellOption long id) {
-        return bookService.findByGenreId(id);
+        return bookConvertToUI.findByGenreId(id);
     }
 
     @ShellMethod(value = "insert new book", key = {"b-n", "book-new"})
     public String insertBook(@ShellOption String name, @ShellOption long authorId, @ShellOption long genreId) {
-        return bookService.insert(name, List.of(authorId), List.of(genreId));
+        return bookConvertToUI.insert(name, List.of(authorId), List.of(genreId));
     }
 
     @ShellMethod(value = "update book", key = {"b-u", "book-update"})
     public String updateBook(@ShellOption long id, @ShellOption String name) {
-        return bookService.update(id, name);
+        return bookConvertToUI.update(id, name);
     }
 
     @ShellMethod(value = "delete book by id", key = {"b-d", "book-delete"})
     public String deleteBook(@ShellOption long id) {
-        return bookService.delete(id);
+        return bookConvertToUI.delete(id);
     }
 }

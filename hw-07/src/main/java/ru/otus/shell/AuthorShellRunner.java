@@ -4,36 +4,36 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.otus.service.AuthorService;
+import ru.otus.service.transform.AuthorConvertToUI;
 
 @ShellComponent
 @RequiredArgsConstructor
 public class AuthorShellRunner {
 
-    private final AuthorService authorService;
+    private final AuthorConvertToUI authorConvertToUI;
 
     @ShellMethod(value = "get all authors in the library", key = {"au-a", "author-all"})
     public String getAll() {
-        return authorService.findAll();
+        return authorConvertToUI.findAll();
     }
 
     @ShellMethod(value = "get all authors by name", key = {"au-f", "author-find"})
     public String getFindByName(@ShellOption String name) {
-        return authorService.findByName(name);
+        return authorConvertToUI.findByName(name);
     }
 
     @ShellMethod(value = "insert new author", key = {"au-n", "author-new"})
     public String insertAuthor(String name) {
-        return authorService.insert(name);
+        return authorConvertToUI.insert(name);
     }
 
     @ShellMethod(value = "update author", key = {"au-u", "author-update"})
     public String updateAuthor(@ShellOption long id, @ShellOption String name) {
-        return authorService.update(id, name);
+        return authorConvertToUI.update(id, name);
     }
 
     @ShellMethod(value = "delete author by id", key = {"au-d", "author-delete"})
     public String deleteAuthor(@ShellOption long id) {
-        return authorService.delete(id);
+        return authorConvertToUI.delete(id);
     }
 }
