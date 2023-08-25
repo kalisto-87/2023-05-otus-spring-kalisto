@@ -3,7 +3,7 @@ package ru.otus.repository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import ru.otus.domain.Author;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @DisplayName("Репозиторий Author")
-@SpringBootTest
+@DataJpaTest
 public class AuthorRepositoryTest {
 
     @Autowired
@@ -22,7 +22,7 @@ public class AuthorRepositoryTest {
     @Test
     public void checkGetAll() {
         List<Author> authors = authorRepository.findAll();
-        assertEquals(3, authors.size());
+        assertEquals(4, authors.size());
     }
 
     @Test
