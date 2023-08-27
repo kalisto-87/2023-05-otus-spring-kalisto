@@ -22,13 +22,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Transactional
     public Comment insert(Comment comment) {
         return commentRepository.save(comment);
     }
 
     @Override
-    @Transactional
     public Comment update(long commentId, String Text) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() ->
                 new DataNotFoundException(String.format("Comment with id=%s not found", commentId)));
@@ -37,13 +35,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Transactional
     public void delete(long commentId) {
         commentRepository.deleteById(commentId);
     }
 
     @Override
-    @Transactional
     public void deleteByBook(Book book) {
         commentRepository.deleteByBook(book);
     }
