@@ -17,7 +17,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> findCommentsByBook(Book book) {
-        return book.getComments();
+        return commentRepository.findAllByBookId(book.getId());
     }
 
     @Override
@@ -38,8 +38,8 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.deleteById(commentId);
     }
 
-    /*@Override
+    @Override
     public void deleteByBook(Book book) {
-        commentRepository.deleteByBook(book);
-    }*/
+        commentRepository.deleteCommentByBookId(book.getId());
+    }
 }

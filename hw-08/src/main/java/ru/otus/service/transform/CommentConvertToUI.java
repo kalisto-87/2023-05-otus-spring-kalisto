@@ -10,5 +10,5 @@ public interface CommentConvertToUI {
 
     String delete(String commentId);
 
-    //String deleteByBook(String bookId);
+    String deleteByBook(String bookId);
 }

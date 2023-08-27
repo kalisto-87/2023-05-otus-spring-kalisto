@@ -32,8 +32,8 @@ public class CommentShellRunner {
         return commentConvertToUI.delete(commentId);
     }
 
-    /*@ShellMethod(value = "delete comment by book", key = {"com-d-b", "comment-delete-book"})
+    @ShellMethod(value = "delete comment by book", key = {"com-d-b", "comment-delete-book"})
     public String deleteCommentByBook(@ShellOption String bookId) {
         return commentConvertToUI.deleteByBook(bookId);
-    }*/
+    }
 }

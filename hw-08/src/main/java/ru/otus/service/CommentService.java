@@ -15,5 +15,5 @@ public interface CommentService {
 
     void delete(String commentId);
 
-    //void deleteByBook(Book book);
+    void deleteByBook(Book book);
 }

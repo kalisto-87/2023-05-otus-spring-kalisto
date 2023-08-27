@@ -38,7 +38,7 @@ public class CommentConvertToUIImpl implements CommentConvertToUI {
         try {
             Book book = bookService.findById(bookId).orElseThrow(() ->
                     new DataNotFoundException(String.format("Book with id =%s not found", bookId)));
-            return book.getComments().stream().map(com -> commentConverter.convert(com)).
+            return commentService.findCommentsByBook(book).stream().map(com -> commentConverter.convert(com)).
                     collect(Collectors.joining("\n"));
         } catch (DataAccessException e) {
             return e.getMessage();
@@ -78,15 +78,15 @@ public class CommentConvertToUIImpl implements CommentConvertToUI {
         }
     }
 
-    /*@Override
+    @Override
     public String deleteByBook(String bookId) {
         try {
             Book book = bookService.findById(bookId).orElseThrow(() -> new DataNotFoundException(
                     String.format("Book with id=%s not found", bookId)));
-            commentService.deleteByBook(book.getId());
+            commentService.deleteByBook(book);
             return String.format(DELETE_BY_BOOK, bookId);
         } catch (DataAccessException e) {
             return e.getMessage();
         }
-    }*/
+    }
 }
