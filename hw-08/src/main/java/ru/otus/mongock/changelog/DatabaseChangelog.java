@@ -30,18 +30,11 @@ public class DatabaseChangelog {
             new Genre("adventure fiction")
     );
 
-    private final List<Book> books = List.of(
-            new Book("1", "Ulysses", authors.subList(2, 3), genres.subList(0, 1)),
-            new Book("2", "The Star Rover", authors.subList(0, 1), genres.subList(1, 2)),
-            new Book("3", "Martin Iden", authors.subList(0, 1), genres.subList(0, 1)),
-            new Book("4", "Madame Bovary", authors.subList(1, 2), genres.subList(0, 1))
-    );
-
-    private final List<Comment> comments = List.of(
-            new Comment("comment_1", "1"),
-            new Comment("comment_2", "1"),
-            new Comment("comment_3", "2"),
-            new Comment("comment_4", "3")
+    private List<Book> books = List.of(
+            new Book("Ulysses", authors.subList(2, 3), genres.subList(0, 1)),
+            new Book("The Star Rover", authors.subList(0, 1), genres.subList(1, 2)),
+            new Book("Martin Iden", authors.subList(0, 1), genres.subList(0, 1)),
+            new Book("Madame Bovary", authors.subList(1, 2), genres.subList(0, 1))
     );
 
     @ChangeSet(order = "001", id = "DropDb", author = "Corrado Cattani", runAlways = true)
@@ -69,11 +62,17 @@ public class DatabaseChangelog {
 
     @ChangeSet(order = "005", id = "insertBooks", author = " Corrado Cattani", runAlways = true)
     public void insertBooks(BookRepository repository) {
-        repository.saveAll(books);
+        books = repository.saveAll(books);
     }
 
     @ChangeSet(order = "006", id = "commentBooks", author = " Corrado Cattani", runAlways = true)
     public void insertComments(CommentRepository repository) {
+        List<Comment> comments = List.of(
+                new Comment("comment_1", books.get(0).getId()),
+                new Comment("comment_2", books.get(0).getId()),
+                new Comment("comment_3", books.get(1).getId()),
+                new Comment("comment_4", books.get(2).getId())
+        );
         repository.saveAll(comments);
     }
 }
