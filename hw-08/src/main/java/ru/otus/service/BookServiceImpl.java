@@ -33,12 +33,12 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> findByAuthorId(String author) {
-        return bookRepository.findBookByAuthorsIs(author);
+        return bookRepository.findBookByAuthorsId(author);
     }
 
     @Override
     public List<Book> findByGenreId(String genre) {
-        return bookRepository.findBookByGenresIs(genre);
+        return bookRepository.findBookByGenresId(genre);
     }
 
     @Override
