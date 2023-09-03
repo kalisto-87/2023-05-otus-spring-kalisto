@@ -46,11 +46,11 @@ public class CommentConvertToUIImpl implements CommentConvertToUI {
     }
 
     @Override
-    public String insert(String bookId, String Text) {
+    public String insert(String bookId, String text) {
         try {
             Book book = bookService.findById(bookId).orElseThrow(() -> new DataNotFoundException(
                     String.format("Book with id=%s not found", bookId)));
-            Comment comment = new Comment(Text, book.getId());
+            Comment comment = new Comment(text, book.getId());
             comment = commentService.insert(comment);
             return String.format(INSERT_RECORD, commentConverter.convert(comment));
         } catch (DataNotFoundException e) {
@@ -59,9 +59,9 @@ public class CommentConvertToUIImpl implements CommentConvertToUI {
     }
 
     @Override
-    public String update(String commentId, String Text) {
+    public String update(String commentId, String text) {
         try {
-            commentService.update(commentId, Text);
+            commentService.update(commentId, text);
             return String.format(UPDATE_RECORD, commentId);
         } catch (DataAccessException e) {
             return e.getMessage();

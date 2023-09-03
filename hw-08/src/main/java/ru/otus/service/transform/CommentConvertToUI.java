@@ -4,9 +4,9 @@ public interface CommentConvertToUI {
 
     String findCommentsByBook(String bookId);
 
-    String insert(String bookId, String Text);
+    String insert(String bookId, String text);
 
-    String update(String commentId, String Text);
+    String update(String commentId, String text);
 
     String delete(String commentId);
 
