@@ -80,7 +80,7 @@ public class AuthorServiceImplTest {
     @Test
     @DisplayName("Удалить автора по идентификатору")
     public void checkDeleteAuthor() {
-        String authorId = "4L";
+        String authorId = "4";
         String expectedValue = String.format("The record with id=%s has been deleted from the library", authorId);
         doNothing().when(authorService).delete(authorId);
         assertEquals(expectedValue, authorConvertToUI.delete(authorId));
