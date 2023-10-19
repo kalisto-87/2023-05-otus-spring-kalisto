@@ -25,8 +25,6 @@ public class Book {
 
     private List<Genre> genres;
 
-    private List<Comment> comments;
-
     public Book(String id, String title, List<Author> authors, List<Genre> genres) {
         this.id = id;
         this.title = title;

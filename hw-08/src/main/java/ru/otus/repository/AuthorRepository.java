@@ -7,7 +7,5 @@ import java.util.List;
 
 public interface AuthorRepository extends MongoRepository<Author, String> {
 
-    List<Author> findAll();
-
     List<Author> findByNameContainingIgnoreCase(String name);
 }

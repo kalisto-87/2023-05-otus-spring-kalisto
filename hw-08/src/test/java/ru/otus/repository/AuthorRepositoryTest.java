@@ -35,7 +35,8 @@ public class AuthorRepositoryTest {
     @Test
     public void checkFindId() {
         List<Author> findAuthor = authorRepository.findByNameContainingIgnoreCase("Jack London");
-        Author author = authorRepository.findById(findAuthor.get(0).getId()).orElse(null);
+        String authorId = findAuthor.get(0).getId();
+        Author author = authorRepository.findById(authorId).orElse(null);
         Author expectedAuthor = new Author(findAuthor.get(0).getId(), "Jack London");
         assertEquals(expectedAuthor, author);
     }

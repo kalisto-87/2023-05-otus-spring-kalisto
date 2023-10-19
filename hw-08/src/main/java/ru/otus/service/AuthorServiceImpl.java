@@ -3,8 +3,10 @@ package ru.otus.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.domain.Author;
+import ru.otus.domain.Book;
 import ru.otus.exception.DataNotFoundException;
 import ru.otus.repository.AuthorRepository;
+import ru.otus.repository.BookRepository;
 
 import java.util.List;
 
@@ -13,6 +15,8 @@ import java.util.List;
 public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorRepository authorRepository;
+
+    private final BookRepository bookRepository;
 
     @Override
     public List<Author> findAll() {
@@ -47,6 +51,9 @@ public class AuthorServiceImpl implements AuthorService {
         Author author = authorRepository.findById(authorId).orElseThrow(
                 () -> new DataNotFoundException(String.format("Author with id=%s not found", authorId)));
         author.setName(authorName);
+        List<Book> books = bookRepository.findBookByAuthorsId(authorId);
+        books.forEach(b -> b.getAuthors().forEach(a -> a.setName(authorName)));
+        books.forEach(b -> bookRepository.save(b));
         return authorRepository.save(author);
     }
 
@@ -54,6 +61,10 @@ public class AuthorServiceImpl implements AuthorService {
     public void delete(String authorId) {
         Author author = authorRepository.findById(authorId).orElseThrow(
                 () -> new DataNotFoundException(String.format("Author with id=%s not found", authorId)));
+        List<Book> books = bookRepository.findBookByAuthorsId(authorId);
+        if (books.size() > 0) {
+            throw new DataNotFoundException("Operation is not acceptable. There are the books belonging to this author");
+        }
         authorRepository.delete(author);
     }
 }

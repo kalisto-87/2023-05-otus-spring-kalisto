@@ -7,7 +7,5 @@ import java.util.List;
 
 public interface GenreRepository extends MongoRepository<Genre, String> {
 
-    List<Genre> findAll();
-
     List<Genre> findByNameContainingIgnoreCase(String name);
 }

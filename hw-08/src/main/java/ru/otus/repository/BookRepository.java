@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface BookRepository extends MongoRepository<Book, String > {
 
-    List<Book> findAll();
-
     List<Book> findByTitleContainingIgnoreCase(String name);
 
     List<Book> findBookByAuthorsId(String id);

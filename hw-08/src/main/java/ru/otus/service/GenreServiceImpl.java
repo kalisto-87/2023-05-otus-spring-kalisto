@@ -3,8 +3,10 @@ package ru.otus.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.otus.domain.Book;
 import ru.otus.domain.Genre;
 import ru.otus.exception.DataNotFoundException;
+import ru.otus.repository.BookRepository;
 import ru.otus.repository.GenreRepository;
 
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.List;
 public class GenreServiceImpl implements GenreService {
 
     private final GenreRepository genreRepository;
+
+    private final BookRepository bookRepository;
 
     @Override
     public List<Genre> findAll() {
@@ -51,6 +55,9 @@ public class GenreServiceImpl implements GenreService {
         Genre genre = genreRepository.findById(genreId).orElseThrow(
                 () -> new DataNotFoundException(String.format("Genre with id=%s not found", genreId)));
         genre.setName(genreName);
+        List<Book> books = bookRepository.findBookByGenresId(genreId);
+        books.forEach(b -> b.getGenres().forEach(g -> g.setName(genreName)));
+        books.forEach(b -> bookRepository.save(b));
         return genreRepository.save(genre);
     }
 
@@ -59,6 +66,10 @@ public class GenreServiceImpl implements GenreService {
     public void delete(String genreId) {
         Genre genre = genreRepository.findById(genreId).orElseThrow(
                 () -> new DataNotFoundException(String.format("Genre with id=%s not found", genreId)));
+        List<Book> books = bookRepository.findBookByGenresId(genreId);
+        if (books.size() > 0) {
+            throw new DataNotFoundException("Operation is not acceptable. There are the books of this genre");
+        }
         genreRepository.delete(genre);
     }
 }
