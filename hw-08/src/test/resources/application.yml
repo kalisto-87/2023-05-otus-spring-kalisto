@@ -1,0 +1,15 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+    data:
+      mongodb:
+        database: library
+        port: 27017
+  shell:
+    interactive:
+      enabled: false
+
+mongock:
+  runner-type: "ApplicationRunner"
+  change-logs-scan-package:
+    - ru.otus.mongock.changelog
