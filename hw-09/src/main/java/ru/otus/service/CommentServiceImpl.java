@@ -29,7 +29,7 @@ public class CommentServiceImpl implements CommentService {
     public Comment update(long commentId, String text) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() ->
                 new DataNotFoundException(String.format("Comment with id=%s not found", commentId)));
-        comment.setText(Text);
+        comment.setText(text);
         return commentRepository.save(comment);
     }
 
