@@ -3,6 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .persons {
+            border: 1px solid steelblue;
+            width: 300px;
+            border-collapse: collapse;
+        }
+
+        .persons tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .persons td:last-child, td:first-child {
+            width: 50px;
+        }
+    </style>
 </head>
 <body>
 <h3>Books:</h3>
@@ -12,13 +32,26 @@
     <th th:text="#{book-field-id}">ID</th>
     <th th:text="#{book-field-title}">Title</th>
     <th th:text="#{book-field-authors}">Authors</th>
+    <th th:text="#{book-field-genres}">Genres</th>
 </tr>
 </thead>
     <tbody>
     <tr th:each="book: ${books}" >
         <td th:text="${book.id}"></td>
         <td th:text="${book.title}"></td>
-        <td th:text="${book.getAuthors}"></td>
+        <td>
+            <div th:each="author: ${book.getAuthors()}">
+                <div th:text="${author.name}"></div>
+            </div>
+        </td>
+        <td>
+            <div th:each="genre: ${book.getGenres()}">
+                <div th:text="${genre.name}"></div>
+            </div>
+        </td>
+        <td>
+            <a href="edit.html" th:href="@{/book(id=${book.id})}">Edit</a>
+        </td>
     </tr>
     </tbody>
 </table>
