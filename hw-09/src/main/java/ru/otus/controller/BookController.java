@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.otus.domain.Author;
@@ -36,12 +37,19 @@ public class BookController {
 
     @GetMapping("/book")
     public String bookEdit(@RequestParam long id, Model model) {
-        Book book = bookService.findById(id).orElseThrow(() -> new DataNotFoundException(""));
+        Book book = bookService.findById(id).
+                orElseThrow(() -> new DataNotFoundException(String.format("The book with id = %s not found", id)));
         model.addAttribute("book", book);
         List<Author> authors = authorService.findAll();
         model.addAttribute("authors", authors);
         List<Genre> genres = genreService.findAll();
         model.addAttribute("genres", genres);
         return "book/edit";
+    }
+
+    @PostMapping("/edit")
+    public String saveBook(Book book) {
+
+        return "redirect:/book/list";
     }
 }

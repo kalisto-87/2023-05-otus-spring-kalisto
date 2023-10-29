@@ -27,7 +27,7 @@
 
     <div class="row">
         <label for="book-author-input">Author:</label>
-        <select id="book-author-input" th:field="${book.getAuthors().get(0).name}">
+        <select id="book-author-input" multiple>
             <option th:each="a : ${authors}"
                     th:value="${a.id}"
                     th:text="${a.name}"
@@ -44,6 +44,13 @@
                     th:text="${g.name}">
             </option>
         </select>
+    </div>
+
+    <div class="row">
+        <button type="submit">Save</button>
+        <a href="list.html" th:href="@{/book/list}">
+            <button type="button">Cancel</button>
+        </a>
     </div>
 
 </form>
