@@ -3,10 +3,7 @@ package ru.otus.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.otus.domain.Author;
 import ru.otus.domain.Book;
 import ru.otus.domain.Genre;
@@ -23,6 +20,8 @@ import java.util.List;
 public class BookController {
 
     private final BookService bookService;
+
+    private final BookRepository bookRepository;
 
     private final AuthorService authorService;
 
@@ -47,9 +46,16 @@ public class BookController {
         return "book/edit";
     }
 
-    @PostMapping("/edit")
-    public String saveBook(Book book) {
+    /*@PostMapping("/book")
+    public String bookCreate(@ModelAttribute Book book) {
+        return "redirect:/book/list";
+    }*/
 
+    @PostMapping(value = "/book")
+    public String saveBook(Book book) {
+        //Book book1 = bookService.findById(id).orElseThrow(() -> new DataNotFoundException("Book not found!"));
+        bookRepository.save(book);
+        //где взять атрибуты!!!
         return "redirect:/book/list";
     }
 }
