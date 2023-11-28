@@ -3,8 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <style>
+        .row {
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
 
+<form id="edit-form" action="edit.html" th:method="post" th:action="@{/book}" th:object="${book}">
+    <h3>New book</h3>
+
+    <div class="row">
+        <label for="book-name-input">Name:</label>
+        <input id="book-name-input" name="title" type="text" value="new title"/>
+    </div>
+
+    <div class="row">
+        <label for="book-author-input">Authors:</label>
+        <select id="book-author-input" th:field="*{authors}" multiple>
+            <option th:each="a : ${authors}"
+                    th:value="${a.id}"
+                    th:text="${a.name}">
+            </option>
+        </select>
+    </div>
+
+    <div class="row">
+        <label for="book-genre-input">Genres:</label>
+        <select id="book-genre-input" th:field="*{genres}">
+            <option th:each="g : ${genres}"
+                    th:value="${g.id}"
+                    th:text="${g.name}">
+            </option>
+        </select>
+    </div>
+
+    <div class="row">
+        <button type="submit">Save</button>
+        <a href="list.html" th:href="@{/book/list}">
+            <button type="button">Cancel</button>
+        </a>
+    </div>
+
+</form>
 </body>
 </html>

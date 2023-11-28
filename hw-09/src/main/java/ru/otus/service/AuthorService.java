@@ -1,21 +1,21 @@
 package ru.otus.service;
 
-import ru.otus.domain.Author;
+import ru.otus.dto.AuthorDto;
 
 import java.util.List;
 
 public interface AuthorService {
-    List<Author> findAll();
+    List<AuthorDto> findAll();
 
-    List<Author> findByName(String authorName);
+    List<AuthorDto> findByName(String authorName);
 
-    List<Author> findByIds(List<Long> authorsId);
+    List<AuthorDto> findByIds(List<Long> authorsId);
 
-    Author findById(long authorId);
+    AuthorDto findById(long authorId);
 
-    Author insert(Author author);
+    AuthorDto insert(AuthorDto authorDto);
 
-    Author update(long authorId, String authorName);
+    AuthorDto update(AuthorDto authorDto);
 
     void delete(long authorId);
 }

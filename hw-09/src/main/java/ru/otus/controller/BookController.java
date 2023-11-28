@@ -3,12 +3,14 @@ package ru.otus.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import ru.otus.domain.Author;
-import ru.otus.domain.Book;
-import ru.otus.domain.Genre;
-import ru.otus.exception.DataNotFoundException;
-import ru.otus.repository.BookRepository;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import ru.otus.dto.AuthorDto;
+import ru.otus.dto.BookDto;
+import ru.otus.dto.GenreDto;
 import ru.otus.service.AuthorService;
 import ru.otus.service.BookService;
 import ru.otus.service.GenreService;
@@ -21,41 +23,61 @@ public class BookController {
 
     private final BookService bookService;
 
-    private final BookRepository bookRepository;
-
     private final AuthorService authorService;
 
     private final GenreService genreService;
 
     @GetMapping("/book/list")
     public String bookList(Model model) {
-        List<Book> books = bookService.findAll();
-        model.addAttribute("books", books);
+        List<BookDto> bookDtoList = bookService.findAll();
+        model.addAttribute("books", bookDtoList);
         return "/book/list";
     }
 
     @GetMapping("/book")
     public String bookEdit(@RequestParam long id, Model model) {
-        Book book = bookService.findById(id).
-                orElseThrow(() -> new DataNotFoundException(String.format("The book with id = %s not found", id)));
-        model.addAttribute("book", book);
-        List<Author> authors = authorService.findAll();
+        BookDto bookDto = bookService.findById(id);
+        model.addAttribute("book", bookDto);
+        List<AuthorDto> authors = authorService.findAll();
         model.addAttribute("authors", authors);
-        List<Genre> genres = genreService.findAll();
+        List<GenreDto> genres = genreService.findAll();
         model.addAttribute("genres", genres);
         return "book/edit";
     }
 
-    /*@PostMapping("/book")
-    public String bookCreate(@ModelAttribute Book book) {
-        return "redirect:/book/list";
-    }*/
+    @GetMapping("/book/create")
+    public String bookCreate(Model model) {
+        BookDto bookDto = new BookDto();
+        model.addAttribute("book", bookDto);
 
-    @PostMapping(value = "/book")
-    public String saveBook(Book book) {
-        //Book book1 = bookService.findById(id).orElseThrow(() -> new DataNotFoundException("Book not found!"));
-        bookRepository.save(book);
-        //где взять атрибуты!!!
+        List<AuthorDto> authors = authorService.findAll();
+        model.addAttribute("authors", authors);
+
+        List<GenreDto> genres = genreService.findAll();
+        model.addAttribute("genres", genres);
+
+        return "book/create";
+    }
+
+    @PostMapping("/book")
+    public String bookCreate(@ModelAttribute BookDto book) {
+
+        bookService.insert(book);
         return "redirect:/book/list";
     }
+
+    @PostMapping(value = "/book", params = {"id"})
+    public String bookUpdate(@RequestParam long id, @ModelAttribute BookDto bookDto) {
+
+        bookDto.setId(id);
+        bookService.update(bookDto);
+        return "redirect:/book/list";
+    }
+
+    @PostMapping("/book/{id}")
+    public String bookDelete(@PathVariable long id) {
+        bookService.delete(id);
+        return "redirect:/book/list";
+    }
+
 }

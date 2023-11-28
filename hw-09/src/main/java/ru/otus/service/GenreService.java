@@ -1,21 +1,21 @@
 package ru.otus.service;
 
-import ru.otus.domain.Genre;
+import ru.otus.dto.GenreDto;
 
 import java.util.List;
 
 public interface GenreService {
-    List<Genre> findAll();
+    List<GenreDto> findAll();
 
-    List<Genre> findByName(String genreName);
+    List<GenreDto> findByName(String genreName);
 
-    List<Genre> findByIds(List<Long> genresId);
+    List<GenreDto> findByIds(List<Long> genresId);
 
-    Genre findById(long genreId);
+    GenreDto findById(long genreId);
 
-    Genre insert(Genre genre);
+    GenreDto insert(GenreDto genreDto);
 
-    Genre update(long genreId, String genreName);
+    GenreDto update(GenreDto genreDto);
 
     void delete(long genreId);
 }
