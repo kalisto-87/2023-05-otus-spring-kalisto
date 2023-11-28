@@ -46,8 +46,9 @@
         <th th:text="#{book-field-title}">Title</th>
         <th th:text="#{book-field-authors}">Authors</th>
         <th th:text="#{book-field-genres}">Genres</th>
-        <th>Change</th>
-        <th>Remove</th>
+        <th th:text="#{book-field-change}">Change</th>
+        <th th:text="#{book-field-remove}">Remove</th>
+        <th th:text="#{book-field-comments}">Comments</th>
     </tr>
     </thead>
     <tbody>
@@ -70,7 +71,9 @@
         <td>
             <a href="javascript:void(0);" th:onclick="'bookDelete(' + ${book.id} + ')'">Delete</a>
         </td>
-
+        <td>
+            <a href="../comment/list.html" th:href="@{/comment/list/__${book.id}__}">See comments</a>
+        </td>
     </tr>
     </tbody>
 </table>
