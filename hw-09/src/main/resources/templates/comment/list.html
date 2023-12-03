@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function commentDelete(id) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/comment/' + id;
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
+</head>
+<body>
+    <h3>Comments:</h3>
+
+    <table class="comments">
+        <tbody>
+        <tr th:each="comment: ${comments}">
+            <td th:text="${comment.text}"></td>
+            <td>
+                <a href="javascript:void(0);" th:onclick="'commentDelete(' + ${comment.id} + ')'">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>
