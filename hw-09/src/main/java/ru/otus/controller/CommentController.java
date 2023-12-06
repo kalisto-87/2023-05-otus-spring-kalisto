@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import ru.otus.domain.Comment;
 import ru.otus.dto.BookDto;
 import ru.otus.dto.CommentDto;
 import ru.otus.service.BookService;
@@ -30,7 +31,8 @@ public class CommentController {
 
     @PostMapping("/comment/{id}")
     public String deleteCommentsById(@PathVariable long id) {
+        Comment comment = commentService.findCommentById(id);
         commentService.delete(id);
-        return "redirect:/comment/list";
+        return "redirect:/comment/list/" + comment.getBook().getId();
     }
 }

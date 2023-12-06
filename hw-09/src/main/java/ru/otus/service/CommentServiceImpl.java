@@ -28,6 +28,12 @@ public class CommentServiceImpl implements CommentService {
     private final BookMapper bookMapper;
 
     @Override
+    public Comment findCommentById(long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(()-> new DataNotFoundException(String.format("Comment with id=%s not found", commentId)));
+        return comment;
+    }
+
+    @Override
     public List<CommentDto> findCommentsByBook(BookDto bookDto) {
         Book book = bookRepository.findById(bookDto.getId()).orElseThrow(
                 () -> new DataNotFoundException(String.format("Book with id=%s not found", bookDto.getId())));
