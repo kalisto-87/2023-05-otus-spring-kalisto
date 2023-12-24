@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymleaf.org">
+<head>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .books {
+            border: 1px solid #07f614;
+            width: 300px;
+            border-collapse: collapse;
+        }
+
+        .books tr td, th {
+            padding: 5px;
+            border: 1px solid #f5095a;
+        }
+
+        .books td:last-child, td:first-child {
+            width: 350px;
+        }
+        .comments {
+            border: 1px solid #d308ea;
+            width: 300px;
+            border-collapse: collapse;
+        }
+
+        .comments tr td, th {
+            padding: 5px;
+            border: 1px solid #0915f5;
+        }
+
+        .comments td:last-child, td:first-child {
+            width: 350px;
+        }
+    </style>
+    </style>
+    <title>Book page</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+          crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="text-left>">
+        <h3>Book info:</h3>
+        <h5>Title</h5>
+        <tbook></tbook>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+<div class="container">
+    <h5>Author</h5>
+    <tauthor></tauthor>
+</div>
+<div class="container">
+    <h5>Genre</h5>
+    <tgenre></tgenre>
+</div>
+<div class="container">
+    <p/>
+    <h5>Feedbacks</h5>
+    <tcomment></tcomment>
+</div>
+<script>
+    var id = window.location.pathname.split("/")[2]
+    $(function () {
+        $.get('/api/book/' + id).done(function (book) {
+                $('tbook').append(`
+                    <p>${book.title}</p>
+                        `)
+            for (let i = 0; i < book.authors.length; i++) {
+               $('tauthor').append(`
+               <p>${book.authors[i].name}</p>
+               `)
+            }
+            for (let i = 0; i < book.genres.length; i++) {
+               $('tgenre').append(`
+               <p>${book.genres[i].name}</p>
+               `)
+            }
+            });
+        $.get('/api/book/' + id + '/comment').done(function (comment) {
+            for (let i = 0; i < comment.length; i++) {
+                $('tcomment').append(`
+                <span>-------------------------------------</span>
+                    <p>${comment[i].text}</p>
+                `)
+            }
+            });
+    });
+</script>
+</body>
+</html>

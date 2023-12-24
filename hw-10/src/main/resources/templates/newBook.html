@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymleaf.org">
+<head>
+    <style>
+        body {
+            background-color: #ecb378;
+        }
+    </style>
+    <title>Add book</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+          crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+<script>
+    function addBook() {
+        const savedBookContainer = document.getElementById("saved")
+        const titleInput = document.getElementById("title")
+        const authorNameInput = document.getElementById("book-author-input")
+        const genreNameInput = document.getElementById("book-genre-input")
+        const book = { title: titleInput.value, authorName: authorNameInput.value,  genreName: genreNameInput.value}
+
+
+        fetch("api/author/" + authorNameInput.value).then((response) => response.json()).then((json) => console.log(json))
+
+        fetch("api/book", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(book)})
+            .then(rawResponse => rawResponse.json())
+            .then(json => savedBookContainer.innerHTML = JSON.stringify(json, null, 4))
+    }
+</script>
+<div class="container">
+    <div class="text-left>">
+        <h3>Add book</h3>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+
+<form method="get" th:action="@{/library}">
+    <div class="d-grid gap-2">
+        <input type="text" id="title" placeHolder="Title"/>
+        <select id="book-author-input" multiple>
+        </select>
+        <select id="book-genre-input" multiple>
+        </select>
+        <button type="button" onclick="addBook()">Add new book</button>
+        <button type="submit">Back</button>
+    </div>
+</form>
+
+<script>
+    $(function () {
+        $.get('/api/author').done(function (authors) {
+            for (let i = 0; i < authors.length; i++) {
+                $('#book-author-input').
+                append('<option value="' + authors[i].id + '">' + authors[i].name + '</option>');
+            }
+            });
+        $.get('/api/genre').done(function (genres) {
+            for (let i = 0; i < genres.length; i++) {
+                $('#book-genre-input').
+                append('<option value="' + genres[i].id + '">' + genres[i].name + '</option>');
+            }
+            });
+    });
+</script>
+
+</body>
+</html>
