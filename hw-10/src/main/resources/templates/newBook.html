@@ -19,14 +19,31 @@
 <body>
 <script>
     function addBook() {
-        const savedBookContainer = document.getElementById("saved")
         const titleInput = document.getElementById("title")
-        const authorNameInput = document.getElementById("book-author-input")
-        const genreNameInput = document.getElementById("book-genre-input")
-        const book = { title: titleInput.value, authorName: authorNameInput.value,  genreName: genreNameInput.value}
 
+        var authorNameInput = document.getElementById("book-author-input").selectedOptions
+        var authorIds = Array.from(authorNameInput).map(({ value }) => value)
 
-        fetch("api/author/" + authorNameInput.value).then((response) => response.json()).then((json) => console.log(json))
+        var genreNameInput = document.getElementById("book-genre-input").selectedOptions
+        var genreIds = Array.from(genreNameInput).map(({ value }) => value)
+
+        var authors = []
+        for (let i = 0; i < authorIds.length; i++) {
+
+            fetch("api/author/" + authorIds[i]).then((response) => response.json()).then((json) => {
+                   console.log(json);
+                   authors.push(json);
+            })
+        }
+
+        var genres = []
+        for (let i = 0; i < genreIds.length; i++) {
+            fetch("api/genre/" + genreIds[i]).then((response) => response.json()).then((json) => {
+                   console.log(json);
+                   genres.push(json);
+            })
+        }
+        const book = { title: titleInput.value, authors: authors,  genres: genres}
 
         fetch("api/book", {
             method: 'POST',
@@ -36,7 +53,7 @@
             },
             body: JSON.stringify(book)})
             .then(rawResponse => rawResponse.json())
-            .then(json => savedBookContainer.innerHTML = JSON.stringify(json, null, 4))
+
     }
 </script>
 <div class="container">
