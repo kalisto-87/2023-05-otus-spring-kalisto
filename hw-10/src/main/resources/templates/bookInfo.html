@@ -1,41 +1,46 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymleaf.org">
 <head>
     <style type="text/css">
         body {
             padding: 50px;
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+            color: #495057;
         }
 
-        .books {
-            border: 1px solid #07f614;
-            width: 300px;
-            border-collapse: collapse;
+        h3, h5 {
+            color: #343a40;
         }
 
-        .books tr td, th {
-            padding: 5px;
-            border: 1px solid #f5095a;
+        h5 {
+            border-bottom: 2px solid #6c757d;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
         }
 
-        .books td:last-child, td:first-child {
-            width: 350px;
-        }
-        .comments {
-            border: 1px solid #d308ea;
-            width: 300px;
-            border-collapse: collapse;
+        tbook, tauthor, tgenre, tcomment {
+            font-size: 18px;
         }
 
-        .comments tr td, th {
-            padding: 5px;
-            border: 1px solid #0915f5;
+        .feedbacks {
+            background-color: #e1e1e1; /* Новый цвет фона */
+            padding: 15px; /* Увеличено расстояние между текстом и границей блока */
+            border-radius: 10px;
+            margin-top: 20px; /* Расстояние между блоками */
         }
 
-        .comments td:last-child, td:first-child {
-            width: 350px;
+        .feedbacks p {
+            margin: 0;
         }
-    </style>
+
+        .container {
+            text-align: left;
+            background-color: #d0e3f0;
+            padding: 10px;
+            border-radius: 15px;
+            margin-bottom: 20px; /* Расстояние между блоками */
+        }
     </style>
     <title>Book page</title>
     <link rel="stylesheet" th:href="@{/styles.css}"/>
@@ -48,7 +53,7 @@
 </head>
 <body>
 <div class="container">
-    <div class="text-left>">
+    <div class="text-left">
         <h3>Book info:</h3>
         <h5>Title</h5>
         <tbook></tbook>
@@ -66,36 +71,30 @@
     <tgenre></tgenre>
 </div>
 <div class="container">
-    <p/>
     <h5>Feedbacks</h5>
-    <tcomment></tcomment>
+    <div class="feedbacks">
+        <tcomment></tcomment>
+    </div>
 </div>
 <script>
     var id = window.location.pathname.split("/")[2]
     $(function () {
         $.get('/api/book/' + id).done(function (book) {
-                $('tbook').append(`
-                    <p>${book.title}</p>
-                        `)
+            $('tbook').append(`<p>${book.title}</p>`)
             for (let i = 0; i < book.authors.length; i++) {
-               $('tauthor').append(`
-               <p>${book.authors[i].name}</p>
-               `)
+               $('tauthor').append(`<p>${book.authors[i].name}</p>`)
             }
             for (let i = 0; i < book.genres.length; i++) {
-               $('tgenre').append(`
-               <p>${book.genres[i].name}</p>
-               `)
+               $('tgenre').append(`<p>${book.genres[i].name}</p>`)
             }
-            });
+        });
         $.get('/api/book/' + id + '/comment').done(function (comment) {
             for (let i = 0; i < comment.length; i++) {
                 $('tcomment').append(`
-                <span>-------------------------------------</span>
                     <p>${comment[i].text}</p>
                 `)
             }
-            });
+        });
     });
 </script>
 </body>

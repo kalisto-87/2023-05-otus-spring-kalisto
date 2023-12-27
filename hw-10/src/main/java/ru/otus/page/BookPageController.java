@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.otus.domain.Book;
 import ru.otus.domain.Comment;
@@ -38,6 +39,11 @@ public class BookPageController {
         this.commentMapper = commentMapper;
     }
 
+    @GetMapping()
+    public String mainPage() {
+        return "index";
+    }
+
     @GetMapping("/library")
     public String getLibrary() {
         return "library";
@@ -51,6 +57,26 @@ public class BookPageController {
     @GetMapping("add")
     public String getPageForBookProperties() {
         return "newBook";
+    }
+
+    @GetMapping("/author")
+    public String getAuthors() {
+        return "authors";
+    }
+
+    @GetMapping("addAuthor")
+    public String addAuthor() {
+        return "addAuthor";
+    }
+
+    @GetMapping("editAuthor")
+    public String editAuthor() {
+        return "editAuthor";
+    }
+
+    @GetMapping("/genre")
+    public String getGenres() {
+        return "genres";
     }
 
 }

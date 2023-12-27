@@ -19,6 +19,7 @@
 <body>
 <script>
     function addBook() {
+        const savedBookContainer = document.getElementById("saved-book")
         const titleInput = document.getElementById("title")
 
         var authorNameInput = document.getElementById("book-author-input").selectedOptions
@@ -53,6 +54,7 @@
             },
             body: JSON.stringify(book)})
             .then(rawResponse => rawResponse.json())
+            .then(json => savedBookContainer.innerHTML = JSON.stringify(json, null, 4))
 
     }
 </script>
@@ -76,6 +78,10 @@
         <button type="submit">Back</button>
     </div>
 </form>
+
+<h3>Saved book:</h3>
+<pre id = "saved-book"></pre>
+
 
 <script>
     $(function () {
