@@ -1,6 +1,13 @@
 package ru.otus.rest;
 
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.otus.dto.GenreDto;
 import ru.otus.service.GenreService;
 
@@ -30,4 +37,16 @@ public class GenreController {
     public GenreDto createAuthor(@RequestBody GenreDto genreDto) {
         return genreService.insert(genreDto);
     }
+
+    @PutMapping("api/genre/{id}")
+    public void editGenre(@RequestBody GenreDto genreDto) {
+        genreService.update(genreDto);
+    }
+
+    @DeleteMapping("api/genre/{id}")
+    public void deleteGenre(@PathVariable("id") long genreId) {
+        genreService.delete(genreId);
+    }
+
+
 }

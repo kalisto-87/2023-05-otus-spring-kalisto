@@ -31,9 +31,9 @@ public class AuthorController {
         return authorService.insert(authorDto);
     }
 
-    @PutMapping("api/author/{id}")
-    public void editAuthor(@RequestBody AuthorDto authorDto) {
-        authorService.update(authorDto);
+    @PutMapping("api/author")
+    public AuthorDto editAuthor(@RequestBody AuthorDto authorDto) {
+        return authorService.update(authorDto);
     }
 
     @DeleteMapping("api/author/{id}")

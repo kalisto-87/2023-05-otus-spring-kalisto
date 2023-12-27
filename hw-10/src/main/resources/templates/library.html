@@ -56,7 +56,15 @@
             background-color: #ecf0f1; /* Цвет фона при наведении */
         }
 
+        .action-links a {
+            text-decoration: none;
+            color: #3498db;
+            transition: color 0.3s ease;
+        }
 
+        .action-links a:hover {
+            color: #297fb8;
+        }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
@@ -84,7 +92,7 @@
     </div>
 </div>
 <div class="container">
-    <div class="text-right">
+    <div class="text-right action-links">
         <form method="get" th:action="@{/add}">
             <button type="submit" class="btn btn-success">New book</button>
             <br/>
@@ -101,14 +109,16 @@
                         <td nowrap>${book.title}</td>
                         <td>${book.authors[0].name}</td>
                         <td>${book.genres[0].name}</td>
-                        <td nowrap><a href=/book/${book.id} class="card-link" style="font-size:12px;">More details</a><p/>
-                        <a href=/addcomment/${book.id} class="card-link" style="font-size:12px;">Add Comment</a>
+                        <td nowrap>
+                            <a href=/book/${book.id} class="card-link" style="font-size:12px;">More details</a><p/>
+                            <a href=/addcomment/${book.id} class="card-link" style="font-size:12px;">Add Comment</a>
                         </td>
-                        </tr>
-                        `)
+                    </tr>
+                `)
             });
         })
     });
 </script>
 </div>
 </body>
+</html>

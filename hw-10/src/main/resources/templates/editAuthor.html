@@ -55,29 +55,29 @@
     </style>
     <script>
         function saveAuthor() {
-        const savedPersonContainer = document.getElementById("saved-person")
-        const authorIdInput = document.getElementById("authorId")
-        const authorNameInput = document.getElementById("authorName")
-        const author = { id: authorIdInput; name: authorNameInput.value}
-        fetch("api/author", {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(author)})
-            .then(rawResponse => rawResponse.json())
-            .then(json => savedPersonContainer.innerHTML = JSON.stringify(json, null, 4))
+            const savedPersonContainer = document.getElementById("saved-person")
+            const authorIdInput = document.getElementById("authorId")
+            const authorNameInput = document.getElementById("authorName")
+            const author = { id: authorIdInput.value, name: authorNameInput.value}
+            fetch("api/author", {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(author)})
+                .then(rawResponse => rawResponse.json())
+                .then(json => savedPersonContainer.innerHTML = JSON.stringify(json, null, 4))
         }
     </script>
     <title>Edit Author</title>
 </head>
 <body>
 
-<form id="editAuthorForm" action="/author" method="get">
+<form id="editAuthorForm" method="get" th:action="@{/author(id=${author.id})}" th:object="${author}">
     <label for="authorName">Author Name:</label>
-    <input type="text" id="authorId" name="ID" required>
-    <input type="text" id="authorName" name="authorName" required>
+    <input type="hidden" id="authorId" name="ID" readonly th:value="*{id}">
+    <input type="text" id="authorName" name="authorName" th:value="*{name}" required>
     <button type="button" onclick="saveAuthor()" id="saveButton">Save</button>
     <button type="submit" class="cancel">Cancel</button>
 </form>
