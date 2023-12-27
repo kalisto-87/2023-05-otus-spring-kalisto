@@ -3,17 +3,65 @@
       xmlns:th="http://www.thymleaf.org">
 <head>
     <style>
-        body {
-            background-color: #ecb378;
-        }
+
+.container {
+    width: 60%;
+    text-align: left;
+    background-color: #d0e3f0;
+    padding: 10px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+h3 {
+    color: #1565c0;
+}
+
+form {
+    width: 60%;
+    margin: 20px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 20px;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #90caf9;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: #bbdefb;
+    color: #1565c0;
+}
+
+button {
+    background-color: #1565c0;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0d47a1;
+}
+
+#saved-book {
+    background-color: #d0e3f0;
+    width: 60%;
+    margin: 20px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
     </style>
     <title>Add book</title>
-    <link rel="stylesheet" th:href="@{/styles.css}"/>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
-          rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
-          crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
@@ -59,15 +107,9 @@
     }
 </script>
 <div class="container">
-    <div class="text-left>">
         <h3>Add book</h3>
-    </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-        crossorigin="anonymous"></script>
-
-<form method="get" th:action="@{/library}">
+<form method="get" th:action="@{/book}">
     <div class="d-grid gap-2">
         <input type="text" id="title" placeHolder="Title"/>
         <select id="book-author-input" multiple>

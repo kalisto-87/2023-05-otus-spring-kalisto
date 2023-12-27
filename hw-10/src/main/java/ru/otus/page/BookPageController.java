@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.otus.dto.BookDto;
 import ru.otus.mapper.BookMapper;
 import ru.otus.mapper.CommentMapper;
 import ru.otus.service.AuthorService;
@@ -40,7 +41,7 @@ public class BookPageController {
         return "index";
     }
 
-    @GetMapping("/library")
+    @GetMapping("/book")
     public String getLibrary() {
         return "library";
     }
@@ -74,6 +75,13 @@ public class BookPageController {
     @GetMapping("/genre")
     public String getGenres() {
         return "genres";
+    }
+
+    @GetMapping(value = "/addcomment", params = {"bookId"})
+    public String addComment(@RequestParam("bookId") long bookId, Model model) {
+        BookDto bookDto = bookService.findById(bookId);
+        model.addAttribute("book", bookDto);
+        return "addComment";
     }
 
 }

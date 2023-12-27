@@ -111,7 +111,7 @@
                         <td>${book.genres[0].name}</td>
                         <td nowrap>
                             <a href=/book/${book.id} class="card-link" style="font-size:12px;">More details</a><p/>
-                            <a href=/addcomment/${book.id} class="card-link" style="font-size:12px;">Add Comment</a>
+                            <a href=/addcomment?bookId=${book.id} class="card-link" style="font-size:12px;">Add Comment</a>
                         </td>
                     </tr>
                 `)
