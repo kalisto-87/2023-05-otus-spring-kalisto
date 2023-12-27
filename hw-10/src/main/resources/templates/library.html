@@ -107,16 +107,26 @@
                     <tr>
                         <td>${book.id}</td>
                         <td nowrap>${book.title}</td>
-                        <td>${book.authors[0].name}</td>
-                        <td>${book.genres[0].name}</td>
+                        <td><tauthors${book.id}></tauthors${book.id}></td>
+                        <td><tgenres${book.id}></tgenres${book.id}></td>
                         <td nowrap>
                             <a href=/book/${book.id} class="card-link" style="font-size:12px;">More details</a><p/>
                             <a href=/addcomment?bookId=${book.id} class="card-link" style="font-size:12px;">Add Comment</a>
                         </td>
                     </tr>
-                `)
+                `);
+                book.authors.forEach(function (author) {
+                    $('tauthors' + book.id).append(`
+                    <p>${author.name}</p>
+                `);
+                });
+                book.genres.forEach(function (genre) {
+                    $('tgenres' + book.id).append(`
+                    <p>${genre.name}</p>
+                `);
+                });
             });
-        })
+        });
     });
 </script>
 </div>
