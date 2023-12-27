@@ -17,27 +17,29 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
+            background-color: #e0f2f1; /* Светло-синий цвет фона */
             padding: 20px;
         }
 
         label {
             display: block;
             margin-bottom: 10px;
+            color: #1565c0; /* Темно-синий цвет текста */
         }
 
         input {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
-            border: 1px solid #ddd;
+            border: 1px solid #90caf9; /* Голубой цвет границы */
             border-radius: 5px;
             box-sizing: border-box;
+            background-color: #bbdefb; /* Голубой цвет фона инпута */
         }
 
         button {
             padding: 10px 20px;
-            background-color: #3498db;
+            background-color: #1565c0; /* Темно-синий цвет кнопки */
             color: #fff;
             border: none;
             border-radius: 5px;
@@ -50,7 +52,21 @@
         }
 
         button:hover {
-            background-color: #297fb8;
+            background-color: #0d47a1; /* Темно-синий цвет кнопки при наведении */
+        }
+
+        h3 {
+            color: #1565c0; /* Темно-синий цвет заголовка */
+        }
+
+        #saved-person {
+            width: 60%;
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #e0f2f1; /* Светло-синий цвет фона */
+            padding: 20px;
         }
     </style>
     <script>
@@ -74,7 +90,7 @@
 </head>
 <body>
 
-<form id="editAuthorForm" method="get" th:action="@{/author(id=${author.id})}" th:object="${author}">
+<form id="editAuthorForm" method="get" th:action="@{/author}" th:object="${author}">
     <label for="authorName">Author Name:</label>
     <input type="hidden" id="authorId" name="ID" readonly th:value="*{id}">
     <input type="text" id="authorName" name="authorName" th:value="*{name}" required>
@@ -83,7 +99,7 @@
 </form>
 
 <h3>Saved person:</h3>
-<pre id = "saved-person"></pre>
+<pre id="saved-person"></pre>
 
 </body>
 </html>

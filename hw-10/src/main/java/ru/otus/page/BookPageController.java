@@ -1,23 +1,16 @@
 package ru.otus.page;
 
-import org.hibernate.annotations.Comments;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import ru.otus.domain.Book;
-import ru.otus.domain.Comment;
-import ru.otus.dto.AuthorDto;
-import ru.otus.dto.BookDto;
-import ru.otus.dto.CommentDto;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.otus.mapper.BookMapper;
 import ru.otus.mapper.CommentMapper;
-import ru.otus.rest.CommentController;
 import ru.otus.service.AuthorService;
 import ru.otus.service.BookService;
 import ru.otus.service.CommentService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -33,7 +26,8 @@ public class BookPageController {
 
     private final CommentMapper commentMapper;
 
-    public BookPageController(BookService bookService, BookMapper bookMapper, CommentService commentService, CommentMapper commentMapper, AuthorService authorService) {
+    public BookPageController(BookService bookService, BookMapper bookMapper, CommentService commentService,
+                              CommentMapper commentMapper, AuthorService authorService) {
         this.bookService = bookService;
         this.bookMapper = bookMapper;
         this.commentService = commentService;
