@@ -1,6 +1,8 @@
 package ru.otus.rest;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,4 +37,15 @@ public class BookController {
     public BookDto createBook(@RequestBody BookDto bookDto) {
         return bookService.insert(bookDto);
     }
+
+    @PatchMapping("api/book")
+    public BookDto updateBook(@RequestBody BookDto bookDto) {
+        return bookService.update(bookDto);
+    }
+
+    @DeleteMapping("api/book/{id}")
+    public void deleteBook(@PathVariable("id") long id) {
+        bookService.delete(id);
+    }
+
 }
