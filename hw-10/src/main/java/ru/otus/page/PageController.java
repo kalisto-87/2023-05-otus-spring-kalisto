@@ -15,7 +15,7 @@ import ru.otus.service.CommentService;
 
 @Controller
 @RequestMapping("/")
-public class BookPageController {
+public class PageController {
 
     private final BookService bookService;
 
@@ -27,8 +27,8 @@ public class BookPageController {
 
     private final CommentMapper commentMapper;
 
-    public BookPageController(BookService bookService, BookMapper bookMapper, CommentService commentService,
-                              CommentMapper commentMapper, AuthorService authorService) {
+    public PageController(BookService bookService, BookMapper bookMapper, CommentService commentService,
+                          CommentMapper commentMapper, AuthorService authorService) {
         this.bookService = bookService;
         this.bookMapper = bookMapper;
         this.commentService = commentService;
