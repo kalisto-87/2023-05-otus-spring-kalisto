@@ -38,7 +38,7 @@ public class GenreController {
         return genreService.insert(genreDto);
     }
 
-    @PatchMapping("api/genre/{id}")
+    @PatchMapping("api/genre")
     public GenreDto editGenre(@RequestBody GenreDto genreDto) {
         return genreService.update(genreDto);
     }

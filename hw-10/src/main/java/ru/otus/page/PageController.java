@@ -7,11 +7,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.otus.dto.BookDto;
-import ru.otus.mapper.BookMapper;
-import ru.otus.mapper.CommentMapper;
 import ru.otus.service.AuthorService;
 import ru.otus.service.BookService;
 import ru.otus.service.CommentService;
+import ru.otus.service.GenreService;
 
 @Controller
 @RequestMapping("/")
@@ -21,19 +20,16 @@ public class PageController {
 
     private final AuthorService authorService;
 
+    private final GenreService genreService;
+
     private final CommentService commentService;
 
-    private final BookMapper bookMapper;
-
-    private final CommentMapper commentMapper;
-
-    public PageController(BookService bookService, BookMapper bookMapper, CommentService commentService,
-                          CommentMapper commentMapper, AuthorService authorService) {
+    public PageController(BookService bookService, CommentService commentService,
+                          AuthorService authorService, GenreService genreService) {
         this.bookService = bookService;
-        this.bookMapper = bookMapper;
         this.commentService = commentService;
-        this.commentMapper = commentMapper;
         this.authorService = authorService;
+        this.genreService = genreService;
     }
 
     @GetMapping()
@@ -76,6 +72,18 @@ public class PageController {
     public String getGenres() {
         return "genres";
     }
+
+    @GetMapping("addGenre")
+    public String addGenre() {
+        return "addGenre";
+    }
+
+    @GetMapping(value = "/genre", params = {"id"})
+    public String editGenre(@RequestParam long id, Model model) {
+        model.addAttribute("genre", genreService.findById(id));
+        return "editGenre";
+    }
+
 
     @GetMapping(value = "/addcomment", params = {"bookId"})
     public String addComment(@RequestParam("bookId") long bookId, Model model) {
