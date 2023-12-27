@@ -60,7 +60,7 @@
             const authorNameInput = document.getElementById("authorName")
             const author = { id: authorIdInput.value, name: authorNameInput.value}
             fetch("api/author", {
-                method: 'PUT',
+                method: 'PATCH',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
