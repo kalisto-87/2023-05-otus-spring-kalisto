@@ -67,6 +67,12 @@
         }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        function deleteBook(id) {
+            fetch("api/book/" + id, {
+            method: 'DELETE'});
+        }
+    </script>
 </head>
 <body>
 <div class="container">
@@ -99,6 +105,7 @@
         </form>
     </div>
 </div>
+<pre id="dataContainer"></pre>
 <script>
     $(function () {
         $.get('/api/book').done(function (books) {
@@ -112,6 +119,7 @@
                         <td nowrap>
                             <a href=/book/${book.id} class="card-link" style="font-size:12px;">More details</a><p/>
                             <a href=/addcomment?bookId=${book.id} class="card-link" style="font-size:12px;">Add Comment</a>
+                            <a href="javascript:void(0);" onClick="deleteBook(${book.id})" class="card-link" style="font-size:12px;">Delete book</a>
                         </td>
                     </tr>
                 `);
