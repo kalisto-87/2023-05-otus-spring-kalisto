@@ -68,9 +68,26 @@
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
+
+        function outputCharacter(character) {
+            const dataContainer = document.getElementById("dataContainer")
+            dataContainer.innerHTML = JSON.stringify(character, undefined, 4)
+        }
+
         function deleteBook(id) {
             fetch("api/book/" + id, {
-            method: 'DELETE'});
+            method: 'DELETE'}).then(response => {
+              if (!response.ok) {
+                outputCharacter('Error deleting book. Status: ' + response.status);
+                throw new Error(`Ошибка HTTP: ${response.status}`);
+              }
+            }).then( data => {
+                const delay = 500;
+                setTimeout(() => {
+                  outputCharacter('The book was successfully deleted');
+                  window.location.replace("/book");
+                }, delay);
+            });
         }
     </script>
 </head>

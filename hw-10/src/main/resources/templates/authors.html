@@ -79,16 +79,26 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
 
+        function outputCharacter(character) {
+            const dataContainer = document.getElementById("dataContainer")
+            dataContainer.innerHTML = JSON.stringify(character, undefined, 4)
+        }
+
         function authorDelete(id) {
+
             const xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = () => {
-                if(xhr.readyState === 4 && xhr.status === 200) {
-                    // Вот здесь придёт ответ
-                    const json = JSON.parse(xhr.responseText)
-                    outputCharacter(json)
-                }
-            }
             xhr.open('DELETE', 'api/author/' + id)
+
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                  outputCharacter('Author deleted successfully.');
+                } else {
+                  outputCharacter('Error deleting author. Status: ' + xhr.status);
+                }
+              }
+            };
+
             xhr.send()
         }
 
@@ -114,7 +124,7 @@
     <button id="btn-add" type="submit" class="btn btn-success">Add new author</button>
     <br/>
 </form>
-
+<pre id="dataContainer"></pre>
 <script>
     $(function () {
         $.get('/api/author').done(function (authors) {

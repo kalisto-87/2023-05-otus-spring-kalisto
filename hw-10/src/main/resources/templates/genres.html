@@ -87,7 +87,14 @@
 
         function genreDeleteByAxios(id) {
             axios.delete('api/genre/' + id)
-                .then(json => outputCharacter(json.data))
+                .then(json => outputCharacter('Genre has been successfully deleted'))
+                .catch(error => {
+                    if (error.response) {
+                      outputCharacter('Server responded with error status:' + error.response.status);
+                    } else {
+                      outputCharacter('Error setting up the request:' + error.message);
+                    }
+                })
         }
 
     </script>
