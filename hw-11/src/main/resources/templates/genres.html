@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            height: 100vh;
+            margin: 0;
+            padding-left: 20px; /* Добавлен отступ слева */
+        }
+
+        table {
+            width: 60%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        th, td {
+            border: 2px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        td:first-child, th:first-child {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+
+        td:last-child, th:last-child {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        th, td {
+            transition: background-color 0.3s ease;
+        }
+
+        tr:hover {
+            background-color: #ecf0f1; /* Цвет фона при наведении */
+        }
+
+        .edit-link {
+            display: inline-block;
+            padding: 8px 12px;
+            text-decoration: none;
+            color: #3498db;
+            border: 1px solid #3498db;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .edit-link:hover {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        #btn-add {
+            margin: 10px 0;
+            padding: 8px 12px;
+            background-color: #3498db;
+            color: #fff;
+            border: 1px
+            solid #3498db;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script>
+
+        function outputCharacter(character) {
+            const dataContainer = document.getElementById("dataContainer")
+            dataContainer.innerHTML = JSON.stringify(character, undefined, 4)
+        }
+
+        function genreDeleteByAxios(id) {
+            axios.delete('api/genre/' + id)
+                .then(json => outputCharacter('Genre has been successfully deleted'))
+                .catch(error => {
+                    if (error.response) {
+                      outputCharacter('Server responded with error status:' + error.response.status);
+                    } else {
+                      outputCharacter('Error setting up the request:' + error.message);
+                    }
+                })
+        }
+
+    </script>
+    <title>Genres</title>
+</head>
+<body>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Genre</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<form method="get" th:action="@{/addGenre}">
+    <button id="btn-add" type="submit" class="btn btn-success">Add new genre</button>
+    <br/>
+</form>
+<pre id="dataContainer"></pre>
+<script>
+    $(function () {
+        $.get('/api/genre').done(function (genres) {
+            genres.forEach(function (genre) {
+                $('tbody').append(`
+                    <tr>
+                        <td>${genre.id}</td>
+                        <td>${genre.name}</td>
+                        <td><a href="/genre?id=${genre.id}">Edit</a></td>
+                        <td><a href="javascript:void(0);" onClick="genreDeleteByAxios('${genre.id}')">Delete</a></td>
+                        </tr>
+                        `)
+            });
+        })
+    });
+</script>
+</body>
+</html>
