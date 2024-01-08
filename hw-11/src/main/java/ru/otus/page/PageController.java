@@ -56,7 +56,7 @@ public class PageController {
 
     @GetMapping(value = "/author", params = {"id"})
     public String editAuthor(@RequestParam String id, Model model) {
-        model.addAttribute("author", authorService.findById(id));
+        model.addAttribute("author", authorService.findById(id).block());
         return "editAuthor";
     }
 
@@ -72,7 +72,7 @@ public class PageController {
 
     @GetMapping(value = "/genre", params = {"id"})
     public String editGenre(@RequestParam String id, Model model) {
-        model.addAttribute("genre", genreService.findById(id));
+        model.addAttribute("genre", genreService.findById(id).block());
         return "editGenre";
     }
 
