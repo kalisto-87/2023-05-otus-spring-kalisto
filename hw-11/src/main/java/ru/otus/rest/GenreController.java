@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import ru.otus.domain.Genre;
 import ru.otus.dto.GenreDto;
 import ru.otus.service.GenreService;
 
