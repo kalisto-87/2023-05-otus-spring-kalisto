@@ -13,4 +13,6 @@ public interface AuthorRepository extends ReactiveCrudRepository<Author, String>
 
     Mono<Author> save(Author author);
 
+    Mono<Void> deleteById(String id);
+
 }

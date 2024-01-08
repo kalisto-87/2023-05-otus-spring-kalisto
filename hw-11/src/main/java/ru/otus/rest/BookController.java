@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import ru.otus.dto.AuthorDto;
 import ru.otus.dto.BookDto;
 import ru.otus.service.BookService;
 
@@ -45,7 +46,10 @@ public class BookController {
 
     @DeleteMapping("api/book/{id}")
     public void deleteBook(@PathVariable("id") String id) {
-        bookService.delete(id);
+        Mono<BookDto> book = bookService.findById(id);
+        if (book != null) {
+            bookService.delete(id).block();
+        }
     }
 
 }

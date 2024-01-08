@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import ru.otus.domain.Genre;
 import ru.otus.dto.GenreDto;
 import ru.otus.service.GenreService;
 
@@ -45,7 +46,10 @@ public class GenreController {
 
     @DeleteMapping("api/genre/{id}")
     public void deleteGenre(@PathVariable("id") String genreId) {
-        genreService.delete(genreId);
+        Mono<GenreDto> genre = genreService.findById(genreId);
+        if (genre != null) {
+            genreService.delete(genreId).block();
+        }
     }
 
 

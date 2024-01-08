@@ -76,11 +76,9 @@ public class PageController {
         return "editGenre";
     }
 
-
     @GetMapping(value = "/addcomment", params = {"bookId"})
     public String addComment(@RequestParam("bookId") String bookId, Model model) {
-        Mono<BookDto> bookDto = bookService.findById(bookId);
-        model.addAttribute("book", bookDto);
+        model.addAttribute("book", bookService.findById(bookId).block());
         return "addComment";
     }
 

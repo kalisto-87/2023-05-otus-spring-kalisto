@@ -70,8 +70,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Mono<Void> delete(String authorId) {
-        Mono<Author> author = authorRepository.findById(authorId).switchIfEmpty(
-                Mono.error(new DataNotFoundException(String.format("Author with id=%s not found", authorId))));
-        return authorRepository.deleteById(authorId);
+        Author author = authorRepository.findById(authorId).block();
+        return authorRepository.deleteById(author.getId());
     }
 }

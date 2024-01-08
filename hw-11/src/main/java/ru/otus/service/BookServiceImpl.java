@@ -91,8 +91,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public Mono<Void> delete(String bookId) {
-        Mono<Book> book = bookRepository.findById(bookId).switchIfEmpty(Mono.error(
-                new DataNotFoundException(String.format("Book with id=%s not found", bookId))));
-        return bookRepository.deleteById(bookId);
+        Book book = bookRepository.findById(bookId).block();
+        return bookRepository.deleteById(book.getId());
     }
 }

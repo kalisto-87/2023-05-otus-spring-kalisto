@@ -76,8 +76,7 @@ public class GenreServiceImpl implements GenreService {
     @Override
     @Transactional
     public Mono<Void> delete(String genreId) {
-        Mono<Genre> genre = genreRepository.findById(genreId).switchIfEmpty(Mono.error(
-                new DataNotFoundException(String.format("Genre with id=%s not found", genreId))));
-        return genreRepository.deleteById(genreId);
+        Genre genre = genreRepository.findById(genreId).block();
+        return genreRepository.deleteById(genre.getId());
     }
 }
