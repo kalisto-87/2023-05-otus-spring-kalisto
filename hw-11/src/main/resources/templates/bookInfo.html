@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymleaf.org">
+<head>
+    <style type="text/css">
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 50px;
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+            color: #495057;
+        }
+
+        h3 {
+            color: #343a40;
+        }
+
+        h5 {
+            border-bottom: 2px solid #6c757d;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+
+        tbook, tauthor, tgenre, tcomment {
+            font-size: 18px;
+        }
+
+        .feedbacks {
+            background-color: #99A2F3;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .feedbacks p {
+            margin: 0;
+        }
+
+        .container-hd {
+            text-align: left;
+            background-color: #3498db;
+            padding: 30px;
+            border-radius: 25px;
+            margin-bottom: 40px; /* Расстояние между блоками */
+        }
+
+        .container {
+            text-align: left;
+            background-color: #d0e3f0;
+            padding: 10px;
+            border-radius: 15px;
+            margin-bottom: 20px; /* Расстояние между блоками */
+        }
+
+        .library-button {
+            display: inline-block;
+            padding: 15px 30px; /* Изменено: задаем отступы сверху и снизу 15px, слева и справа 30px */
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .library-button:hover {
+            background-color: #297fb8;
+        }
+    </style>
+    <title>Book page</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+          crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="container-hd">
+    <h3>Book info:</h3>
+</div>
+<div class="container">
+    <h5>Title</h5>
+    <tbook></tbook>
+</div>
+<div class="container">
+    <h5>Author</h5>
+    <tauthor></tauthor>
+</div>
+<div class="container">
+    <h5>Genre</h5>
+    <tgenre></tgenre>
+</div>
+<div class="container">
+    <h5>Feedbacks</h5>
+    <div class="feedbacks">
+        <tcomment></tcomment>
+    </div>
+</div>
+<a href="/book" class="library-button">К библиотеке</a>
+<script>
+    var id = window.location.pathname.split("/")[2]
+    $(function () {
+        $.get('/api/book/' + id).done(function (book) {
+            $('tbook').append(`<p>${book.title}</p>`)
+            for (let i = 0; i < book.authors.length; i++) {
+               $('tauthor').append(`<p>${book.authors[i].name}</p>`)
+            }
+            for (let i = 0; i < book.genres.length; i++) {
+               $('tgenre').append(`<p>${book.genres[i].name}</p>`)
+            }
+        });
+        $.get('/api/book/' + id + '/comment').done(function (comment) {
+            for (let i = 0; i < comment.length; i++) {
+                $('tcomment').append(`
+                    <p>${comment[i].text}</p>
+                `)
+            }
+        });
+    });
+</script>
+</body>
+</html>

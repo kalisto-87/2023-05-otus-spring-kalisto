@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            height: 100vh;
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        form {
+            width: 60%;
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            padding: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #1565c0; /* Темно-синий цвет текста */
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #90caf9; /* Голубой цвет границы */
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: #bbdefb; /* Голубой цвет фона инпута */
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #1565c0; /* Темно-синий цвет кнопки */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0d47a1; /* Темно-синий цвет кнопки при наведении */
+        }
+
+        h3 {
+            color: #1565c0; /* Темно-синий цвет заголовка */
+        }
+    </style>
+    <script>
+        function addComment() {
+            const savedCommentContainer = document.getElementById("saved-comment")
+            const bookId = document.getElementById("bookId");
+            const commentTextInput = document.getElementById("commentText");
+
+            console.log("Book Id:", bookId.value);
+            console.log("Comment Text:", commentTextInput.value);
+
+            const comment = { text: commentTextInput.value };
+
+            fetch(`api/book/${bookId.value}/comment`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(comment)})
+            .then(rawResponse => rawResponse.json())
+            .then(json => savedCommentContainer.innerHTML = JSON.stringify(json, null, 4))
+        }
+    </script>
+    <title>Add Comment</title>
+</head>
+<body>
+
+<form id="addCommentForm" method="get" th:object="${book}" th:action="@{/book}">
+    <h3>Add Comment</h3>
+
+    <input type="hidden" id="bookId" th:field="*{id}"/>
+
+    <label for="bookTitle">Book Title:</label>
+    <input type="text" id="bookTitle" name="bookTitle" readonly th:value="*{title}" required>
+
+    <label for="commentText">Comment Text:</label>
+    <textarea id="commentText" name="commentText"></textarea>
+
+    <button type="button" onClick="addComment()">Submit Comment</button>
+    <button type="submit" >Cancel</button>
+</form>
+
+<h3>Saved comment:</h3>
+<pre id = "saved-comment"></pre>
+
+</body>
+</html>
