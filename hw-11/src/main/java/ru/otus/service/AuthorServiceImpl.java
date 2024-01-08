@@ -60,7 +60,7 @@ public class AuthorServiceImpl implements AuthorService {
         String name = authorDto.getName();
         if (name != null && !name.isEmpty()) {
             Mono<Author> newAuthor = author.map(g -> {
-                return new Author(authorDto.getId(), g.getName());
+                return new Author(authorDto.getId(), name);
             });
             Author a = newAuthor.block();
             return authorRepository.save(a).map(g -> authorMapper.toDto(g));

@@ -65,7 +65,7 @@ public class GenreServiceImpl implements GenreService {
         String name = genreDto.getName();
         if (name != null && !name.isEmpty()) {
             Mono<Genre> newGenre = genre.map(g -> {
-                return new Genre(genreDto.getId(), g.getName());
+                return new Genre(genreDto.getId(), name);
             });
             Genre g = newGenre.block();
             return genreRepository.save(g).map(m -> genreMapper.toDto(m));
