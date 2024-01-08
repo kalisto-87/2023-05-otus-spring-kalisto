@@ -2,6 +2,8 @@ package ru.otus.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.otus.domain.Author;
 import ru.otus.dto.AuthorDto;
 import ru.otus.exception.DataNotFoundException;
@@ -19,55 +21,57 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorMapper authorMapper;
 
     @Override
-    public List<AuthorDto> findAll() {
-        List<Author> authors = authorRepository.findAll();
-        return authorMapper.toDtoList(authors);
+    public Flux<AuthorDto> findAll() {
+        return authorRepository.findAll().map(a -> authorMapper.toDto(a));
     }
 
     @Override
-    public List<AuthorDto> findByName(String authorName) {
-        List<Author> authors = authorRepository.findByNameContainingIgnoreCase(authorName);
-        return authorMapper.toDtoList(authors);
+    public Flux<AuthorDto> findByName(String authorName) {
+        return authorRepository.findByNameContainingIgnoreCase(authorName).map(a -> authorMapper.toDto(a));
     }
 
     @Override
-    public List<AuthorDto> findByIds(List<String> authorsId) {
-        List<Author> authors = authorsId.stream().map(m -> authorRepository.findById(m).orElseThrow(
-                () -> new DataNotFoundException(String.format("Author with id=%s not found", m))
-        )).toList();
-        return authorMapper.toDtoList(authors);
+    public Flux<AuthorDto> findByIds(List<String> authorsId) {
+
+        Flux<AuthorDto> authors = null;
+        for (String s : authorsId
+        ) {
+            Mono<AuthorDto> author = authorRepository.findById(s).map(a -> authorMapper.toDto(a));
+            authors = Flux.merge(author);
+        }
+        return authors;
     }
 
     @Override
-    public AuthorDto findById(String authorId) {
-        Author author = authorRepository.findById(authorId).orElseThrow(
-                () -> new DataNotFoundException(String.format("Author with id=%s not found", authorId)));
-        return authorMapper.toDto(author);
+    public Mono<AuthorDto> findById(String authorId) {
+        return authorRepository.findById(authorId).map(m -> authorMapper.toDto(m));
     }
 
     @Override
-    public AuthorDto insert(AuthorDto authorDto) {
+    public Mono<AuthorDto> insert(AuthorDto authorDto) {
         Author newAuthor = authorMapper.toDomain(authorDto);
-        authorRepository.save(newAuthor);
-        return authorMapper.toDto(newAuthor);
+        return authorRepository.save(newAuthor).map(m -> authorMapper.toDto(m));
     }
 
     @Override
-    public AuthorDto update(AuthorDto authorDto) {
-        Author author = authorRepository.findById(authorDto.getId()).orElseThrow(
-                () -> new DataNotFoundException(String.format("Author with id=%s not found", authorDto.getId())));
+    public Mono<AuthorDto> update(AuthorDto authorDto) {
+        Mono<Author> author = authorRepository.findById(authorDto.getId()).switchIfEmpty(
+                Mono.error(new DataNotFoundException(String.format("Author with id=%s not found", authorDto.getId()))));
         String name = authorDto.getName();
         if (name != null && !name.isEmpty()) {
-            author.setName(name);
+            Mono<Author> newAuthor = author.map(g -> {
+                return new Author(authorDto.getId(), g.getName());
+            });
+            Author a = newAuthor.block();
+            return authorRepository.save(a).map(g -> authorMapper.toDto(g));
         }
-        authorRepository.save(author);
-        return authorMapper.toDto(author);
+        return author.map(m -> authorMapper.toDto(m));
     }
 
     @Override
-    public void delete(String authorId) {
-        Author author = authorRepository.findById(authorId).orElseThrow(
-                () -> new DataNotFoundException(String.format("Author with id=%s not found", authorId)));
-        authorRepository.delete(author);
+    public Mono<Void> delete(String authorId) {
+        Mono<Author> author = authorRepository.findById(authorId).switchIfEmpty(
+                Mono.error(new DataNotFoundException(String.format("Author with id=%s not found", authorId))));
+        return authorRepository.deleteById(authorId);
     }
 }

@@ -1,19 +1,21 @@
 package ru.otus.page;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import reactor.core.publisher.Mono;
 import ru.otus.dto.BookDto;
 import ru.otus.service.AuthorService;
 import ru.otus.service.BookService;
-import ru.otus.service.CommentService;
 import ru.otus.service.GenreService;
 
 @Controller
 @RequestMapping("/")
+@RequiredArgsConstructor
 public class PageController {
 
     private final BookService bookService;
@@ -21,16 +23,6 @@ public class PageController {
     private final AuthorService authorService;
 
     private final GenreService genreService;
-
-    private final CommentService commentService;
-
-    public PageController(BookService bookService, CommentService commentService,
-                          AuthorService authorService, GenreService genreService) {
-        this.bookService = bookService;
-        this.commentService = commentService;
-        this.authorService = authorService;
-        this.genreService = genreService;
-    }
 
     @GetMapping()
     public String mainPage() {
@@ -87,7 +79,7 @@ public class PageController {
 
     @GetMapping(value = "/addcomment", params = {"bookId"})
     public String addComment(@RequestParam("bookId") String bookId, Model model) {
-        BookDto bookDto = bookService.findById(bookId);
+        Mono<BookDto> bookDto = bookService.findById(bookId);
         model.addAttribute("book", bookDto);
         return "addComment";
     }

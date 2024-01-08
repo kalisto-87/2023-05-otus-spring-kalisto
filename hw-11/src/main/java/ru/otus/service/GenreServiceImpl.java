@@ -3,6 +3,8 @@ package ru.otus.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.otus.domain.Genre;
 import ru.otus.dto.GenreDto;
 import ru.otus.exception.DataNotFoundException;
@@ -20,58 +22,62 @@ public class GenreServiceImpl implements GenreService {
     private final GenreMapper genreMapper;
 
     @Override
-    public List<GenreDto> findAll() {
-        List<Genre> genres = genreRepository.findAll();
-        return genreMapper.toDtoList(genres);
+    public Flux<GenreDto> findAll() {
+        return genreRepository.findAll().map(g -> genreMapper.toDto(g));
     }
 
     @Override
-    public List<GenreDto> findByName(String genreName) {
-        List<Genre> genres = genreRepository.findByNameContainingIgnoreCase(genreName);
-        return genreMapper.toDtoList(genres);
+    public Flux<GenreDto> findByName(String genreName) {
+        return genreRepository.findByNameContainingIgnoreCase(genreName).map(g -> genreMapper.toDto(g));
     }
 
     @Override
-    public List<GenreDto> findByIds(List<String> genresId) {
-        List<Genre> genres = genresId.stream().map(m -> genreRepository.findById(m).orElseThrow(
-                () -> new DataNotFoundException(String.format("Genre with id=%s not found", m))
-        )).toList();
-        return genreMapper.toDtoList(genres);
+    public Flux<GenreDto> findByIds(List<String> genresId) {
+
+        Flux<GenreDto> genres = null;
+        for (String s : genresId
+        ) {
+            Mono<GenreDto> genre = genreRepository.findById(s).map(g -> genreMapper.toDto(g));
+            genres = Flux.merge(genre);
+        }
+        return genres;
     }
 
     @Override
-    public GenreDto findById(String genreId) {
-        Genre genre = genreRepository.findById(genreId).orElseThrow(
-                () -> new DataNotFoundException(String.format("Genre with id=%s not found", genreId)));
-        return genreMapper.toDto(genre);
+    public Mono<GenreDto> findById(String genreId) {
+        Mono<Genre> genre = genreRepository.findById(genreId).switchIfEmpty(Mono.error(
+                new DataNotFoundException(String.format("Genre with id=%s not found", genreId))));
+        return genre.map(g -> genreMapper.toDto(g));
     }
 
     @Override
     @Transactional
-    public GenreDto insert(GenreDto genreDto) {
+    public Mono<GenreDto> insert(GenreDto genreDto) {
         Genre newGenre = genreMapper.toDomain(genreDto);
-        genreRepository.save(newGenre);
-        return genreMapper.toDto(newGenre);
+        return genreRepository.save(newGenre).map(g -> genreMapper.toDto(g));
     }
 
     @Override
     @Transactional
-    public GenreDto update(GenreDto genreDto) {
-        Genre genre = genreRepository.findById(genreDto.getId()).orElseThrow(
-                () -> new DataNotFoundException(String.format("Genre with id=%s not found", genreDto.getId())));
+    public Mono<GenreDto> update(GenreDto genreDto) {
+        Mono<Genre> genre = genreRepository.findById(genreDto.getId()).switchIfEmpty(Mono.error(
+                new DataNotFoundException(String.format("Genre with id=%s not found", genreDto.getId()))));
         String name = genreDto.getName();
         if (name != null && !name.isEmpty()) {
-            genre.setName(name);
+            Mono<Genre> newGenre = genre.map(g -> {
+                return new Genre(genreDto.getId(), g.getName());
+            });
+            Genre g = newGenre.block();
+            return genreRepository.save(g).map(m -> genreMapper.toDto(m));
         }
-        genreRepository.save(genre);
-        return genreMapper.toDto(genre);
+        return genre.map(g -> genreMapper.toDto(g));
     }
 
     @Override
     @Transactional
-    public void delete(String genreId) {
-        Genre genre = genreRepository.findById(genreId).orElseThrow(
-                () -> new DataNotFoundException(String.format("Genre with id=%s not found", genreId)));
-        genreRepository.delete(genre);
+    public Mono<Void> delete(String genreId) {
+        Mono<Genre> genre = genreRepository.findById(genreId).switchIfEmpty(Mono.error(
+                new DataNotFoundException(String.format("Genre with id=%s not found", genreId))));
+        return genreRepository.deleteById(genreId);
     }
 }

@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.otus.dto.AuthorDto;
 import ru.otus.service.AuthorService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping
@@ -24,22 +24,22 @@ public class AuthorController {
     }
 
     @GetMapping("api/author")
-    public List<AuthorDto> getBooks() {
+    public Flux<AuthorDto> getBooks() {
         return authorService.findAll();
     }
 
     @GetMapping("api/author/{id}")
-    public AuthorDto getAuhtor(@PathVariable("id") String authorId) {
+    public Mono<AuthorDto> getAuhtor(@PathVariable("id") String authorId) {
         return authorService.findById(authorId);
     }
 
     @PostMapping("api/author")
-    public AuthorDto createAuthor(@RequestBody AuthorDto authorDto) {
+    public Mono<AuthorDto> createAuthor(@RequestBody AuthorDto authorDto) {
         return authorService.insert(authorDto);
     }
 
     @PatchMapping("api/author")
-    public AuthorDto editAuthor(@RequestBody AuthorDto authorDto) {
+    public Mono<AuthorDto> editAuthor(@RequestBody AuthorDto authorDto) {
         return authorService.update(authorDto);
     }
 

@@ -1,21 +1,23 @@
 package ru.otus.service;
 
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.otus.dto.AuthorDto;
 
 import java.util.List;
 
 public interface AuthorService {
-    List<AuthorDto> findAll();
+    Flux<AuthorDto> findAll();
 
-    List<AuthorDto> findByName(String authorName);
+    Flux<AuthorDto> findByName(String authorName);
 
-    List<AuthorDto> findByIds(List<String> authorsId);
+    Flux<AuthorDto> findByIds(List<String> authorsId);
 
-    AuthorDto findById(String authorId);
+    Mono<AuthorDto> findById(String authorId);
 
-    AuthorDto insert(AuthorDto authorDto);
+    Mono<AuthorDto> insert(AuthorDto authorDto);
 
-    AuthorDto update(AuthorDto authorDto);
+    Mono<AuthorDto> update(AuthorDto authorDto);
 
-    void delete(String authorId);
+    Mono<Void> delete(String authorId);
 }

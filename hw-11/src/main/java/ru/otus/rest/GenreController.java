@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.otus.dto.GenreDto;
 import ru.otus.service.GenreService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping
@@ -24,22 +24,22 @@ public class GenreController {
     }
 
     @GetMapping("api/genre")
-    public List<GenreDto> getGenres() {
+    public Flux<GenreDto> getGenres() {
         return genreService.findAll();
     }
 
     @GetMapping("api/genre/{id}")
-    public GenreDto getGenre(@PathVariable("id") String genreId) {
+    public Mono<GenreDto> getGenre(@PathVariable("id") String genreId) {
         return genreService.findById(genreId);
     }
 
     @PostMapping("api/genre")
-    public GenreDto createAuthor(@RequestBody GenreDto genreDto) {
+    public Mono<GenreDto> createAuthor(@RequestBody GenreDto genreDto) {
         return genreService.insert(genreDto);
     }
 
     @PatchMapping("api/genre")
-    public GenreDto editGenre(@RequestBody GenreDto genreDto) {
+    public Mono<GenreDto> editGenre(@RequestBody GenreDto genreDto) {
         return genreService.update(genreDto);
     }
 
