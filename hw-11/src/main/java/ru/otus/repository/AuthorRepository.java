@@ -12,4 +12,5 @@ public interface AuthorRepository extends ReactiveCrudRepository<Author, String>
     Flux<Author> findByNameContainingIgnoreCase(String name);
 
     Mono<Author> save(Author author);
+
 }

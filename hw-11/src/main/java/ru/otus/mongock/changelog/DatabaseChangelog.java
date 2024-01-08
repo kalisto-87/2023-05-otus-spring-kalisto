@@ -3,7 +3,6 @@ package ru.otus.mongock.changelog;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.mongodb.client.MongoDatabase;
-import reactor.core.publisher.Flux;
 import ru.otus.domain.Author;
 import ru.otus.domain.Book;
 import ru.otus.domain.Comment;
@@ -38,8 +37,6 @@ public class DatabaseChangelog {
             new Book("Madame Bovary", authors.subList(1, 2), genres.subList(0, 1))
     );
 
-    private Flux<Book> bf = null;
-
     @ChangeSet(order = "001", id = "DropDb", author = "Corrado Cattani", runAlways = true)
     public void dropDb(MongoDatabase mdb) {
         mdb.drop();
@@ -55,17 +52,20 @@ public class DatabaseChangelog {
 
     @ChangeSet(order = "003", id = "insertAuthors", author = "Corrado Cattani", runAlways = true)
     public void insertAuthors(AuthorRepository repository) {
-        repository.saveAll(authors);
+        repository.saveAll(authors).blockLast();
     }
 
     @ChangeSet(order = "004", id = "insertGenres", author = "Corrado Cattani", runAlways = true)
     public void insertGenres(GenreRepository repository) {
-        repository.saveAll(genres);
+        repository.saveAll(genres).blockLast();
     }
 
     @ChangeSet(order = "005", id = "insertBooks", author = " Corrado Cattani", runAlways = true)
     public void insertBooks(BookRepository repository) {
-        bf = repository.saveAll(books);
+        for (int i = 0; i < books.size(); i++) {
+            Book res = repository.save(books.get(i)).block();
+            books.get(i).setId(res.getId());
+        }
     }
 
     @ChangeSet(order = "006", id = "commentBooks", author = " Corrado Cattani", runAlways = true)
@@ -76,6 +76,6 @@ public class DatabaseChangelog {
                 new Comment("comment_3", books.get(1).getId()),
                 new Comment("comment_4", books.get(2).getId())
         );
-        repository.saveAll(comments);
+        repository.saveAll(comments).blockLast();
     }
 }

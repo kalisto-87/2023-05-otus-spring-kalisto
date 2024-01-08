@@ -32,7 +32,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Mono<BookDto> findById(String bookId) {
-        Mono<Book> book = bookRepository.findByBookId(bookId)
+        Mono<Book> book = bookRepository.findById(bookId)
                 .switchIfEmpty(Mono.error(new DataNotFoundException(String.format("Book with id=%s", bookId))));
         return book.map(b -> bookMapper.toDto(b));
     }

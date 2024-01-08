@@ -13,6 +13,6 @@ public interface BookRepository extends ReactiveCrudRepository<Book, String > {
 
     Flux<Book> findBookByGenresId(String id);
 
-    Mono<Book> findByBookId(String id);
+    Mono<Book> save(Book book);
 
 }
