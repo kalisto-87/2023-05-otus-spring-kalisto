@@ -75,6 +75,17 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
+        .btn-home {
+            margin: 10px 0;
+            padding: 8px 12px;
+            background-color: #e74c3c;
+            color: #fff;
+            border: 1px
+            solid #3498db;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
@@ -117,6 +128,7 @@
 
 <form method="get" th:action="@{/addGenre}">
     <button id="btn-add" type="submit" class="btn btn-success">Add new genre</button>
+    <a href="/"><button type="button" class="btn btn-home">Home</button></a>
     <br/>
 </form>
 <pre id="dataContainer"></pre>
