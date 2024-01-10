@@ -47,7 +47,7 @@ public class PageController {
         return "bookInfo";
     }
 
-    @GetMapping("add")
+    @GetMapping("addBook")
     public String getPageForBookProperties() {
         return "newBook";
     }
