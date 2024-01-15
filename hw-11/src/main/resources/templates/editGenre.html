@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <style>
+        body {
+            background-color: #f5f5f5;
+            height: 100vh;
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        form {
+            width: 60%;
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #e0f2f1; /* Светло-синий цвет фона */
+            padding: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #1565c0; /* Темно-синий цвет текста */
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #90caf9; /* Голубой цвет границы */
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: #bbdefb; /* Голубой цвет фона инпута */
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #1565c0; /* Темно-синий цвет кнопки */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button.cancel {
+            background-color: #e74c3c;
+        }
+
+        button:hover {
+            background-color: #0d47a1; /* Темно-синий цвет кнопки при наведении */
+        }
+
+        h3 {
+            color: #1565c0; /* Темно-синий цвет заголовка */
+        }
+
+        #saved {
+            width: 60%;
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #e0f2f1; /* Светло-синий цвет фона */
+            padding: 20px;
+        }
+    </style>
+    <script>
+
+        function outputCharacter(character) {
+            const dataContainer = document.getElementById("dataContainer")
+            dataContainer.innerHTML = JSON.stringify(character, undefined, 4)
+        }
+
+        function saveGenre() {
+            const genreIdInput = document.getElementById("genreId")
+            const genreNameInput = document.getElementById("genreName")
+            const genre = { id: genreIdInput.value, name: genreNameInput.value}
+            const headers = {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'}
+
+            axios.patch('api/genre', genre, {headers: headers
+            }).then(json => outputCharacter(json.data))
+        }
+    </script>
+    <title>Edit Genre</title>
+</head>
+<body>
+
+<form id="editGenreForm" method="get" th:action="@{/genre}" th:object="${genre}">
+    <label for="genreName">Genre Name:</label>
+    <input type="hidden" id="genreId" name="ID" readonly th:value="*{id}">
+    <input type="text" id="genreName" name="genreName" th:value="*{name}" required>
+    <button type="button" onclick="saveGenre()" id="saveButton">Save</button>
+    <button type="submit" class="cancel">Cancel</button>
+</form>
+
+<h3>Saved genre:</h3>
+<pre id="dataContainer"></pre>
+
+</body>
+</html>
