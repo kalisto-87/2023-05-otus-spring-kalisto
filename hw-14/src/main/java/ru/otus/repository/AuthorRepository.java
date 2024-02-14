@@ -1,11 +1,11 @@
 package ru.otus.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import ru.otus.domain.Author;
+import ru.otus.domain.mongo.mAuthor;
 
 import java.util.List;
 
-public interface AuthorRepository extends MongoRepository<Author, String> {
+public interface AuthorRepository extends MongoRepository<mAuthor, String> {
 
-    List<Author> findByNameContainingIgnoreCase(String name);
+    List<mAuthor> findByNameContainingIgnoreCase(String name);
 }

@@ -3,10 +3,10 @@ package ru.otus.mongock.changelog;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.mongodb.client.MongoDatabase;
-import ru.otus.domain.Author;
-import ru.otus.domain.Book;
-import ru.otus.domain.Comment;
-import ru.otus.domain.Genre;
+import ru.otus.domain.mongo.mAuthor;
+import ru.otus.domain.mongo.mBook;
+import ru.otus.domain.mongo.mComment;
+import ru.otus.domain.mongo.mGenre;
 import ru.otus.repository.AuthorRepository;
 import ru.otus.repository.BookRepository;
 import ru.otus.repository.CommentRepository;
@@ -17,24 +17,24 @@ import java.util.List;
 @ChangeLog
 public class DatabaseChangelog {
 
-    private final List<Author> authors = List.of(
-            new Author("Jack London"),
-            new Author("Gustave Flaubert"),
-            new Author("James Joyce"),
-            new Author("Emile Zola")
+    private final List<mAuthor> authors = List.of(
+            new mAuthor("Jack London"),
+            new mAuthor("Gustave Flaubert"),
+            new mAuthor("James Joyce"),
+            new mAuthor("Emile Zola")
     );
 
-    private final List<Genre> genres = List.of(
-            new Genre("novel"),
-            new Genre("science fiction"),
-            new Genre("adventure fiction")
+    private final List<mGenre> genres = List.of(
+            new mGenre("novel"),
+            new mGenre("science fiction"),
+            new mGenre("adventure fiction")
     );
 
-    private List<Book> books = List.of(
-            new Book("Ulysses", authors.subList(2, 3), genres.subList(0, 1)),
-            new Book("The Star Rover", authors.subList(0, 1), genres.subList(1, 2)),
-            new Book("Martin Iden", authors.subList(0, 1), genres.subList(0, 1)),
-            new Book("Madame Bovary", authors.subList(1, 2), genres.subList(0, 1))
+    private List<mBook> books = List.of(
+            new mBook("Ulysses", authors.subList(2, 3), genres.subList(0, 1)),
+            new mBook("The Star Rover", authors.subList(0, 1), genres.subList(1, 2)),
+            new mBook("Martin Iden", authors.subList(0, 1), genres.subList(0, 1)),
+            new mBook("Madame Bovary", authors.subList(1, 2), genres.subList(0, 1))
     );
 
     @ChangeSet(order = "001", id = "DropDb", author = "Corrado Cattani", runAlways = true)
@@ -67,11 +67,11 @@ public class DatabaseChangelog {
 
     @ChangeSet(order = "006", id = "commentBooks", author = " Corrado Cattani", runAlways = true)
     public void insertComments(CommentRepository repository) {
-        List<Comment> comments = List.of(
-                new Comment("comment_1", books.get(0).getId()),
-                new Comment("comment_2", books.get(0).getId()),
-                new Comment("comment_3", books.get(1).getId()),
-                new Comment("comment_4", books.get(2).getId())
+        List<mComment> comments = List.of(
+                new mComment("comment_1", books.get(0).getId()),
+                new mComment("comment_2", books.get(0).getId()),
+                new mComment("comment_3", books.get(1).getId()),
+                new mComment("comment_4", books.get(2).getId())
         );
         repository.saveAll(comments);
     }

@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Document(collection = "comments")
-public class Comment {
+public class mComment {
 
     @Id
     private String id;
@@ -23,7 +23,7 @@ public class Comment {
 
     private String bookId;
 
-    public Comment(String text, String bookId) {
+    public mComment(String text, String bookId) {
         this.text = text;
         this.bookId = bookId;
     }

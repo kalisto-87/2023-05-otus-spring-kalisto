@@ -1,11 +1,11 @@
 package ru.otus.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import ru.otus.domain.Genre;
+import ru.otus.domain.mongo.mGenre;
 
 import java.util.List;
 
-public interface GenreRepository extends MongoRepository<Genre, String> {
+public interface GenreRepository extends MongoRepository<mGenre, String> {
 
-    List<Genre> findByNameContainingIgnoreCase(String name);
+    List<mGenre> findByNameContainingIgnoreCase(String name);
 }

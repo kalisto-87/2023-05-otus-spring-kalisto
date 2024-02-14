@@ -14,14 +14,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Document(collection = "genre")
-public class Genre {
+public class mGenre {
 
     @Id
     private String id;
 
     private String name;
 
-    public Genre(String name) {
+    public mGenre(String name) {
         this.name = name;
     }
 }

@@ -1,13 +1,13 @@
 package ru.otus.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import ru.otus.domain.Comment;
+import ru.otus.domain.mongo.mComment;
 
 import java.util.List;
 
-public interface CommentRepository extends MongoRepository<Comment, String > {
+public interface CommentRepository extends MongoRepository<mComment, String > {
 
-    List<Comment> findByBookId(String bookId);
+    List<mComment> findByBookId(String bookId);
 
     void deleteCommentByBookId(String bookId);
 }
