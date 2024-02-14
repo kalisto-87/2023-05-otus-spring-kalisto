@@ -14,14 +14,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Document(collection = "authors")
-public class mAuthor {
+public class MongoAuthor {
 
     @Id
     private String id;
 
     private String name;
 
-    public mAuthor(String name) {
+    public MongoAuthor(String name) {
         this.name = name;
     }
 }

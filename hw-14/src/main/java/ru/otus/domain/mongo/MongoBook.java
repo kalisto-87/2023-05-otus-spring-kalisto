@@ -14,25 +14,25 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = "comments")
 @Document(collection = "books")
-public class mBook {
+public class MongoBook {
 
     @Id
     private String id;
 
     private String title;
 
-    private List<mAuthor> authors;
+    private List<MongoAuthor> authors;
 
-    private List<mGenre> genres;
+    private List<MongoGenre> genres;
 
-    public mBook(String id, String title, List<mAuthor> authors, List<mGenre> genres) {
+    public MongoBook(String id, String title, List<MongoAuthor> authors, List<MongoGenre> genres) {
         this.id = id;
         this.title = title;
         this.authors = authors;
         this.genres = genres;
     }
 
-    public mBook(String title, List<mAuthor> authors, List<mGenre> genres) {
+    public MongoBook(String title, List<MongoAuthor> authors, List<MongoGenre> genres) {
         this.title = title;
         this.authors = authors;
         this.genres = genres;

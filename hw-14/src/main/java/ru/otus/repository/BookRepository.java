@@ -1,15 +1,15 @@
 package ru.otus.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import ru.otus.domain.mongo.mBook;
+import ru.otus.domain.mongo.MongoBook;
 
 import java.util.List;
 
-public interface BookRepository extends MongoRepository<mBook, String > {
+public interface BookRepository extends MongoRepository<MongoBook, String > {
 
-    List<mBook> findByTitleContainingIgnoreCase(String name);
+    List<MongoBook> findByTitleContainingIgnoreCase(String name);
 
-    List<mBook> findBookByAuthorsId(String id);
+    List<MongoBook> findBookByAuthorsId(String id);
 
-    List<mBook> findBookByGenresId(String id);
+    List<MongoBook> findBookByGenresId(String id);
 }

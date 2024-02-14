@@ -5,9 +5,9 @@ import org.springframework.stereotype.Service;
 import ru.otus.domain.h2.Author;
 import ru.otus.domain.h2.Book;
 import ru.otus.domain.h2.Genre;
-import ru.otus.domain.mongo.mAuthor;
-import ru.otus.domain.mongo.mBook;
-import ru.otus.domain.mongo.mGenre;
+import ru.otus.domain.mongo.MongoAuthor;
+import ru.otus.domain.mongo.MongoBook;
+import ru.otus.domain.mongo.MongoGenre;
 import ru.otus.repository.AuthorRepositoryJpa;
 import ru.otus.repository.BookRepositoryJpa;
 import ru.otus.repository.GenreRepositoryJpa;
@@ -31,26 +31,26 @@ public class TransferService {
 
     private final Map<String, Long> genreMap = new HashMap<>();
 
-    public Author transferAuthor(mAuthor author) {
+    public Author transferAuthor(MongoAuthor author) {
         Long id = repositoryAuthor.getIdNextVal();
         authorMap.put(author.getId(), id);
         return new Author(id, author.getName());
     }
 
-    public Genre transferGenre(mGenre genre) {
+    public Genre transferGenre(MongoGenre genre) {
         Long id = repositoryGenre.getIdNextVal();
         genreMap.put(genre.getId(), id);
-        return new Genre(repositoryGenre.getIdNextVal(), genre.getName());
+        return new Genre(id, genre.getName());
     }
 
-    public Book transferBook(mBook book) {
+    public Book transferBook(MongoBook book) {
         List<Author> authors = new ArrayList<>();
-        for (mAuthor a: book.getAuthors()
+        for (MongoAuthor a: book.getAuthors()
              ) {
             authors.add(new Author(authorMap.get(a.getId()), a.getName()));
         }
         List<Genre> genres = new ArrayList<>();
-        for (mGenre g: book.getGenres()
+        for (MongoGenre g: book.getGenres()
         ) {
             genres.add(new Genre(genreMap.get(g.getId()), g.getName()));
         }

@@ -23,9 +23,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 import ru.otus.domain.h2.Author;
 import ru.otus.domain.h2.Book;
 import ru.otus.domain.h2.Genre;
-import ru.otus.domain.mongo.mAuthor;
-import ru.otus.domain.mongo.mBook;
-import ru.otus.domain.mongo.mGenre;
+import ru.otus.domain.mongo.MongoAuthor;
+import ru.otus.domain.mongo.MongoBook;
+import ru.otus.domain.mongo.MongoGenre;
 import ru.otus.service.TransferService;
 
 import java.util.Map;
@@ -47,10 +47,10 @@ public class JobConfig {
 
     @StepScope
     @Bean
-    public MongoItemReader<mAuthor> readerAuthor(MongoTemplate template) {
-        return new MongoItemReaderBuilder<mAuthor>()
+    public MongoItemReader<MongoAuthor> readerAuthor(MongoTemplate template) {
+        return new MongoItemReaderBuilder<MongoAuthor>()
                 .name("authorItemReader")
-                .targetType(mAuthor.class)
+                .targetType(MongoAuthor.class)
                 .jsonQuery("[]")
                 .template(template)
                 .sorts(Map.of())
@@ -59,10 +59,10 @@ public class JobConfig {
 
     @StepScope
     @Bean
-    public MongoItemReader<mGenre> readerGenre(MongoTemplate template) {
-        return new MongoItemReaderBuilder<mGenre>()
+    public MongoItemReader<MongoGenre> readerGenre(MongoTemplate template) {
+        return new MongoItemReaderBuilder<MongoGenre>()
                 .name("genreItemReader")
-                .targetType(mGenre.class)
+                .targetType(MongoGenre.class)
                 .jsonQuery("[]")
                 .template(template)
                 .sorts(Map.of())
@@ -71,10 +71,10 @@ public class JobConfig {
 
     @StepScope
     @Bean
-    public MongoItemReader<mBook> readerBook(MongoTemplate template) {
-        return new MongoItemReaderBuilder<mBook>()
+    public MongoItemReader<MongoBook> readerBook(MongoTemplate template) {
+        return new MongoItemReaderBuilder<MongoBook>()
                 .name("bookItemReader")
-                .targetType(mBook.class)
+                .targetType(MongoBook.class)
                 .jsonQuery("[]")
                 .template(template)
                 .sorts(Map.of())
@@ -107,7 +107,7 @@ public class JobConfig {
 
     @StepScope
     @Bean
-    public ItemProcessor<mAuthor, Author> processorAuthor(
+    public ItemProcessor<MongoAuthor, Author> processorAuthor(
             TransferService transferService
     ) {
         return transferService::transferAuthor;
@@ -115,7 +115,7 @@ public class JobConfig {
 
     @StepScope
     @Bean
-    public ItemProcessor<mGenre, Genre> processorGenre(
+    public ItemProcessor<MongoGenre, Genre> processorGenre(
             TransferService transferService
     ) {
         return transferService::transferGenre;
@@ -123,7 +123,7 @@ public class JobConfig {
 
     @StepScope
     @Bean
-    public ItemProcessor<mBook, Book> processorBook(
+    public ItemProcessor<MongoBook, Book> processorBook(
             TransferService transferService
     ) {
         return transferService::transferBook;
@@ -131,12 +131,12 @@ public class JobConfig {
 
     @Bean
     public Step transformAuthorStep(
-            MongoItemReader<mAuthor> readerCharacter,
+            MongoItemReader<MongoAuthor> readerCharacter,
             JpaItemWriter<Author> writerCharacter,
-            ItemProcessor<mAuthor, Author> processorCharacter
+            ItemProcessor<MongoAuthor, Author> processorCharacter
     ) {
         return new StepBuilder("transformAuthorStep", jobRepository)
-                .<mAuthor, Author>chunk(CHUNK_SIZE, manager)
+                .<MongoAuthor, Author>chunk(CHUNK_SIZE, manager)
                 .reader(readerCharacter)
                 .processor(processorCharacter)
                 .writer(writerCharacter)
@@ -145,12 +145,12 @@ public class JobConfig {
 
     @Bean
     public Step transformGenreStep(
-            MongoItemReader<mGenre> readerEpisode,
+            MongoItemReader<MongoGenre> readerEpisode,
             JpaItemWriter<Genre> writerEpisode,
-            ItemProcessor<mGenre, Genre> processorEpisode
+            ItemProcessor<MongoGenre, Genre> processorEpisode
     ) {
         return new StepBuilder("transformGenreStep", jobRepository)
-                .<mGenre, Genre>chunk(CHUNK_SIZE, manager)
+                .<MongoGenre, Genre>chunk(CHUNK_SIZE, manager)
                 .reader(readerEpisode)
                 .processor(processorEpisode)
                 .writer(writerEpisode)
@@ -159,12 +159,12 @@ public class JobConfig {
 
     @Bean
     public Step transformBookStep(
-            MongoItemReader<mBook> readerCharacter,
+            MongoItemReader<MongoBook> readerCharacter,
             JpaItemWriter<Book> writerCharacter,
-            ItemProcessor<mBook, Book> processorCharacter
+            ItemProcessor<MongoBook, Book> processorCharacter
     ) {
         return new StepBuilder("transformBookStep", jobRepository)
-                .<mBook, Book>chunk(CHUNK_SIZE, manager)
+                .<MongoBook, Book>chunk(CHUNK_SIZE, manager)
                 .reader(readerCharacter)
                 .processor(processorCharacter)
                 .writer(writerCharacter)
