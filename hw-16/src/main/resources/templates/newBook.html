@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymleaf.org">
+<head>
+    <style>
+
+.container {
+    width: 60%;
+    text-align: left;
+    background-color: #d0e3f0;
+    padding: 10px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+h3 {
+    color: #1565c0;
+}
+
+form {
+    width: 60%;
+    margin: 20px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 20px;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #90caf9;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: #bbdefb;
+    color: #1565c0;
+}
+
+button {
+    background-color: #1565c0;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0d47a1;
+}
+
+#saved-book {
+    background-color: #d0e3f0;
+    width: 60%;
+    margin: 20px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+    </style>
+    <title>Add book</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+<script>
+    function addBook() {
+        const savedBookContainer = document.getElementById("saved-book")
+        const titleInput = document.getElementById("title")
+
+        var authorNameInput = document.getElementById("book-author-input").selectedOptions
+        var authorIds = Array.from(authorNameInput).map(({ value }) => value)
+
+        var genreNameInput = document.getElementById("book-genre-input").selectedOptions
+        var genreIds = Array.from(genreNameInput).map(({ value }) => value)
+
+        var authors = []
+        for (let i = 0; i < authorIds.length; i++) {
+
+            fetch("api/author/" + authorIds[i]).then((response) => response.json()).then((json) => {
+                   console.log(json);
+                   authors.push(json);
+            })
+        }
+
+        var genres = []
+        for (let i = 0; i < genreIds.length; i++) {
+            fetch("api/genre/" + genreIds[i]).then((response) => response.json()).then((json) => {
+                   console.log(json);
+                   genres.push(json);
+            })
+        }
+        const book = { title: titleInput.value, authors: authors,  genres: genres}
+
+        fetch("api/book", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(book)})
+            .then(rawResponse => rawResponse.json())
+            .then(json => savedBookContainer.innerHTML = JSON.stringify(json, null, 4))
+
+    }
+</script>
+<div class="container">
+        <h3>Add book</h3>
+</div>
+<form method="get" th:action="@{/book}">
+    <div class="d-grid gap-2">
+        <input type="text" id="title" placeHolder="Title"/>
+        <select id="book-author-input" multiple>
+        </select>
+        <select id="book-genre-input" multiple>
+        </select>
+        <button type="button" onclick="addBook()">Add new book</button>
+        <button type="submit">Back</button>
+    </div>
+</form>
+
+<h3>Saved book:</h3>
+<pre id = "saved-book"></pre>
+
+
+<script>
+    $(function () {
+        $.get('/api/author').done(function (authors) {
+            for (let i = 0; i < authors.length; i++) {
+                $('#book-author-input').
+                append('<option value="' + authors[i].id + '">' + authors[i].name + '</option>');
+            }
+            });
+        $.get('/api/genre').done(function (genres) {
+            for (let i = 0; i < genres.length; i++) {
+                $('#book-genre-input').
+                append('<option value="' + genres[i].id + '">' + genres[i].name + '</option>');
+            }
+            });
+    });
+</script>
+
+</body>
+</html>
