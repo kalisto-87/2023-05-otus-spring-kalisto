@@ -2,6 +2,7 @@ package ru.otus.actuator;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.actuate.health.Health;
+import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.boot.actuate.health.Status;
 import org.springframework.stereotype.Component;
 import ru.otus.domain.Book;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class HealthIndicator implements org.springframework.boot.actuate.health.HealthIndicator {
+public class AppHealthIndicator implements HealthIndicator {
 
     private final BookRepository bookRepository;
 
