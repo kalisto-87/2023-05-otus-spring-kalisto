@@ -131,43 +131,43 @@ public class JobConfig {
 
     @Bean
     public Step transformAuthorStep(
-            MongoItemReader<MongoAuthor> readerCharacter,
-            JpaItemWriter<Author> writerCharacter,
-            ItemProcessor<MongoAuthor, Author> processorCharacter
+            MongoItemReader<MongoAuthor> readerAuthor,
+            JpaItemWriter<Author> writerAuthor,
+            ItemProcessor<MongoAuthor, Author> processorAuthor
     ) {
         return new StepBuilder("transformAuthorStep", jobRepository)
                 .<MongoAuthor, Author>chunk(CHUNK_SIZE, manager)
-                .reader(readerCharacter)
-                .processor(processorCharacter)
-                .writer(writerCharacter)
+                .reader(readerAuthor)
+                .processor(processorAuthor)
+                .writer(writerAuthor)
                 .build();
     }
 
     @Bean
     public Step transformGenreStep(
-            MongoItemReader<MongoGenre> readerEpisode,
-            JpaItemWriter<Genre> writerEpisode,
-            ItemProcessor<MongoGenre, Genre> processorEpisode
+            MongoItemReader<MongoGenre> readerGenre,
+            JpaItemWriter<Genre> writerGenre,
+            ItemProcessor<MongoGenre, Genre> processorGenre
     ) {
         return new StepBuilder("transformGenreStep", jobRepository)
                 .<MongoGenre, Genre>chunk(CHUNK_SIZE, manager)
-                .reader(readerEpisode)
-                .processor(processorEpisode)
-                .writer(writerEpisode)
+                .reader(readerGenre)
+                .processor(processorGenre)
+                .writer(writerGenre)
                 .build();
     }
 
     @Bean
     public Step transformBookStep(
-            MongoItemReader<MongoBook> readerCharacter,
-            JpaItemWriter<Book> writerCharacter,
-            ItemProcessor<MongoBook, Book> processorCharacter
+            MongoItemReader<MongoBook> readerBook,
+            JpaItemWriter<Book> writerBook,
+            ItemProcessor<MongoBook, Book> processorBook
     ) {
         return new StepBuilder("transformBookStep", jobRepository)
                 .<MongoBook, Book>chunk(CHUNK_SIZE, manager)
-                .reader(readerCharacter)
-                .processor(processorCharacter)
-                .writer(writerCharacter)
+                .reader(readerBook)
+                .processor(processorBook)
+                .writer(writerBook)
                 .build();
     }
 
