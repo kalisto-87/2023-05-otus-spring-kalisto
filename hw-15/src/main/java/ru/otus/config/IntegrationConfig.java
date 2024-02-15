@@ -38,12 +38,9 @@ public class IntegrationConfig {
         return IntegrationFlow.from(eggChannel())
                 .split()
                 .handle(faceHuggerTransformer, "transform")
-                .aggregate()
-                .split()
                 .handle(chestBursterTransformer, "transform")
-                .aggregate()
-                .split()
                 .handle(xenomorphTransformer, "transform")
+                .aggregate()
                 .channel(xChannel())
                 .get();
     }
