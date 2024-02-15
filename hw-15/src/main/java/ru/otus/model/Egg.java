@@ -1,3 +1,7 @@
+//
+// The first stage of xenomorph
+//
+
 package ru.otus.model;
 
 import lombok.AllArgsConstructor;
@@ -7,7 +11,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 @EqualsAndHashCode
-public class Caterpillar {
-
+public class Egg {
     private final String name;
 }
