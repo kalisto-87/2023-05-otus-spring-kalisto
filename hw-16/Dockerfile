@@ -1,3 +1,3 @@
 FROM bellsoft/liberica-openjdk-alpine-musl:17
-COPY /target/library-*.jar /library/library.jar
-ENTRYPOINT ["java", "-jar", "/library/library.jar"]
+COPY /target/hw-16-1.0.jar /app/hw-16-1.0.jar
+ENTRYPOINT ["java", "-jar", "app/hw-16-1.0.jar"]
