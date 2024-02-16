@@ -44,26 +44,26 @@
     );
 
     alter table if exists author_books
-       add constraint if not exists FK_author_books_author_id
+       add constraint FK_author_books_author_id
        foreign key (author_id)
        references authors;
 
     alter table if exists author_books
-       add constraint if not exists FK_author_books_book_id
+       add constraint FK_author_books_book_id
        foreign key (book_id)
        references books;
 
     alter table if exists book_comments
-       add constraint if not exists FK_book_comments_book_id
+       add constraint FK_book_comments_book_id
        foreign key (book_id)
        references books;
 
     alter table if exists genre_books
-       add constraint if not exists FK_genre_books_genre_id
+       add constraint FK_genre_books_genre_id
        foreign key (genre_id)
        references genre;
 
     alter table if exists genre_books
-       add constraint if not exists FK_genre_books_book_id
+       add constraint FK_genre_books_book_id
        foreign key (book_id)
        references books;
