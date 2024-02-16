@@ -7,17 +7,16 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/postgres
-      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/library
+      - SPRING_DATASOURCE_USERNAME=post
       - SPRING_DATASOURCE_PASSWORD=post
-      - SPRING_FLYWAY_URL=jdbc:postgresql://database:5432/postgres
     depends_on:
-      - "database"
+      - database
   database:
-    image: "postgres"
+    image: "postgres:13"
     ports:
         - "5432:5432"
     environment:
-      - POSTGRES_USER=postgres
+      - POSTGRES_USER=post
       - POSTGRES_PASSWORD=post
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=library
