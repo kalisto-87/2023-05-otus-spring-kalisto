@@ -1,4 +1,4 @@
-version: '1'
+version: '2.4'
 services:
   app:
     build:
@@ -11,7 +11,8 @@ services:
       - SPRING_DATASOURCE_USERNAME=post
       - SPRING_DATASOURCE_PASSWORD=post
     depends_on:
-      - database
+      database:
+        condition: service_healthy
   database:
     image: "postgres:13"
     ports:
@@ -20,3 +21,7 @@ services:
       - POSTGRES_USER=post
       - POSTGRES_PASSWORD=post
       - POSTGRES_DB=library
+    healthcheck:
+      test: "pg_isready --dbname=library --username=post && psql --dbname=library --username=post --list"
+      timeout: 10s
+      retries: 20
