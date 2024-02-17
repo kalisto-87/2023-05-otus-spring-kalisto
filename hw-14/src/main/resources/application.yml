@@ -1,0 +1,20 @@
+spring:
+  data:
+    mongodb:
+      port: 27017
+      database: library
+      host: localhost
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: phantom
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+
+mongock:
+  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.otus.mongock.changelog
