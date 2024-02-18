@@ -1,0 +1,27 @@
+version: '2.4'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/library
+      - SPRING_DATASOURCE_USERNAME=post
+      - SPRING_DATASOURCE_PASSWORD=post
+    depends_on:
+      database:
+        condition: service_healthy
+  database:
+    image: "postgres:13"
+    ports:
+        - "5432:5432"
+    environment:
+      - POSTGRES_USER=post
+      - POSTGRES_PASSWORD=post
+      - POSTGRES_DB=library
+    healthcheck:
+      test: "pg_isready --dbname=library --username=post && psql --dbname=library --username=post --list"
+      timeout: 10s
+      retries: 20

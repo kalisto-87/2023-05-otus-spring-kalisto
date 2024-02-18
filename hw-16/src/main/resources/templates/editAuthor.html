@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            height: 100vh;
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        form {
+            width: 60%;
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #e0f2f1; /* Светло-синий цвет фона */
+            padding: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #1565c0; /* Темно-синий цвет текста */
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #90caf9; /* Голубой цвет границы */
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: #bbdefb; /* Голубой цвет фона инпута */
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #1565c0; /* Темно-синий цвет кнопки */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button.cancel {
+            background-color: #e74c3c;
+        }
+
+        button:hover {
+            background-color: #0d47a1; /* Темно-синий цвет кнопки при наведении */
+        }
+
+        h3 {
+            color: #1565c0; /* Темно-синий цвет заголовка */
+        }
+
+        #saved-person {
+            width: 60%;
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #e0f2f1; /* Светло-синий цвет фона */
+            padding: 20px;
+        }
+    </style>
+    <script>
+        function saveAuthor() {
+            const savedPersonContainer = document.getElementById("saved-person")
+            const authorIdInput = document.getElementById("authorId")
+            const authorNameInput = document.getElementById("authorName")
+            const author = { id: authorIdInput.value, name: authorNameInput.value}
+            fetch("api/author", {
+                method: 'PATCH',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(author)})
+                .then(rawResponse => rawResponse.json())
+                .then(json => savedPersonContainer.innerHTML = JSON.stringify(json, null, 4))
+        }
+    </script>
+    <title>Edit Author</title>
+</head>
+<body>
+
+<form id="editAuthorForm" method="get" th:action="@{/author}" th:object="${author}">
+    <label for="authorName">Author Name:</label>
+    <input type="hidden" id="authorId" name="ID" readonly th:value="*{id}">
+    <input type="text" id="authorName" name="authorName" th:value="*{name}" required>
+    <button type="button" onclick="saveAuthor()" id="saveButton">Save</button>
+    <button type="submit" class="cancel">Cancel</button>
+</form>
+
+<h3>Saved person:</h3>
+<pre id="saved-person"></pre>
+
+</body>
+</html>
