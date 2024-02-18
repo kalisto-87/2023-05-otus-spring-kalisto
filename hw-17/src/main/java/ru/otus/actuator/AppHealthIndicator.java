@@ -28,14 +28,7 @@ public class AppHealthIndicator implements HealthIndicator {
                     .withDetail("message", "Ошибка при получении списка книг!")
                     .build();
         }
-
-        if (books.isEmpty()) {
-            return Health.down().status(Status.DOWN)
-                    .withDetail("message", "Список книг пуст!")
-                    .build();
-        } else {
-            return Health.up().withDetail("message", "Приложение работает нормально").build();
-        }
+        return Health.up().withDetail("message", "Приложение работает нормально").build();
     }
 
 }
